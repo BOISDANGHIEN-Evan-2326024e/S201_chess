@@ -10,7 +10,7 @@ public class Fou extends Piece{
     }
 
 
-    public ArrayList<ArrayList<Integer>> deplacement_possible(int position_h, int position_v) {
+    public ArrayList<ArrayList<Integer>> deplacement_possible() {
         ArrayList<ArrayList<Integer>> deplacement_possible = new ArrayList<ArrayList<Integer>>();
         for(int k=0;k<4;k++){
            int position_x=this.getPosition_h();

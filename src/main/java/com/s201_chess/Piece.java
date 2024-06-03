@@ -2,6 +2,8 @@ package com.s201_chess;
 
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+
 public class Piece {
     private String nom;
     private int position_h;
@@ -37,5 +39,11 @@ public class Piece {
 
     public void setPosition_v(int position_v) {
         this.position_v = position_v;
+    }
+
+
+    public ArrayList<ArrayList<Integer>>  deplacement_possible() {
+        ArrayList<ArrayList<Integer>> deplacement_possible = new ArrayList<ArrayList<Integer>>();
+        return deplacement_possible;
     }
 }
