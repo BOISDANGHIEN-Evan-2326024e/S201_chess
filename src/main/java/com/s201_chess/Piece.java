@@ -1,14 +1,18 @@
 package com.s201_chess;
 
+import javafx.scene.image.ImageView;
+
 public class Piece {
     private String nom;
     private int position_h;
     private int position_v;
+    private ImageView image;
 
-    public Piece(String nom, int position_h, int position_v) {
+    public Piece(String nom, int position_h, int position_v, ImageView image) {
         this.nom = nom;
         this.position_h = position_h;
         this.position_v = position_v;
+        this.image = image;
     }
 
     public int getPosition_h() {
