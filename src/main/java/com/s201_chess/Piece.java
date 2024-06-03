@@ -34,4 +34,6 @@ public class Piece {
     public void setPosition_v(int position_v) {
         this.position_v = position_v;
     }
+
 }
+
