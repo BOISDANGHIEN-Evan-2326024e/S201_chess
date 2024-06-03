@@ -19,7 +19,7 @@ public class LoginApp extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 534, 360);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setTitle("chess");
+        stage.setTitle("chess.com");
         stage.show();
     }
 }
