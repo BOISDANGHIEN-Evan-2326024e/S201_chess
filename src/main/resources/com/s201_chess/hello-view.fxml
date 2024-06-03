@@ -10,16 +10,33 @@
          <items>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <HBox prefHeight="64.0" prefWidth="416.0">
+                  <HBox alignment="BASELINE_CENTER" prefHeight="64.0" prefWidth="416.0">
                      <children>
-                        <ImageView fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label text="BLACKPLAYERNAME" />
-                        <Label text="BLACKTIME" />
+                        <ImageView fx:id="blackPP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                           </ImageView>
+                        <Label fx:id="pseudoNoir" prefHeight="0.0" prefWidth="96.0" text="BLACK NAME" />
+                        <Label fx:id="tpsRestantNoir" alignment="BOTTOM_RIGHT" prefHeight="16.0" prefWidth="77.0" text="BLACKTIME" />
                      </children>
                   </HBox>
-                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Pane prefHeight="265.0" prefWidth="416.0">
+                     <children>
+                        <ImageView fx:id="plateau" fitHeight="265.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true" />
+                     </children></Pane>
+                  <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="64.0" prefWidth="416.0">
+                     <children>
+                        <ImageView fx:id="whitePP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="pseudoBlanc" prefHeight="0.0" prefWidth="96.0" text="WHITE NAME" />
+                        <Label fx:id="tpsRestantBlanc" alignment="BOTTOM_RIGHT" prefHeight="16.0" prefWidth="77.0" text="WHITETIME" />
+                     </children>
+                  </HBox>
                </children></VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <ChoiceBox prefHeight="25.0" prefWidth="188.0" />
+                  <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="177.0" text="Button" />
+                  <Button layoutX="10.0" layoutY="134.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="177.0" text="Button" />
+               </children></VBox>
          </items>
       </SplitPane>
    </children>
