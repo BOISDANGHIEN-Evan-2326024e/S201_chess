@@ -33,10 +33,9 @@ public class HelloApplication extends Application {
             System.out.println("");
         }
         System.out.println(partietest.getPlateau().get(0).get(0).deplacement_possible());
-        System.out.println(partietest.getPlateau().get(0).get(1).deplacement_possible());
-        System.out.println(partietest.getPlateau().get(0).get(1).getPosition_h());
-        System.out.println(partietest.getPlateau().get(0).get(1).getPosition_v());
-        System.out.println(partietest.getPlateau().get(0).get(0).getNom());
+        System.out.println(partietest.getPlateau().get(1).get(1).deplacement_possible());
+        System.out.println(partietest.getPlateau().get(6).get(6).deplacement_possible());
+        System.out.println(partietest.getPlateau().get(0).get(3).getNom());
     }
 
     public static void main(String[] args) {
