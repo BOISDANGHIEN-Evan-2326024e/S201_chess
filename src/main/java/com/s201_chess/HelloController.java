@@ -46,7 +46,7 @@ public class HelloController {
         for (int i= 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 // Créer un rectangle pour représenter la case
-                Rectangle rect = new Rectangle(100, 100);
+                Rectangle rect = new Rectangle(65, 65);
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
                 rect.setFill((i + j) % 2 == 0 ? Color.GREEN : Color.WHITE);
                 grid.add(rect, j, i);
@@ -55,8 +55,8 @@ public class HelloController {
                 if (piece != null) {
                     // Créer un ImageView avec l'image de la pièce
                     ImageView image=piece.getImage();
-                    image.setFitHeight(100);
-                    image.setFitWidth(100);
+                    image.setFitHeight(65);
+                    image.setFitWidth(65);
 
                     grid.add(image, j, i);
                 }

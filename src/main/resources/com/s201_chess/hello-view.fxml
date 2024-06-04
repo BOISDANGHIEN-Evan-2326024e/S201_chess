@@ -4,9 +4,9 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.s201_chess.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.s201_chess.HelloController">
    <children>
-      <SplitPane dividerPositions="0.7006688963210702" prefHeight="400.0" prefWidth="600.0">
+      <SplitPane dividerPositions="0.6645161290322581" prefHeight="400.0" prefWidth="777.0">
          <items>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -15,8 +15,8 @@
                         <ImageView fx:id="blackPP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                         </ImageView>
 
-                        <Label fx:id="pseudoNoir" prefHeight="0.0" prefWidth="96.0" text="BLACK NAME" />
-                        <Label fx:id="tpsRestantNoir" alignment="CENTER" prefHeight="16.0" prefWidth="77.0" text="BLACKTIME" />
+                        <Label fx:id="pseudoNoir" alignment="TOP_CENTER" prefHeight="54.0" prefWidth="96.0" text="BLACK NAME" />
+                        <Label fx:id="tpsRestantNoir" alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="352.0" text="BLACKTIME     " />
                      </children>
                   </HBox>
                   <GridPane fx:id="grid" prefHeight="270.0" prefWidth="416.0">
@@ -26,17 +26,17 @@
                   <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="64.0" prefWidth="416.0">
                      <children>
                         <ImageView fx:id="whitePP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="pseudoBlanc" prefHeight="0.0" prefWidth="96.0" text="WHITE NAME" />
-                        <Label fx:id="tpsRestantBlanc" alignment="BOTTOM_RIGHT" prefHeight="16.0" prefWidth="77.0" text="WHITETIME" />
+                        <Label fx:id="pseudoBlanc" alignment="TOP_CENTER" prefHeight="53.0" prefWidth="96.0" text="WHITE NAME" />
+                        <Label fx:id="tpsRestantBlanc" alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="352.0" text="WHITETIME     " />
                      </children>
                   </HBox>
                </children></VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="TOP_CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" />
-                  <ChoiceBox prefHeight="25.0" prefWidth="188.0" />
-                  <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="177.0" text="Button" />
-                  <Button layoutX="10.0" layoutY="134.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="177.0" text="Button" />
+                  <ChoiceBox prefHeight="45.0" prefWidth="211.0" />
+                  <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
+                  <Button layoutX="10.0" layoutY="134.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
                </children></VBox>
          </items>
       </SplitPane>
