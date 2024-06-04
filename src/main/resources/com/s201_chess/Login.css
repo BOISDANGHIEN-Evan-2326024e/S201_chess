@@ -6,9 +6,13 @@ root {
     -fx-background-image: url("background.png");
 }
 
-/*.TextField{*/
-/*    -fx-background-color: "grey";*/
-/*}*/
+.button {
+    -fx-color: green;
+}
+
+.text-field {
+    -fx-color: grey;
+}
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;

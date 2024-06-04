@@ -9,7 +9,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class LoginController extends GridPane {
-    public VBox vb;
+    @FXML
+    VBox vb;
     @FXML
     Label username;
     @FXML
@@ -24,10 +25,10 @@ public class LoginController extends GridPane {
     Button cancelButton;
 
     @FXML
-    private void okClicked() {
+    private void loginClicked() {
     }
 
-    @FXML
-    private void cancelClicked() {
-    }
+//    @FXML
+//    private void cancelClicked() {
+//    }
 }
