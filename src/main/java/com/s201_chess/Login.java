@@ -17,7 +17,7 @@ public class Login extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 534, 360);
-        scene.getStylesheets().add(Login.class.getResource("Login.css").toExternalForm());
+//        scene.getStylesheets().add(Login.class.getResource("Login.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("chess.com");

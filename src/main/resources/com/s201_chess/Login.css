@@ -6,21 +6,13 @@ root {
     -fx-background-image: url("background.png");
 }
 
-.login-chessboard-background .base-container {
-    -fx-align-items: center;
-    -fx-display: flex;
-    -fx-justify-content: center;
-    -fx-padding: 2rem clamp(1.2rem,3vw,2rem);
-}
-.base-container {
-    -fx-flex-direction: column;
-    -fx-min-height: 100dvh;
-}
-
+/*.TextField{*/
+/*    -fx-background-color: "grey";*/
+/*}*/
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333333;
+    -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 0, 0, 0, 1);
 }
 
