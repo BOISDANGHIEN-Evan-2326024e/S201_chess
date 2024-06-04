@@ -31,12 +31,12 @@ public class Pion extends Piece{
             deplacement_possible.get(deplacement_possible.size()-1).add(position_x+2);
             deplacement_possible.get(deplacement_possible.size()-1).add(position_y);
         }
-        if(Objects.equals(this.getCouleur(), "Blanc") && position_x-1<=0){
+        if(Objects.equals(this.getCouleur(), "Blanc") && position_x-1>=0){
             deplacement_possible.add(new ArrayList<Integer>());
             deplacement_possible.get(deplacement_possible.size()-1).add(position_x-1);
             deplacement_possible.get(deplacement_possible.size()-1).add(position_y);
         }
-        if(Objects.equals(this.getCouleur(), "Noir") && position_x+1>7){
+        if(Objects.equals(this.getCouleur(), "Noir") && position_x+1<7){
             deplacement_possible.add(new ArrayList<Integer>());
             deplacement_possible.get(deplacement_possible.size()-1).add(position_x+1);
             deplacement_possible.get(deplacement_possible.size()-1).add(position_y);
