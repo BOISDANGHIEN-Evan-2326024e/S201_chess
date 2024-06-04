@@ -19,10 +19,10 @@
                         <Label fx:id="tpsRestantNoir" alignment="BOTTOM_RIGHT" prefHeight="16.0" prefWidth="77.0" text="BLACKTIME" />
                      </children>
                   </HBox>
-                  <Pane prefHeight="265.0" prefWidth="416.0">
-                     <children>
-                        <ImageView fx:id="plateau" fitHeight="265.0" fitWidth="416.0" pickOnBounds="true" preserveRatio="true" />
-                     </children></Pane>
+                  <GridPane fx:id="grid">
+
+                  </GridPane>
+
                   <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="64.0" prefWidth="416.0">
                      <children>
                         <ImageView fx:id="whitePP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />

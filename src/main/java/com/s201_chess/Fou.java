@@ -5,8 +5,8 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 
 public class Fou extends Piece{
-    public Fou(String nom, int position_h, int position_v, ImageView image) {
-        super(nom, position_h, position_v,image);
+    public Fou(String nom, int position_h, int position_v, ImageView image,String couleur) {
+        super(nom, position_h, position_v,image,couleur);
     }
 
 

@@ -7,8 +7,7 @@ import java.util.ArrayList;
 public class Pion extends Piece{
     private String couleur="";
     public Pion(String nom, int position_h, int position_v, ImageView image,String couleur) {
-        super(nom, position_h, position_v,image);
-        this.couleur=couleur;
+        super(nom, position_h, position_v,image,couleur);
     }
 
     public ArrayList<ArrayList<Integer>> deplacement_possible() {

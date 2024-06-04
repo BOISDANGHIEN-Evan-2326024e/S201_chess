@@ -5,8 +5,8 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 
 public class Roi extends Piece{
-    public Roi(String nom, int position_h, int position_v, ImageView image) {
-        super(nom, position_h, position_v,image);
+    public Roi(String nom, int position_h, int position_v, ImageView image,String couleur) {
+        super(nom, position_h, position_v,image,couleur);
     }
 
     public ArrayList<ArrayList<Integer>> deplacement_possible() {

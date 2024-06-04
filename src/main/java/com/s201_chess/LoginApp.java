@@ -16,7 +16,7 @@ public class LoginApp extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("com.s201_chess/LoginView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 534, 360);
+        Scene scene = new Scene(fxmlLoader.load(), 1600, 1600);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("chess.com");
