@@ -3,7 +3,18 @@ root {
 }
 
 .root {
-    -fx-background-image: url("loginBackground.jpg");
+    -fx-background-image: url("background.png");
+}
+
+.login-chessboard-background .base-container {
+    -fx-align-items: center;
+    -fx-display: flex;
+    -fx-justify-content: center;
+    -fx-padding: 2rem clamp(1.2rem,3vw,2rem);
+}
+.base-container {
+    -fx-flex-direction: column;
+    -fx-min-height: 100dvh;
 }
 
 .label {
