@@ -159,4 +159,22 @@ public class Partie {
         }
     }
 
+    public void deplacer_piece(int position_h_depart, int position_v_depart,int position_h_arrive,int position_v_arrive,ArrayList<ArrayList<Integer>> liste_mvt,Piece piece){
+        for(int k=0;k<liste_mvt.size();k++){
+            if(position_h_arrive==liste_mvt.get(k).get(0) && position_v_arrive==liste_mvt.get(k).get(1)){
+                this.plateau.get(liste_mvt.get(k).get(0)).set(liste_mvt.get(k).get(1),piece);
+            }
+        }
+    }
+
+    public ArrayList<ArrayList<Integer>> mvt_possible(Piece piece){
+            ArrayList<ArrayList<Integer>> deplacement_theorique=piece.deplacement_possible();
+            for(int n=0;n<deplacement_theorique.size();n++){
+                if(plateau.get(deplacement_theorique.get(n).get(0)).get(deplacement_theorique.get(n).get(0))!=null){
+                    deplacement_theorique.remove(n);
+                }
+            }
+            return deplacement_theorique;
+    }
+
 }
