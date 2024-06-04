@@ -1,6 +1,10 @@
 package com.s201_chess;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Partie {
     private int id;
@@ -9,43 +13,83 @@ public class Partie {
     private Joueur joueur1;
     private Joueur joueur2;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getDernierId() {
+        return dernierId;
+    }
+
+    public void setDernierId(int dernierId) {
+        this.dernierId = dernierId;
+    }
+
+    public ArrayList<ArrayList<Piece>> getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(ArrayList<ArrayList<Piece>> plateau) {
+        this.plateau = plateau;
+    }
+
+    public Joueur getJoueur1() {
+        return joueur1;
+    }
+
+    public void setJoueur1(Joueur joueur1) {
+        this.joueur1 = joueur1;
+    }
+
+    public Joueur getJoueur2() {
+        return joueur2;
+    }
+
+    public void setJoueur2(Joueur joueur2) {
+        this.joueur2 = joueur2;
+    }
+
     public Partie(Joueur joueur1, Joueur joueur2) {
         this.id=dernierId+1;
         dernierId++;
         this.joueur1=joueur1;
         this.joueur2=joueur2;
-        Piece Pion_N1=new Piece("Pion",1,0);
-        Piece Pion_N2=new Piece("Pion",1,1);
-        Piece Pion_N3=new Piece("Pion",1,2);
-        Piece Pion_N4=new Piece("Pion",1,3);
-        Piece Pion_N5=new Piece("Pion",1,4);
-        Piece Pion_N6=new Piece("Pion",1,5);
-        Piece Pion_N7=new Piece("Pion",1,6);
-        Piece Pion_N8=new Piece("Pion",1,7);
-        Piece Tour_N1=new Piece("Tour",0,0);
-        Piece Tour_N2=new Piece("Cavalier",0,7);
-        Piece Cavalier_N1=new Piece("Cavalier",0,1);
-        Piece Cavalier_N2=new Piece("Cavalier",1,6);
-        Piece Fou_N1=new Piece("Fou",0,2);
-        Piece Fou_N2=new Piece("Fou",0,5);
-        Piece Reine_N=new Piece("Reine",0,3);
-        Piece Roi_N=new Piece("Roi",0,4);
-        Piece Pion_B1=new Piece("Pion",6,0);
-        Piece Pion_B2=new Piece("Pion",6,1);
-        Piece Pion_B3=new Piece("Pion",6,2);
-        Piece Pion_B4=new Piece("Pion",6,3);
-        Piece Pion_B5=new Piece("Pion",6,4);
-        Piece Pion_B6=new Piece("Pion",6,5);
-        Piece Pion_B7=new Piece("Pion",6,6);
-        Piece Pion_B8=new Piece("Pion",6,7);
-        Piece Tour_B1=new Piece("Tour",7,0);
-        Piece Tour_B2=new Piece("Tour",7,7);
-        Piece Cavalier_B1=new Piece("Cavalier",7,1);
-        Piece Cavalier_B2=new Piece("Cavalier",7,6);
-        Piece Fou_B1=new Piece("Fou",7,2);
-        Piece Fou_B2=new Piece("Fou",7,5);
-        Piece Reine_B=new Piece("Reine",7,3);
-        Piece Roi_B=new Piece("Roi",7,4);
+        Pion Pion_N2=new Pion("Pion",1,1,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Pion Pion_N1=new Pion("Pion",1,0,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Pion Pion_N3=new Pion("Pion",1,2,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Pion Pion_N4=new Pion("Pion",1,3,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()), "Noir");
+        Pion Pion_N5=new Pion("Pion",1,4,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Pion Pion_N6=new Pion("Pion",1,5,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Pion Pion_N7=new Pion("Pion",1,6,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Pion Pion_N8=new Pion("Pion",1,7,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bp.png")).toExternalForm()),"Noir");
+        Tour Tour_N1=new Tour("Tour",0,0,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/br.png")).toExternalForm()),"Noir");
+        Tour Tour_N2=new Tour("Tour",0,7,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/br.png")).toExternalForm()),"Noir");
+        Cavalier Cavalier_N1=new Cavalier("Cavalier",0,1,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bn.png")).toExternalForm()),"Noir");
+        Cavalier Cavalier_N2=new Cavalier("Cavalier",0,6,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bn.png")).toExternalForm()),"Noir");
+        Fou Fou_N1=new Fou("Fou",0,2,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bb.png")).toExternalForm()),"Noir");
+        Fou Fou_N2=new Fou("Fou",0,5,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bb.png")).toExternalForm()),"Noir");
+        Reine Reine_N=new Reine("Reine",0,3,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bq.png")).toExternalForm()),"Noir");
+        Roi Roi_N=new Roi("Roi",0,4,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/bk.png")).toExternalForm()),"Noir");
+        Pion Pion_B1=new Pion("Pion",6,0,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()),"Blanc");
+        Pion Pion_B2=new Pion("Pion",6, 1,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()),"Blanc");
+        Pion Pion_B3=new Pion("Pion",6,2,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()),"Blanc");
+        Pion Pion_B4=new Pion("Pion",6,3,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()),"Blanc");
+        Pion Pion_B5=new Pion("Pion",6,4,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()), "Blanc");
+        Pion Pion_B6=new Pion("Pion",6,5,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()),"Blanc");
+        Pion Pion_B7=new Pion("Pion",6,6,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()),"Blanc");
+        Pion Pion_B8=new Pion("Pion",6,7,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wp.png")).toExternalForm()), "Blanc");
+        Tour Tour_B1=new Tour("Tour",7,0,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wr.png")).toExternalForm()),"Blanc");
+        Tour Tour_B2=new Tour("Tour",7,7,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wr.png")).toExternalForm()),"Blanc");
+        Cavalier Cavalier_B1=new Cavalier("Cavalier",7,1,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wn.png")).toExternalForm()),"Blanc");
+        Cavalier Cavalier_B2=new Cavalier("Cavalier",7,6,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wn.png")).toExternalForm()),"Blanc");
+        Fou Fou_B1=new Fou("Fou",7,2,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wb.png")).toExternalForm()),"Blanc");
+        Fou Fou_B2=new Fou("Fou",7,5,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wb.png")).toExternalForm()),"Blanc");
+        Reine Reine_B=new Reine("Reine",7,3,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wq.png")).toExternalForm()),"Blanc");
+        Roi Roi_B=new Roi("Roi",7,4,new ImageView(Objects.requireNonNull(getClass().getResource("/pieces/wk.png")).toExternalForm()),"Blanc");
         ArrayList<Piece> Pieces = new ArrayList<Piece>();
         Pieces.add(Pion_N1);
         Pieces.add(Pion_N2);
@@ -79,7 +123,7 @@ public class Partie {
         Pieces.add(Fou_B2);
         Pieces.add(Reine_B);
         Pieces.add(Roi_B);
-        ArrayList<ArrayList<Piece>> plateau=new ArrayList<ArrayList<Piece>>();
+        this.plateau=new ArrayList<ArrayList<Piece>>();
         ArrayList<Piece> Ligne1 = new ArrayList<Piece>();
         creer_liste(Ligne1);
         plateau.add(Ligne1);
@@ -107,11 +151,10 @@ public class Partie {
         for (Piece piece : Pieces) {
             plateau.get(piece.getPosition_h()).set(piece.getPosition_v(), piece);
         }
-
     }
 
     public void creer_liste(ArrayList<Piece> list){
-        while (list.size() < 7) {
+        while (list.size() < 8) {
             list.add(null);
         }
     }
