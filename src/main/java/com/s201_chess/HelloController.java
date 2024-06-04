@@ -16,6 +16,8 @@ public class HelloController {
     @FXML
     private ImageView blackPP;
     @FXML
+    private ImageView whitePP;
+    @FXML
     private GridPane grid;
     public void initialize() {
         System.out.println("Initialisation du controlleur..");
@@ -25,6 +27,15 @@ public class HelloController {
             blackPP.setImage(new Image(blackPPUrl.toExternalForm()));
         } else {
             System.err.println("Resource not found: aa images/blackPP.png");
+            // Optionally, you can handle this case by setting a default image or taking other actions
+        }
+        System.out.println("Initialisation du controlleur..");
+        //welcomeText.setText("Welcome to JavaFX Application!");
+        URL whitePPUrl = getClass().getResource("/images/whitePP.png");
+        if (whitePPUrl != null) {
+            whitePP.setImage(new Image(whitePPUrl.toExternalForm()));
+        } else {
+            System.err.println("Resource not found: aa images/whitePP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
     Partie partietest = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
