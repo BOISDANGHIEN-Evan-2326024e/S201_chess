@@ -1,6 +1,5 @@
 package com.s201_chess;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
@@ -159,22 +158,185 @@ public class Partie {
         }
     }
 
-    public void deplacer_piece(int position_h_depart, int position_v_depart,int position_h_arrive,int position_v_arrive,ArrayList<ArrayList<Integer>> liste_mvt,Piece piece){
-        for(int k=0;k<liste_mvt.size();k++){
-            if(position_h_arrive==liste_mvt.get(k).get(0) && position_v_arrive==liste_mvt.get(k).get(1)){
-                this.plateau.get(liste_mvt.get(k).get(0)).set(liste_mvt.get(k).get(1),piece);
-            }
-        }
-    }
 
-    public ArrayList<ArrayList<Integer>> mvt_possible(Piece piece){
-            ArrayList<ArrayList<Integer>> deplacement_theorique=piece.deplacement_possible();
-            for(int n=0;n<deplacement_theorique.size();n++){
-                if(plateau.get(deplacement_theorique.get(n).get(0)).get(deplacement_theorique.get(n).get(0))!=null){
-                    deplacement_theorique.remove(n);
+    public ArrayList<ArrayList<Integer>> mvt_possible(Piece piece) {
+        ArrayList<ArrayList<Integer>> deplacement_theorique = piece.deplacement_possible();
+        System.out.println(deplacement_theorique);
+            if (Objects.equals(piece.getNom(), "Fou")) {
+
+
+                    for (int k = 0; k < 4; k++) {
+                        System.out.println(deplacement_theorique);
+                        int position_x = piece.getPosition_h();
+                        int position_y = piece.getPosition_v();
+                        boolean b = false;
+                        while (position_x < 8 && position_x >= 0 && position_y < 8 && position_y >= 0) {
+                            if (position_x != piece.getPosition_h() || position_y != piece.getPosition_v()) {
+                                if (b) {
+                                    ArrayList<Integer> liste= new ArrayList<Integer>();
+                                    liste.add(position_x);
+                                    liste.add(position_y);
+                                    deplacement_theorique.remove(liste);
+                                }
+                                if (plateau.get(position_x).get(position_y) != null && !b) {
+                                    if (Objects.equals(piece.getCouleur(), plateau.get(position_x).get(position_y).getCouleur())) {
+                                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                                        liste.add(position_x);
+                                        liste.add(position_y);
+                                        deplacement_theorique.remove(liste);
+                                    }
+                                    b = true;
+                                }
+                            }
+                            if (k == 0) {
+                                position_x++;
+                                position_y++;
+                            }
+                            if (k == 1) {
+                                position_x++;
+                                position_y--;
+                            }
+                            if (k == 2) {
+                                position_x--;
+                                position_y++;
+                            }
+                            if (k == 3) {
+                                position_x--;
+                                position_y--;
+                            }
+                        }
+
+                    }
+
+
+                }
+
+        if (Objects.equals(piece.getNom(), "Cavalier")) {
+            for (int l = 0; l < deplacement_theorique.size(); l++) {
+                if (plateau.get(deplacement_theorique.get(l).get(0)).get(deplacement_theorique.get(l).get(1)) != null) {
+                    if (Objects.equals(piece.getCouleur(), plateau.get(deplacement_theorique.get(l).get(0)).get(deplacement_theorique.get(l).get(1)).getCouleur())) {
+                        deplacement_theorique.remove(l);
+                    }
                 }
             }
-            return deplacement_theorique;
+        }
+        if (Objects.equals(piece.getNom(), "Pion")) {
+            for (int l = 0; l < deplacement_theorique.size(); l++) {
+                if (plateau.get(deplacement_theorique.get(l).get(0)).get(deplacement_theorique.get(l).get(1)) != null) {
+                    if (Objects.equals(piece.getCouleur(), plateau.get(deplacement_theorique.get(l).get(0)).get(deplacement_theorique.get(l).get(1)).getCouleur())) {
+                        deplacement_theorique.remove(l);
+                    }
+                }
+            }
+        }
+        if (Objects.equals(piece.getNom(), "Tour")) {
+                boolean b = false;
+                for (int k = 0; k < 4; k++) {
+                    int position_x = piece.getPosition_h();
+                    int position_y = piece.getPosition_v();
+                    while (position_x < 8 && position_x >= 0 && position_y < 8 && position_y >= 0) {
+                        if (position_x != piece.getPosition_h() || position_y != piece.getPosition_v()) {
+                            if (b) {
+                                ArrayList<Integer> liste= new ArrayList<Integer>();
+                                liste.add(position_x);
+                                liste.add(position_y);
+                                deplacement_theorique.remove(liste);
+                            }
+                            if (plateau.get(position_x).get(position_y) != null && b == false) {
+                                if (Objects.equals(piece.getCouleur(), plateau.get(position_x).get(position_y).getCouleur())) {
+                                    ArrayList<Integer> liste= new ArrayList<Integer>();
+                                    liste.add(position_x);
+                                    liste.add(position_y);
+                                    deplacement_theorique.remove(liste);
+                                }
+                                b = true;
+                            }
+                        }
+                        if (k == 0) {
+                            position_x++;
+                        }
+                        if (k == 1) {
+                            position_x--;
+                        }
+                        if (k == 2) {
+                            position_y++;
+                        }
+                        if (k == 3) {
+                            position_y--;
+                        }
+                    }
+                }
+        }
+        if (Objects.equals(piece.getNom(), "Reine")) {
+                for (int k = 0; k < 8; k++) {
+                    boolean b = false;
+                    int position_x = piece.getPosition_h();
+                    int position_y = piece.getPosition_v();
+                    while (position_x < 8 && position_x >= 0 && position_y < 8 && position_y >= 0) {
+                        if (position_x != piece.getPosition_h() || position_y != piece.getPosition_v()) {
+                            if (b) {
+                                ArrayList<Integer> liste= new ArrayList<Integer>();
+                                liste.add(position_x);
+                                liste.add(position_y);
+                                deplacement_theorique.remove(liste);
+                            }
+                            if (plateau.get(position_x).get(position_y) != null && b == false) {
+                                if (Objects.equals(piece.getCouleur(), plateau.get(position_x).get(position_y).getCouleur())) {
+                                    ArrayList<Integer> liste= new ArrayList<Integer>();
+                                    liste.add(position_x);
+                                    liste.add(position_y);
+                                    deplacement_theorique.remove(liste);
+                                }
+                                b = true;
+                            }
+                        }
+                        if (k == 0) {
+                            position_x++;
+                        }
+                        if (k == 1) {
+                            position_x--;
+                        }
+                        if (k == 2) {
+                            position_y++;
+                        }
+                        if (k == 3) {
+                            position_y--;
+                        }
+                        if (k == 4) {
+                            position_x++;
+                            position_y++;
+                        }
+                        if (k == 5) {
+                            position_x++;
+                            position_y--;
+                        }
+                        if (k == 6) {
+                            position_x--;
+                            position_y++;
+                        }
+                        if (k == 7) {
+                            position_x--;
+                            position_y--;
+                        }
+                    }
+                }
+            }
+            if (Objects.equals(piece.getNom(), "Roi")) {
+                for (int l = 0; l < deplacement_theorique.size(); l++) {
+                    if (plateau.get(deplacement_theorique.get(l).get(0)).get(deplacement_theorique.get(l).get(1)) != null) {
+                        if (Objects.equals(piece.getCouleur(), plateau.get(deplacement_theorique.get(l).get(0)).get(deplacement_theorique.get(l).get(1)).getCouleur())) {
+                            deplacement_theorique.remove(l);
+                        }
+                    }
+                }
+
+
+        }
+
+
+        return deplacement_theorique;
     }
+
+
 
 }

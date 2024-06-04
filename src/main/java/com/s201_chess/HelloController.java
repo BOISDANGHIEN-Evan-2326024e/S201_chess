@@ -1,7 +1,6 @@
 package com.s201_chess;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -10,17 +9,18 @@ import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class HelloController {
     private Piece selectedPiece = null;
+    private ArrayList<ArrayList<Integer>> mvt_possible;
+    private Partie partie;
     @FXML
     private ImageView blackPP;
     @FXML
     private ImageView whitePP;
     @FXML
     private GridPane grid;
+
 
     public void initialize() {
         System.out.println("Initialisation du controlleur..");
@@ -41,28 +41,10 @@ public class HelloController {
             System.err.println("Resource not found: aa images/whitePP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
-        Partie partietest = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
-        affichage_plateau(partietest);
-        grid.setOnMouseClicked(event -> {
-            System.out.println("coucou");
-            if (selectedPiece != null) {
-                // Calculez la nouvelle position en fonction de la position du clic
-                System.out.println("caca");
-                int newPositionH = (int) (event.getY() / 100);
-                int newPositionV = (int) (event.getX() / 100);
-                ArrayList<ArrayList<Integer>> mvt_possible=partietest.mvt_possible(selectedPiece);
-                // Déplacez la pièce dans le code
-                partietest.deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), newPositionH, newPositionV,mvt_possible,selectedPiece);
-
-                // Déplacez la pièce dans l'interface graphique
-                grid.getChildren().remove(selectedPiece.getImage());
-                grid.add(selectedPiece.getImage(), newPositionV, newPositionH);
-
-                // Réinitialisez la pièce sélectionnée
-                selectedPiece = null;
-            }
-        });
+        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        affichage_plateau(partie);
     }
+
 
     public void affichage_plateau(Partie partietest) {
         for (int i = 0; i < 8; i++) {
@@ -72,24 +54,18 @@ public class HelloController {
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
                 rect.setFill((i + j) % 2 == 0 ? Color.GREEN : Color.WHITE);
                 grid.add(rect, j, i);
+                final int row=i;
+                final  int col=j;
+                rect.setOnMouseClicked(event -> handleMouseClick_rect(row,col));
                 // Si une pièce d'échecs est présente à ces coordonnées
                 Piece piece = partietest.getPlateau().get(i).get(j);
                 if (piece != null) {
 
-                    // Créer un ImageView avec l'image de la pièce
-                    ImageView image=piece.getImage();
-                    image.setFitHeight(65);
-                    image.setFitWidth(65);
-                    // Ajoutez un gestionnaire d'événements à l'image
-                    image.setOnMouseClicked(event -> {
-                        System.out.println("yo");
-                        // Enregistrez la pièce sélectionnée et attendez le prochain clic
-                        // pour déplacer la pièce
-                        // Vous pouvez stocker la pièce sélectionnée dans une variable d'instance
-                        selectedPiece = piece;
-                    });
-
-                    grid.add(image, j, i);
+                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(row,col));
+                    ImageView imageView= piece.getImage();
+                    imageView.setFitHeight(65);
+                    imageView.setFitWidth(65);
+                    grid.add(piece.getImage(), j, i);
                 }
 
                 // Ajouter le rectangle à la cellule correspondante du GridPane
@@ -97,5 +73,76 @@ public class HelloController {
         }
     }
 
+    private void handleMouseClick_rect(int row, int col) {
+            System.out.println("coucou");
+            if (selectedPiece != null) {
+                System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
+                deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
+
+                // Réinitialisez la pièce sélectionnée
+                selectedPiece = null;
+                for(int a=0;a<partie.getPlateau().size();a++){
+                    for(int b=0;b<partie.getPlateau().get(a).size();b++){
+                        if (partie.getPlateau().get(a).get(b)==null){
+                            System.out.print("null");
+                        }
+
+                        else{
+                            System.out.print(partie.getPlateau().get(a).get(b).getNom()+" ");
+                        }
+
+                    }
+                    System.out.println("");
+                }
+            }
+        }
+
+
+    private void handleMouseClick(int row, int col) {
+
+        if (selectedPiece != null) {
+            Piece anciennePiece=selectedPiece;
+            selectedPiece= partie.getPlateau().get(row).get(col);
+            handleMouseClick_rect(row,col);
+            //if(!anciennePiece.getCouleur().equals(selectedPiece.getCouleur())){
+              //  handleMouseClick_rect(row,col);
+            //}
+        }
+        selectedPiece= partie.getPlateau().get(row).get(col);
+        System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
+        if(selectedPiece!=null){
+            mvt_possible = partie.mvt_possible(selectedPiece);
+            System.out.println(mvt_possible);
+        }
+    }
+
+
+
+    public void deplacer_piece(int position_h_depart, int position_v_depart,int position_h_arrive,int position_v_arrive,Piece piece){
+        System.out.println("deplacer_piece");
+        for(int k=0;k<mvt_possible.size();k++){
+            if(position_h_arrive==mvt_possible.get(k).get(0) && position_v_arrive==mvt_possible.get(k).get(1)){
+                if(partie.getPlateau().get(mvt_possible.get(k).get(0)).get(mvt_possible.get(k).get(1))!=null){
+                    grid.getChildren().remove(partie.getPlateau().get(mvt_possible.get(k).get(0)).get(mvt_possible.get(k).get(1)).getImage());
+                    partie.getPlateau().get(mvt_possible.get(k).get(0)).set(mvt_possible.get(k).get(1),null);
+                    //Probleme l'image se supprime pas mais la piece dans la matrice oui ??? et aussi le programme se contrinue pas apres ??
+                }
+                partie.getPlateau().get(mvt_possible.get(k).get(0)).set(mvt_possible.get(k).get(1),piece);
+                piece.setPosition_h(mvt_possible.get(k).get(0));
+
+                piece.setPosition_v(mvt_possible.get(k).get(1));
+                System.out.println(piece.getPosition_h()+" "+piece.getPosition_v());
+                partie.getPlateau().get(position_h_depart).set(position_v_depart,null);
+                System.out.println("aaa");
+                grid.getChildren().remove(selectedPiece.getImage());
+                System.out.println(position_h_arrive+" "+position_v_arrive);
+                piece.getImage().setOnMouseClicked(event -> handleMouseClick(position_h_arrive,position_v_arrive));
+                ImageView imageView= piece.getImage();
+                imageView.setFitHeight(65);
+                imageView.setFitWidth(65);
+                grid.add(piece.getImage(), position_v_arrive, position_h_arrive);
+            }
+        }
+    }
 
 }
