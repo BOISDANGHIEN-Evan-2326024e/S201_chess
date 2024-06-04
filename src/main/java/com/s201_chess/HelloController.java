@@ -89,31 +89,28 @@ public class HelloController {
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
                 rect.setFill((i + j) % 2 == 0 ? Color.GREEN : Color.WHITE);
                 grid.add(rect, j, i);
+                final int row=i;
+                final  int col=j;
+                rect.setOnMouseClicked(event -> handleMouseClick(row,col));
                 // Si une pièce d'échecs est présente à ces coordonnées
                 Piece piece = partietest.getPlateau().get(i).get(j);
                 if (piece != null) {
 
-                    // Créer un ImageView avec l'image de la pièce
-                    ImageView image=piece.getImage();
-                    image.setFitHeight(65);
-                    image.setFitWidth(65);
-                    // Ajoutez un gestionnaire d'événements à l'image
-                    image.setOnMouseClicked(event -> {
-                        System.out.println("yo");
-                        // Enregistrez la pièce sélectionnée et attendez le prochain clic
-                        // pour déplacer la pièce
-                        // Vous pouvez stocker la pièce sélectionnée dans une variable d'instance
-                        selectedPiece = piece;
-                        mvt_possible=partietest.mvt_possible(selectedPiece);
-                        System.out.println(mvt_possible);
-                        event.consume();
-                    });
-
-                    grid.add(image, j, i);
+                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(row,col));
+                    grid.add(piece.getImage(), j, i);
                 }
 
                 // Ajouter le rectangle à la cellule correspondante du GridPane
             }
+        }
+    }
+
+    private void handleMouseClick(int row,int col){
+        Piece ClickedPiece=partie.getPlateau().get(row).get(col);
+        ImageView clickedImageView = (ClickedPiece != null) ? ClickedPiece.getImage():null;
+
+        if(selectedPiece != null){
+            if(row != se)
         }
     }
 
