@@ -80,9 +80,6 @@ public class HelloController {
                     ImageView image=piece.getImage();
                     image.setFitHeight(65);
                     image.setFitWidth(65);
-                    ImageView image = piece.getImage();
-                    image.setFitHeight(100);
-                    image.setFitWidth(100);
                     // Ajoutez un gestionnaire d'événements à l'image
                     image.setOnMouseClicked(event -> {
                         System.out.println("yo");
