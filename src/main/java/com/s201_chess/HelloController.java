@@ -155,20 +155,24 @@ public class HelloController {
         isDeplacementAutorise = false;
     }
 
-    private void updateTimer(Label label, boolean isNoir) {
-        if (isNoir) {
-            tempsRestantNoir--;
-            updateTimerLabel(label, tempsRestantNoir);
-            if (tempsRestantNoir <= 0) {
-                timerNoir.stop();
+    private void updateTimer(Label label, boolean isBlackTimer) {
+        String[] parts = label.getText().split(":");
+        int minutes = Integer.parseInt(parts[0]);
+        int seconds = Integer.parseInt(parts[1]);
+        if (seconds == 0) {
+            if (minutes == 0) {
+                // Arrêtez le jeu car le temps est écoulé
+                stopTimers();
+                return;
+            } else {
+                minutes--;
+                seconds = 59;
             }
         } else {
-            tempsRestantBlanc--;
-            updateTimerLabel(label, tempsRestantBlanc);
-            if (tempsRestantBlanc <= 0) {
-                timerBlanc.stop();
-            }
+            seconds--;
         }
+
+        label.setText(String.format("%02d:%02d", minutes, seconds));
     }
 
     private void updateTimerLabel(Label label, int tempsRestant) {
