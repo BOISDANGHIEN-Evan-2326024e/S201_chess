@@ -4,19 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.EventHandler;
-import java.io.File;
 import java.io.IOException;
 
 public class LoginController extends GridPane {
@@ -31,6 +24,7 @@ public class LoginController extends GridPane {
     @FXML
     Button loginButton;
 
+    // pour passer de Hello à Login UNIQUEMENT quand on appuie sur le loginButton
     public void changeScene(Button button) {
         try {
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
@@ -44,6 +38,7 @@ public class LoginController extends GridPane {
 
     @FXML
     public void loginClicked() {
+        // TODO : permettre l'enregistrement des utilisateurs dans la liste ET le fichier quand on appuie sur le bouton
         loginButton.setOnMouseClicked(actionEvent -> {
             changeScene(loginButton);
         });
