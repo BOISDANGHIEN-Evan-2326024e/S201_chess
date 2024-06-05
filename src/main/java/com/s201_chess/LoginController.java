@@ -30,20 +30,21 @@ public class LoginController extends GridPane implements Initializable {
     @FXML
     Button cancelButton;
 
-    @FXML
-    private void loginClicked() throws IOException {
-        HelloController helloController = new HelloController();
-        helloController.initialize();
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         try {
-            fxmlLoader.getClassLoader();
+            fxmlLoader.getController();
+            fxmlLoader.load();
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void loginClicked() throws IOException {
+        HelloController helloController = new HelloController();
+        helloController.initialize();
     }
 
 //    @FXML
