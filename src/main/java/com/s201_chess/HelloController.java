@@ -1,7 +1,10 @@
 package com.s201_chess;
 
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -23,6 +26,20 @@ public class HelloController {
     private GridPane grid;
     @FXML
     private ChoiceBox<String> choiceBox;
+    @FXML
+    private Label tpsRestantBlanc;
+    @FXML
+    private Label tpsRestantNoir;
+    @FXML
+    private Button bouton1;
+
+    @FXML
+    private Button bouton2;
+    private Timeline timerNoir;
+    private Timeline timerBlanc;
+    private int tempsRestantNoir = 10 * 60; // 10 minutes en secondes
+    private int tempsRestantBlanc = 10 * 60; // 10 minutes en secondes
+
 
 
 
@@ -45,7 +62,6 @@ public class HelloController {
             System.err.println("Resource not found: aa images/whitePP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
-        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
         affichage_plateau(partie);
         choiceBox.getItems().add("5 Minutes");
         choiceBox.getItems().add("10 Minutes");
@@ -53,10 +69,48 @@ public class HelloController {
 
         // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            System.out.println("Selected item: " + newValue);
+                    System.out.println("Selected item: " + newValue);
             // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
         });
+
+        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
     }
+    private void startTimers() {
+        // Réinitialiser les temps restants
+        tempsRestantNoir = 10 * 60;
+        tempsRestantBlanc = 10 * 60;
+
+        // Mettre à jour les labels pour afficher les temps initiaux
+        updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
+        updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
+
+        // Démarrer les minuteurs
+        timerNoir.playFromStart();
+        timerBlanc.playFromStart();
+    }
+
+    private void updateTimer(Label label, boolean isNoir) {
+        if (isNoir) {
+            tempsRestantNoir--;
+            updateTimerLabel(label, tempsRestantNoir);
+            if (tempsRestantNoir <= 0) {
+                timerNoir.stop();
+            }
+        } else {
+            tempsRestantBlanc--;
+            updateTimerLabel(label, tempsRestantBlanc);
+            if (tempsRestantBlanc <= 0) {
+                timerBlanc.stop();
+            }
+        }
+    }
+
+    private void updateTimerLabel(Label label, int tempsRestant) {
+        int minutes = tempsRestant / 60;
+        int secondes = tempsRestant % 60;
+        label.setText(String.format("%02d:%02d", minutes, secondes));
+    }
+
 
 
     public void affichage_plateau(Partie partietest) {
