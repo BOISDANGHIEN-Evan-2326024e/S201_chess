@@ -19,13 +19,13 @@
             <GridPane alignment="CENTER" hgap="100" vgap="20" xmlns:fx="http://javafx.com/fxml/1">
 
                 <Label text="Username: " GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <TextField GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                <TextField fx:id="usernameField" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
 
                 <Label text="First Name: " GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                <TextField GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                <TextField fx:id="firstNameField" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
 
                 <Label text="Last Name: " GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-                <TextField GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                <TextField fx:id="lastNameField" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
 
             </GridPane>
             <Button fx:id="loginButton" onAction="#loginClicked" text="Log in" GridPane.columnIndex="0" GridPane.rowIndex="3" alignment="CENTER" styleClass="button"/>
