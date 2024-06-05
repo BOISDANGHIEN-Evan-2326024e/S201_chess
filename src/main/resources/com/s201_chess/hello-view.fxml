@@ -38,6 +38,7 @@
                   </ChoiceBox>
                   <Button fx:id="bouton1" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
                   <Button fx:id="bouton2" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
+                  <Button fx:id="boutonArreter" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Arrêter" visible="false"/>
                </children></VBox>
          </items>
       </SplitPane>

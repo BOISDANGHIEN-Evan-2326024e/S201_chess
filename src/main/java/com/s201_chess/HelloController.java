@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class HelloController {
 
     @FXML
     private Button bouton2;
+    @FXML
+    private Button boutonArreter;
     private Timeline timerNoir;
     private Timeline timerBlanc;
     private int tempsRestantNoir = 10 * 60; // 10 minutes en secondes
@@ -62,6 +66,7 @@ public class HelloController {
             System.err.println("Resource not found: aa images/whitePP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
+        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
         affichage_plateau(partie);
         choiceBox.getItems().add("5 Minutes");
         choiceBox.getItems().add("10 Minutes");
@@ -73,20 +78,52 @@ public class HelloController {
             // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
         });
 
-        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        // Initialisation des minuteurs pour les deux joueurs
+        timerNoir = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantNoir, true)));
+        timerNoir.setCycleCount(Timeline.INDEFINITE);
+
+        timerBlanc = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantBlanc, false)));
+        timerBlanc.setCycleCount(Timeline.INDEFINITE);
+
+        bouton1.setOnAction(event -> startTimers());
+        boutonArreter.setOnAction(event -> stopTimers());
+
     }
     private void startTimers() {
         // Réinitialiser les temps restants
         tempsRestantNoir = 10 * 60;
         tempsRestantBlanc = 10 * 60;
-
         // Mettre à jour les labels pour afficher les temps initiaux
         updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
         updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
-
         // Démarrer les minuteurs
         timerNoir.playFromStart();
         timerBlanc.playFromStart();
+        // Faire disparaître les boutons et la choiceBox
+        bouton1.setVisible(false);
+        bouton2.setVisible(false);
+        choiceBox.setVisible(false);
+        // Afficher le bouton "arrêter"
+        boutonArreter.setVisible(true);
+    }
+    private void stopTimers() {
+        // Mettre en pause les minuteurs
+        timerNoir.stop();
+        timerBlanc.stop();
+
+        // Réinitialiser les temps restants
+        tempsRestantNoir = 10 * 60;
+        tempsRestantBlanc = 10 * 60;
+        updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
+        updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
+
+        // Faire réapparaître les boutons et la choiceBox
+        bouton1.setVisible(true);
+        bouton2.setVisible(true);
+        choiceBox.setVisible(true);
+
+        // Cacher le bouton "arrêter"
+        boutonArreter.setVisible(false);
     }
 
     private void updateTimer(Label label, boolean isNoir) {
