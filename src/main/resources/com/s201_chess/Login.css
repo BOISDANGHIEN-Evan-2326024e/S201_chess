@@ -6,13 +6,14 @@ root {
     -fx-background-image: url("background.png");
 }
 
-.button {
-    -fx-color: green;
-}
+/*.button {*/
+/*    -fx-color: green;*/
+/*}*/
 
-.text-field {
-    -fx-color: grey;
-}
+/*.text-field {*/
+/*    -fx-color: grey;*/
+/*}*/
+
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
