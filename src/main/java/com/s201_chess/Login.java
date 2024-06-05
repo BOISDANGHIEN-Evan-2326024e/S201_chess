@@ -15,7 +15,7 @@ public class Login extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getClassLoader().getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 534, 360);
 //        scene.getStylesheets().add(Login.class.getResource("Login.css").toExternalForm());
         stage.setScene(scene);
