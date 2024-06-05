@@ -2,19 +2,17 @@ package com.s201_chess;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-//import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class LoginController extends GridPane implements Initializable {
+public abstract class LoginController extends GridPane {
     @FXML
     VBox vb;
     @FXML
@@ -29,22 +27,39 @@ public class LoginController extends GridPane implements Initializable {
     Button loginButton;
     @FXML
     Button cancelButton;
+    private final Stage stage = new Stage();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        try {
-            fxmlLoader.getController();
-            fxmlLoader.load();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public void loadChess() throws IOException {
+//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), 777, 659);
+//        stage.setTitle("Hello!");
+//        stage.setScene(scene);
+//        stage.show();
+//        Joueur joueur=new Joueur("Joueur1","Prenom1","Nom1");
+//        Joueur joueur2=new Joueur("Joueur2","Prenom2","Nom2");
+//        Partie partietest=new Partie(joueur,joueur2);
+//        for(int i=0;i<partietest.getPlateau().size();i++){
+//            for(int j=0;j<partietest.getPlateau().get(i).size();j++){
+//                if (partietest.getPlateau().get(i).get(j)==null){
+//                    System.out.print("null");
+//                }
+//
+//                else{
+//                    System.out.print(partietest.getPlateau().get(i).get(j).getNom()+" ");
+//                }
+//
+//            }
+//            System.out.println("");
+//        }
+//        System.out.println(partietest.getPlateau().get(0).get(0).deplacement_possible());
+//        System.out.println(partietest.getPlateau().get(1).get(1).deplacement_possible());
+//        System.out.println(partietest.getPlateau().get(6).get(6).deplacement_possible());
+//        System.out.println(partietest.getPlateau().get(0).get(3).getNom());
     }
 
     @FXML
     private void loginClicked() throws IOException {
-        HelloController helloController = new HelloController();
-        helloController.initialize();
+        loadChess();
     }
 
 //    @FXML
