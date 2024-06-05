@@ -77,6 +77,20 @@ public class HelloController {
     private void handleMouseClick_rect(int row, int col) {
             System.out.println("coucou");
             if (selectedPiece != null) {
+                boolean boolRoiN=partie.isRoiNEchec();
+                boolean boolRoiB=partie.isRoiBEchec();
+                Partie partie_2=partie;
+                partie_2.setPlateau(partie.getPlateau());
+                deplacer_piece2(partie_2,selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
+                partie_2.estEchec();
+                if(boolRoiB && partie_2.isRoiBEchec() ){
+                    System.out.println("Vous ne pouvez pas faire ce mouvement car votre roi est en echec");
+                    return;
+                }
+                if(boolRoiN && partie_2.isRoiNEchec() ){
+                    System.out.println("Vous ne pouvez pas faire ce mouvement car votre roi est en echec");
+                    return;
+                }
                 System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
                 deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
 
@@ -101,9 +115,7 @@ public class HelloController {
 
     private void handleMouseClick(int row, int col) {
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
-
         System.out.println(partie.isTourdeJeu());
-
             if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
                 handleMouseClick_rect(row, col);
             }
@@ -157,6 +169,31 @@ public class HelloController {
                 else{
                     partie.setTourdeJeu(true);
                 }
+                partie.estEchec();
+                System.out.println(partie.isRoiBEchec());
+                System.out.println(partie.isRoiNEchec());
+                break;
+            }
+        }
+    }
+
+    public void deplacer_piece2(Partie partie,int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece){
+        for (int k = 0; k < mvt_possible.size(); k++) {
+            if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
+                Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
+                // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
+                if (pieceArrivee != null && !piece.getCouleur().equals(pieceArrivee.getCouleur())) {
+
+                    partie.getPlateau().get(position_h_arrive).set(position_v_arrive, null);  // Supprime la pièce du plateau
+                }
+
+                // Déplacer la pièce vers la nouvelle position
+                partie.getPlateau().get(position_h_arrive).set(position_v_arrive, piece);
+                piece.setPosition_h(position_h_arrive);
+                piece.setPosition_v(position_v_arrive);
+                partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
+
+
                 partie.estEchec();
                 System.out.println(partie.isRoiBEchec());
                 System.out.println(partie.isRoiNEchec());
