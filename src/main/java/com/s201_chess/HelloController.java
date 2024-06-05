@@ -72,6 +72,9 @@ public class HelloController {
         choiceBox.getItems().add("10 Minutes");
         choiceBox.getItems().add("15 Minutes");
 
+        // Sélection par défaut
+        choiceBox.getSelectionModel().selectFirst();
+
         // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
                     System.out.println("Selected item: " + newValue);
@@ -90,19 +93,40 @@ public class HelloController {
 
     }
     private void startTimers() {
-        // Réinitialiser les temps restants
-        tempsRestantNoir = 10 * 60;
-        tempsRestantBlanc = 10 * 60;
+        // Lire la valeur sélectionnée dans la ChoiceBox
+        String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
+        int initialTimeInSeconds;
+
+        switch (selectedTime) {
+            case "5 Minutes":
+                initialTimeInSeconds = 5 * 60;
+                break;
+            case "10 Minutes":
+                initialTimeInSeconds = 10 * 60;
+                break;
+            case "15 Minutes":
+                initialTimeInSeconds = 15 * 60;
+                break;
+            default:
+                initialTimeInSeconds = 10 * 60; // Valeur par défaut
+        }
+
+        // Réinitialiser les temps restants en fonction de la valeur sélectionnée
+        tempsRestantNoir = initialTimeInSeconds;
+        tempsRestantBlanc = initialTimeInSeconds;
+
         // Mettre à jour les labels pour afficher les temps initiaux
         updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
         updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
-        // Démarrer les minuteurs
-        timerNoir.playFromStart();
-        timerBlanc.playFromStart();
+
+        // Démarrer uniquement le timer du joueur blanc au début
+        timerBlanc.play();
+
         // Faire disparaître les boutons et la choiceBox
         bouton1.setVisible(false);
         bouton2.setVisible(false);
         choiceBox.setVisible(false);
+
         // Afficher le bouton "arrêter"
         boutonArreter.setVisible(true);
     }
@@ -251,9 +275,13 @@ public class HelloController {
                 imageView.setFitWidth(65);
                 grid.add(imageView, position_v_arrive, position_h_arrive);
                 if(partie.isTourdeJeu()){
+                    timerBlanc.stop();
+                    timerNoir.play();
                     partie.setTourdeJeu(false);
                 }
                 else{
+                    timerNoir.stop();
+                    timerBlanc.play();
                     partie.setTourdeJeu(true);
                 }
                 break;
