@@ -43,6 +43,7 @@ public class HelloController {
     private Timeline timerBlanc;
     private int tempsRestantNoir = 10 * 60; // 10 minutes en secondes
     private int tempsRestantBlanc = 10 * 60; // 10 minutes en secondes
+    private boolean isDeplacementAutorise = false;
 
 
 
@@ -129,6 +130,8 @@ public class HelloController {
 
         // Afficher le bouton "arrêter"
         boutonArreter.setVisible(true);
+        // Autoriser les déplacements
+        isDeplacementAutorise = true;
     }
     private void stopTimers() {
         // Mettre en pause les minuteurs
@@ -148,6 +151,8 @@ public class HelloController {
 
         // Cacher le bouton "arrêter"
         boutonArreter.setVisible(false);
+        // Interdire les déplacements
+        isDeplacementAutorise = false;
     }
 
     private void updateTimer(Label label, boolean isNoir) {
@@ -202,6 +207,7 @@ public class HelloController {
     }
 
     private void handleMouseClick_rect(int row, int col) {
+        if (!isDeplacementAutorise) return;
             System.out.println("coucou");
             if (selectedPiece != null) {
                 System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
@@ -227,6 +233,7 @@ public class HelloController {
 
 
     private void handleMouseClick(int row, int col) {
+        if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
             if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
                     handleMouseClick_rect(row, col);
