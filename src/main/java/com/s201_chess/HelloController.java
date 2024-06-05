@@ -47,8 +47,11 @@ public class HelloController {
         }
         partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
         affichage_plateau(partie);
+        choiceBox.getItems().add("5 Minutes");
         choiceBox.getItems().add("10 Minutes");
-        choiceBox.getItems().add("20 Minutes");
+        choiceBox.getItems().add("15 Minutes");
+
+        // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             System.out.println("Selected item: " + newValue);
             // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
