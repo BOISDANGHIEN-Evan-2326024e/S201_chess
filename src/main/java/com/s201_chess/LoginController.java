@@ -28,7 +28,7 @@ public class LoginController extends GridPane {
 
     public void changeScene(Button button) {
         try {
-            FXMLLoader loader = new FXMLLoader(HelloController.class.getClassLoader().getResource("hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load()));
             stage.show();

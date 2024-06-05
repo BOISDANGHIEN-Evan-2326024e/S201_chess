@@ -18,7 +18,7 @@ public class Login extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 534, 360);
         stage.setScene(scene);
-        stage.setResizable(false);
+//        stage.setResizable(false);
         stage.setTitle("chess.com");
         stage.show();
     }
