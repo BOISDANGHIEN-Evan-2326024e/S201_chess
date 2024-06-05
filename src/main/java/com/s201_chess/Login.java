@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class LoginApp extends Application {
+public class Login extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -15,8 +15,9 @@ public class LoginApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("com.s201_chess/LoginView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1600, 1600);
+        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 534, 360);
+//        scene.getStylesheets().add(Login.class.getResource("Login.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("chess.com");
