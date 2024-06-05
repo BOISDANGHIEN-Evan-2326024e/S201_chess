@@ -1,12 +1,17 @@
 package com.s201_chess;
 
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,6 +28,22 @@ public class HelloController {
     private GridPane grid;
     @FXML
     private ChoiceBox<String> choiceBox;
+    @FXML
+    private Label tpsRestantBlanc;
+    @FXML
+    private Label tpsRestantNoir;
+    @FXML
+    private Button bouton1;
+
+    @FXML
+    private Button bouton2;
+    @FXML
+    private Button boutonArreter;
+    private Timeline timerNoir;
+    private Timeline timerBlanc;
+    private int tempsRestantNoir = 10 * 60; // 10 minutes en secondes
+    private int tempsRestantBlanc = 10 * 60; // 10 minutes en secondes
+
 
 
 
@@ -51,12 +72,106 @@ public class HelloController {
         choiceBox.getItems().add("10 Minutes");
         choiceBox.getItems().add("15 Minutes");
 
+        // Sélection par défaut
+        choiceBox.getSelectionModel().selectFirst();
+
         // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            System.out.println("Selected item: " + newValue);
+                    System.out.println("Selected item: " + newValue);
             // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
         });
+
+        // Initialisation des minuteurs pour les deux joueurs
+        timerNoir = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantNoir, true)));
+        timerNoir.setCycleCount(Timeline.INDEFINITE);
+
+        timerBlanc = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantBlanc, false)));
+        timerBlanc.setCycleCount(Timeline.INDEFINITE);
+
+        bouton1.setOnAction(event -> startTimers());
+        boutonArreter.setOnAction(event -> stopTimers());
+
     }
+    private void startTimers() {
+        // Lire la valeur sélectionnée dans la ChoiceBox
+        String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
+        int initialTimeInSeconds;
+
+        switch (selectedTime) {
+            case "5 Minutes":
+                initialTimeInSeconds = 5 * 60;
+                break;
+            case "10 Minutes":
+                initialTimeInSeconds = 10 * 60;
+                break;
+            case "15 Minutes":
+                initialTimeInSeconds = 15 * 60;
+                break;
+            default:
+                initialTimeInSeconds = 10 * 60; // Valeur par défaut
+        }
+
+        // Réinitialiser les temps restants en fonction de la valeur sélectionnée
+        tempsRestantNoir = initialTimeInSeconds;
+        tempsRestantBlanc = initialTimeInSeconds;
+
+        // Mettre à jour les labels pour afficher les temps initiaux
+        updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
+        updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
+
+        // Démarrer uniquement le timer du joueur blanc au début
+        timerBlanc.play();
+
+        // Faire disparaître les boutons et la choiceBox
+        bouton1.setVisible(false);
+        bouton2.setVisible(false);
+        choiceBox.setVisible(false);
+
+        // Afficher le bouton "arrêter"
+        boutonArreter.setVisible(true);
+    }
+    private void stopTimers() {
+        // Mettre en pause les minuteurs
+        timerNoir.stop();
+        timerBlanc.stop();
+
+        // Réinitialiser les temps restants
+        tempsRestantNoir = 10 * 60;
+        tempsRestantBlanc = 10 * 60;
+        updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
+        updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
+
+        // Faire réapparaître les boutons et la choiceBox
+        bouton1.setVisible(true);
+        bouton2.setVisible(true);
+        choiceBox.setVisible(true);
+
+        // Cacher le bouton "arrêter"
+        boutonArreter.setVisible(false);
+    }
+
+    private void updateTimer(Label label, boolean isNoir) {
+        if (isNoir) {
+            tempsRestantNoir--;
+            updateTimerLabel(label, tempsRestantNoir);
+            if (tempsRestantNoir <= 0) {
+                timerNoir.stop();
+            }
+        } else {
+            tempsRestantBlanc--;
+            updateTimerLabel(label, tempsRestantBlanc);
+            if (tempsRestantBlanc <= 0) {
+                timerBlanc.stop();
+            }
+        }
+    }
+
+    private void updateTimerLabel(Label label, int tempsRestant) {
+        int minutes = tempsRestant / 60;
+        int secondes = tempsRestant % 60;
+        label.setText(String.format("%02d:%02d", minutes, secondes));
+    }
+
 
 
     public void affichage_plateau(Partie partietest) {
@@ -160,9 +275,13 @@ public class HelloController {
                 imageView.setFitWidth(65);
                 grid.add(imageView, position_v_arrive, position_h_arrive);
                 if(partie.isTourdeJeu()){
+                    timerBlanc.stop();
+                    timerNoir.play();
                     partie.setTourdeJeu(false);
                 }
                 else{
+                    timerNoir.stop();
+                    timerBlanc.play();
                     partie.setTourdeJeu(true);
                 }
                 break;
