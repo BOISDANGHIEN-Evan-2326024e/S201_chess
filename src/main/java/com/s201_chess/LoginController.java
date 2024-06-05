@@ -10,9 +10,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.event.ActionEvent;
+import java.beans.EventHandler;
 import java.io.IOException;
 
-public abstract class LoginController extends GridPane {
+public class LoginController extends GridPane {
     @FXML
     VBox vb;
     @FXML
@@ -21,48 +23,24 @@ public abstract class LoginController extends GridPane {
     Label password;
     @FXML
     TextField usernameField;
-//    @FXML
-//    PasswordField passwordField;
     @FXML
     Button loginButton;
-    @FXML
-    Button cancelButton;
-    private final Stage stage = new Stage();
 
-    public void loadChess() throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 777, 659);
-//        stage.setTitle("Hello!");
-//        stage.setScene(scene);
-//        stage.show();
-//        Joueur joueur=new Joueur("Joueur1","Prenom1","Nom1");
-//        Joueur joueur2=new Joueur("Joueur2","Prenom2","Nom2");
-//        Partie partietest=new Partie(joueur,joueur2);
-//        for(int i=0;i<partietest.getPlateau().size();i++){
-//            for(int j=0;j<partietest.getPlateau().get(i).size();j++){
-//                if (partietest.getPlateau().get(i).get(j)==null){
-//                    System.out.print("null");
-//                }
-//
-//                else{
-//                    System.out.print(partietest.getPlateau().get(i).get(j).getNom()+" ");
-//                }
-//
-//            }
-//            System.out.println("");
-//        }
-//        System.out.println(partietest.getPlateau().get(0).get(0).deplacement_possible());
-//        System.out.println(partietest.getPlateau().get(1).get(1).deplacement_possible());
-//        System.out.println(partietest.getPlateau().get(6).get(6).deplacement_possible());
-//        System.out.println(partietest.getPlateau().get(0).get(3).getNom());
+    public void changeScene(Button button) {
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloController.class.getClassLoader().getResource("hello-view.fxml"));
+            Stage stage = (Stage) button.getScene().getWindow();
+            stage.setScene(new Scene(loader.load()));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
-    private void loginClicked() throws IOException {
-        loadChess();
+    public void loginClicked() {
+        loginButton.setOnMouseClicked(actionEvent -> {
+            changeScene(loginButton);
+        });
     }
-
-//    @FXML
-//    private void cancelClicked() {
-//    }
 }
