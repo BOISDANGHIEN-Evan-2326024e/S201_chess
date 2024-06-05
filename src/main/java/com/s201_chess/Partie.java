@@ -7,10 +7,16 @@ import java.util.Objects;
 
 public class Partie {
     private int id;
+
     private int dernierId=0;
     private ArrayList<ArrayList<Piece>> plateau;
     private Joueur joueur1;
     private Joueur joueur2;
+    private boolean roiBEchec=false;
+    private boolean roiNEchec=false;
+    private boolean roiBMat=false;
+    private boolean roiNMat=false;
+    private  boolean TourdeJeu=true;
 
     public int getId() {
         return id;
@@ -50,6 +56,46 @@ public class Partie {
 
     public void setJoueur2(Joueur joueur2) {
         this.joueur2 = joueur2;
+    }
+
+    public boolean isRoiBEchec() {
+        return roiBEchec;
+    }
+
+    public void setRoiBEchec(boolean roiBEchec) {
+        this.roiBEchec = roiBEchec;
+    }
+
+    public boolean isRoiNEchec() {
+        return roiNEchec;
+    }
+
+    public void setRoiNEchec(boolean roiNEchec) {
+        this.roiNEchec = roiNEchec;
+    }
+
+    public boolean isRoiBMat() {
+        return roiBMat;
+    }
+
+    public void setRoiBMat(boolean roiBMat) {
+        this.roiBMat = roiBMat;
+    }
+
+    public boolean isRoiNMat() {
+        return roiNMat;
+    }
+
+    public void setRoiNMat(boolean roiNMat) {
+        this.roiNMat = roiNMat;
+    }
+
+    public boolean isTourdeJeu() {
+        return TourdeJeu;
+    }
+
+    public void setTourdeJeu(boolean tourdeJeu) {
+        TourdeJeu = tourdeJeu;
     }
 
     public Partie(Joueur joueur1, Joueur joueur2) {
@@ -227,6 +273,42 @@ public class Partie {
                         deplacement_theorique.remove(l);
                     }
                 }
+            }
+            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v())!=null){
+                ArrayList<Integer> liste= new ArrayList<Integer>();
+                liste.add(piece.getPosition_h()-1);
+                liste.add(piece.getPosition_v());
+                deplacement_theorique.remove(liste);
+            }
+            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v())!=null){
+                ArrayList<Integer> liste= new ArrayList<Integer>();
+                liste.add(piece.getPosition_h()+1);
+                liste.add(piece.getPosition_v());
+                deplacement_theorique.remove(liste);
+            }
+            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1).getCouleur(), "Blanc")){
+                ArrayList<Integer> liste= new ArrayList<Integer>();
+                liste.add(piece.getPosition_h()-1);
+                liste.add(piece.getPosition_v()+1);
+                deplacement_theorique.add(liste);
+            }
+            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1).getCouleur(), "Blanc")){
+                ArrayList<Integer> liste= new ArrayList<Integer>();
+                liste.add(piece.getPosition_h()-1);
+                liste.add(piece.getPosition_v()-1);
+                deplacement_theorique.add(liste);
+            }
+            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1).getCouleur(), "Noir")){
+                ArrayList<Integer> liste= new ArrayList<Integer>();
+                liste.add(piece.getPosition_h()+1);
+                liste.add(piece.getPosition_v()+1);
+                deplacement_theorique.add(liste);
+            }
+            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1).getCouleur(), "Noir")){
+                ArrayList<Integer> liste= new ArrayList<Integer>();
+                liste.add(piece.getPosition_h()+1);
+                liste.add(piece.getPosition_v()-1);
+                deplacement_theorique.add(liste);
             }
         }
         if (Objects.equals(piece.getNom(), "Tour")) {
