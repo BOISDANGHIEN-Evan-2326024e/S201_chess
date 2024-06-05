@@ -18,7 +18,7 @@ public class Partie {
     private boolean roiNEchec=false;
     private boolean roiBMat=false;
     private boolean roiNMat=false;
-    private  boolean TourdeJeu=true;
+    private boolean TourdeJeu=true;
 
 
     public int getId() {
@@ -289,30 +289,45 @@ public class Partie {
                 liste.add(piece.getPosition_v());
                 deplacement_theorique.remove(liste);
             }
-            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1).getCouleur(), "Blanc")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()-1);
-                liste.add(piece.getPosition_v()+1);
-                deplacement_theorique.add(liste);
+            if(Objects.equals(piece.getCouleur(), "Blanc") && piece.getPosition_h()-1>0){
+                if(piece.getPosition_v()+1<8){
+                    if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1).getCouleur(), "Blanc")){
+
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()-1);
+                        liste.add(piece.getPosition_v()+1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
+                if(piece.getPosition_v()-1>0){
+                    if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1).getCouleur(), "Blanc")){
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()-1);
+                        liste.add(piece.getPosition_v()-1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
+
             }
-            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1).getCouleur(), "Blanc")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()-1);
-                liste.add(piece.getPosition_v()-1);
-                deplacement_theorique.add(liste);
+            if(Objects.equals(piece.getCouleur(), "Noir") && piece.getPosition_h()+1>8){
+                if(piece.getPosition_v()+1<8){
+                    if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1).getCouleur(), "Noir")){
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()+1);
+                        liste.add(piece.getPosition_v()+1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
+                if(piece.getPosition_v()-1>0){
+                    if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1).getCouleur(), "Noir")){
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()+1);
+                        liste.add(piece.getPosition_v()-1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
             }
-            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1).getCouleur(), "Noir")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()+1);
-                liste.add(piece.getPosition_v()+1);
-                deplacement_theorique.add(liste);
-            }
-            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1).getCouleur(), "Noir")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()+1);
-                liste.add(piece.getPosition_v()-1);
-                deplacement_theorique.add(liste);
-            }
+
         }
         if (Objects.equals(piece.getNom(), "Tour")) {
                 boolean b = false;
@@ -422,6 +437,53 @@ public class Partie {
         return deplacement_theorique;
     }
 
+    public void estEchec(){
+        ArrayList<Integer> position_roi_b = new ArrayList<Integer>();
+        ArrayList<Integer> position_roi_n = new ArrayList<Integer>();
+        roiBEchec=false;
+        roiNEchec=false;
+        for (ArrayList<Piece> pieces : plateau) {
+            for (Piece value : pieces) {
+                if (value != null && value.getNom()=="Roi" && Objects.equals(value.getCouleur(), "Blanc")) {
+
+                    position_roi_b.add(value.getPosition_h());
+                    position_roi_b.add(value.getPosition_v());
+
+                }
+                if(value != null && value.getNom()=="Roi" && Objects.equals(value.getCouleur(), "Noir")){
+
+                    position_roi_n.add(value.getPosition_h());
+                    position_roi_n.add(value.getPosition_v());
+                }
+            }
+        }
+        for (ArrayList<Piece> pieces : plateau) {
+            for (Piece value : pieces) {
+                if (value != null && Objects.equals(value.getCouleur(), "Noir")) {
+                        ArrayList<ArrayList<Integer>> mvt_possible = mvt_possible(value);
+                        for (ArrayList<Integer> integers : mvt_possible) {
+                            if (Objects.equals(integers.get(0), position_roi_b.get(0)) && Objects.equals(integers.get(1), position_roi_b.get(1))) {
+                                roiBEchec = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        for (ArrayList<Piece> pieces : plateau) {
+            for(Piece value : pieces){
+                if(value != null && Objects.equals(value.getCouleur(), "Blanc")){
+                    ArrayList<ArrayList<Integer>> mvt_possible = mvt_possible(value);
+                    for (ArrayList<Integer> integers : mvt_possible) {
+                        if (Objects.equals(integers.get(0), position_roi_n.get(0)) && Objects.equals(integers.get(1), position_roi_n.get(1))) {
+                            roiNEchec = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
 }
