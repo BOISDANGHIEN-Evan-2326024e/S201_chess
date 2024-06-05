@@ -1,6 +1,7 @@
 package com.s201_chess;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -20,6 +21,8 @@ public class HelloController {
     private ImageView whitePP;
     @FXML
     private GridPane grid;
+    @FXML
+    private ChoiceBox<String> choiceBox;
 
 
 
@@ -44,6 +47,12 @@ public class HelloController {
         }
         partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
         affichage_plateau(partie);
+        choiceBox.getItems().add("10 Minutes");
+        choiceBox.getItems().add("20 Minutes");
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            System.out.println("Selected item: " + newValue);
+            // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
+        });
     }
 
 
