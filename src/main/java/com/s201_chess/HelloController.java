@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +16,8 @@ import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class HelloController {
     private Piece selectedPiece = null;
@@ -89,9 +92,24 @@ public class HelloController {
         timerBlanc = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantBlanc, false)));
         timerBlanc.setCycleCount(Timeline.INDEFINITE);
 
-        bouton1.setOnAction(event -> startTimers());
+        bouton1.setOnAction(event -> promptPlayerSelection());
         boutonArreter.setOnAction(event -> stopTimers());
 
+    }
+    private void promptPlayerSelection() {
+        List<String> choices = new ArrayList<>();
+        choices.add("Invité");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Invité", choices);
+        dialog.setTitle("Sélection du joueur");
+        //dialog.setHeaderText("Sélectionnez contre qui vous voulez jouer");
+        dialog.setContentText("Choisissez le joueur:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(player -> {
+            System.out.println("Vous allez jouer contre : " + player);
+            startTimers();
+        });
     }
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
@@ -151,8 +169,10 @@ public class HelloController {
 
         // Cacher le bouton "arrêter"
         boutonArreter.setVisible(false);
-        // Interdire les déplacements
+          // Interdire les déplacements
         isDeplacementAutorise = false;
+        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        affichage_plateau(partie);
     }
 
     private void updateTimer(Label label, boolean isBlackTimer) {

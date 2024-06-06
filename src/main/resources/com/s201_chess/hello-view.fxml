@@ -36,8 +36,8 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" />
                   <ChoiceBox fx:id="choiceBox" prefHeight="48.0" prefWidth="211.0">
                   </ChoiceBox>
-                  <Button fx:id="bouton1" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
-                  <Button fx:id="bouton2" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
+                  <Button fx:id="bouton1" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Jouer en local" />
+                  <Button fx:id="bouton2" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Jouer contre l'ordinateur" />
                   <Button fx:id="boutonArreter" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Arrêter" visible="false"/>
                </children></VBox>
          </items>
