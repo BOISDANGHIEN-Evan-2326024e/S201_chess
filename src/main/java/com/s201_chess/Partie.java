@@ -4,7 +4,6 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import com.google.gson.annotations.Expose;
 
 
 public class Partie {
