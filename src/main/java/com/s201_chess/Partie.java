@@ -444,46 +444,50 @@ public class Partie {
         roiNEchec=false;
         for (ArrayList<Piece> pieces : plateau) {
             for (Piece value : pieces) {
-                if (value != null && value.getNom()=="Roi" && Objects.equals(value.getCouleur(), "Blanc")) {
+                if (value != null && Objects.equals(value.getNom(), "Roi") && Objects.equals(value.getCouleur(), "Blanc")) {
 
                     position_roi_b.add(value.getPosition_h());
                     position_roi_b.add(value.getPosition_v());
 
                 }
-                if(value != null && value.getNom()=="Roi" && Objects.equals(value.getCouleur(), "Noir")){
+                if(value != null && Objects.equals(value.getNom(), "Roi") && Objects.equals(value.getCouleur(), "Noir")){
 
                     position_roi_n.add(value.getPosition_h());
                     position_roi_n.add(value.getPosition_v());
                 }
             }
         }
-        for (ArrayList<Piece> pieces : plateau) {
-            for (Piece value : pieces) {
-                if (value != null && Objects.equals(value.getCouleur(), "Noir")) {
-                        ArrayList<ArrayList<Integer>> mvt_possible = mvt_possible(value);
-                        for (ArrayList<Integer> integers : mvt_possible) {
-                            if (Objects.equals(integers.get(0), position_roi_b.get(0)) && Objects.equals(integers.get(1), position_roi_b.get(1))) {
-                                roiBEchec = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        for (ArrayList<Piece> pieces : plateau) {
-            for(Piece value : pieces){
-                if(value != null && Objects.equals(value.getCouleur(), "Blanc")){
-                    ArrayList<ArrayList<Integer>> mvt_possible = mvt_possible(value);
-                    for (ArrayList<Integer> integers : mvt_possible) {
-                        if (Objects.equals(integers.get(0), position_roi_n.get(0)) && Objects.equals(integers.get(1), position_roi_n.get(1))) {
-                            roiNEchec = true;
-                            break;
-                        }
-                    }
-                }
-            }
+        if(position_roi_b.isEmpty()){
+            roiBEchec=true;
         }
+        if(position_roi_n.isEmpty()){
+            roiNEchec=true;
+        }
+
     }
 
+    public void endgame(String couleur){
+        roiBMat=false;
+        roiNMat=false;
+        if(Objects.equals(couleur, "Blanc")){
+            roiBMat=true;
+        }
+        if(Objects.equals(couleur, "Noir")){
+            roiNMat=true;
+        }
+        if(roiBMat){
+            System.out.println("Les blancs ont gagné");
+            joueur1.setNbJoues(joueur1.getNbJoues()+1);
+            joueur2.setNbJoues(joueur2.getNbJoues()+1);
+            joueur2.setNbVictoires(joueur2.getNbVictoires()+1);
+        }
+        if(roiNMat){
+            System.out.println("Les noirs ont gagné");
+            joueur1.setNbJoues(joueur1.getNbJoues()+1);
+            joueur2.setNbJoues(joueur2.getNbJoues()+1);
+            joueur1.setNbVictoires(joueur1.getNbVictoires()+1);
+        }
+
+    }
 
 }
