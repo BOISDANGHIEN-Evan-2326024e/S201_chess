@@ -4,6 +4,8 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import com.google.gson.annotations.Expose;
+
 
 public class Partie {
     private int id;
@@ -17,6 +19,7 @@ public class Partie {
     private boolean roiBMat=false;
     private boolean roiNMat=false;
     private boolean TourdeJeu=true;
+
 
     public int getId() {
         return id;
