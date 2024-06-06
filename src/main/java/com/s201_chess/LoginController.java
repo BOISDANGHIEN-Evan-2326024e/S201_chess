@@ -1,6 +1,7 @@
 package com.s201_chess;
 
 import javafx.beans.InvalidationListener;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableList.*;
@@ -34,16 +35,16 @@ public class LoginController extends GridPane {
     public void changeScene(Button button) {
         try {
             File file = new File("users.txt");
-            ObservableList<User> userObservableList = null;
+            User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
+            ArrayList<User> userArrayList = new ArrayList<>();
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
             {
-                User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
                 FileManager.loadFile(file);
-                FileManager.addUser(userObservableList, user);
-                FileManager.saveUser(userObservableList);
+                FileManager.addUser(userArrayList, user);
+                FileManager.saveUser(userArrayList);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -24,18 +24,18 @@ public class FileManager {
     }
 
     // méthode censée enregistrer des utilisateurs dans la liste
-    public static void saveUser(ObservableList<User> userObservableList) {
+    public static void saveUser(ArrayList<User> userArrayList) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(USERS_FILE))) {
-            oos.writeObject(userObservableList);
+            oos.writeObject(userArrayList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // méthode censée ajouter des utilisateurs dans la liste
-    public static void addUser(ObservableList<User> userObservableList, User user) {
-        if (!userObservableList.contains(user)) {
-            userObservableList.add(user);
+    public static void addUser(ArrayList<User> userArrayList, User user) {
+        if (!userArrayList.contains(user)) {
+            userArrayList.add(user);
         } else {
             System.out.println("This user already exists: " + user);
         }

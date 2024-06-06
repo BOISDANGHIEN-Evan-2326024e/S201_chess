@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 // classe spécifique aux utilisateurs
-public class User implements Serializable {
+public class User {
     private String username;
     private String firstName;
     private String lastName;
