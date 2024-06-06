@@ -5,6 +5,7 @@ public class Joueur {
         private String pseudo;
         private String prenom;
         private String nom;
+        private String couleur;
         private int id;
         private int nbVictoires;
         private int nbJoues;
@@ -13,10 +14,11 @@ public class Joueur {
 
 
 
-    public Joueur(String pseudo, String prenom, String nom){
+    public Joueur(String pseudo, String prenom, String nom, String couleur) {
         this.pseudo = pseudo;
         this.prenom = prenom;
         this.nom = nom;
+        this.couleur = couleur;
         nbVictoires = 0;
         nbJoues = 0;
         id+=dernierId+1;
@@ -73,4 +75,6 @@ public class Joueur {
     public boolean isHuman() {return isHuman;}
 
     public void setHuman(boolean human) {isHuman = human;}
+
+    public String getCouleur() {return couleur;}
 }

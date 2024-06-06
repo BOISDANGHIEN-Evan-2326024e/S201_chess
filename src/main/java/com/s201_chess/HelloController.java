@@ -23,8 +23,8 @@ public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
-    private Joueur joueur1 = new Joueur("Joueur1", "a", "a");
-    private Joueur joueur2 = new Joueur("Joueur2", "b", "b");
+    private Joueur joueur1 = new Joueur("Joueur1", "a", "a", "Blanc");
+    private Joueur joueur2 = new Joueur("Joueur2", "b", "b", "Noir");
     @FXML
     private ImageView blackPP;
     @FXML
@@ -72,7 +72,7 @@ public class HelloController {
             System.err.println("Resource not found: aa images/whitePP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
-        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
         choiceBox.getItems().add("5 Minutes");
         choiceBox.getItems().add("10 Minutes");
@@ -308,6 +308,7 @@ public class HelloController {
                 piece.setPosition_h(position_h_arrive);
                 piece.setPosition_v(position_v_arrive);
                 partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
+                String HuMaiN = (partie.getJoueurParCouleur("Noir"));
 
                 // Mettre à jour l'affichage
                 grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
