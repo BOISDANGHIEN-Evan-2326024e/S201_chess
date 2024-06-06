@@ -153,6 +153,8 @@ public class HelloController {
         boutonArreter.setVisible(false);
         // Interdire les déplacements
         isDeplacementAutorise = false;
+        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        affichage_plateau(partie);
     }
 
     private void updateTimer(Label label, boolean isBlackTimer) {
