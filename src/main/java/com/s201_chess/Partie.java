@@ -4,7 +4,6 @@ import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import com.google.gson.annotations.Expose;
 
 
 public class Partie {
@@ -18,7 +17,7 @@ public class Partie {
     private boolean roiNEchec=false;
     private boolean roiBMat=false;
     private boolean roiNMat=false;
-    private  boolean TourdeJeu=true;
+    private boolean TourdeJeu=true;
 
 
     public int getId() {
@@ -289,30 +288,45 @@ public class Partie {
                 liste.add(piece.getPosition_v());
                 deplacement_theorique.remove(liste);
             }
-            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1).getCouleur(), "Blanc")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()-1);
-                liste.add(piece.getPosition_v()+1);
-                deplacement_theorique.add(liste);
+            if(Objects.equals(piece.getCouleur(), "Blanc") && piece.getPosition_h()-1>0){
+                if(piece.getPosition_v()+1<8){
+                    if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()+1).getCouleur(), "Blanc")){
+
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()-1);
+                        liste.add(piece.getPosition_v()+1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
+                if(piece.getPosition_v()-1>0){
+                    if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1).getCouleur(), "Blanc")){
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()-1);
+                        liste.add(piece.getPosition_v()-1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
+
             }
-            if(Objects.equals(piece.getCouleur(), "Blanc") && plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()-1).get(piece.getPosition_v()-1).getCouleur(), "Blanc")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()-1);
-                liste.add(piece.getPosition_v()-1);
-                deplacement_theorique.add(liste);
+            if(Objects.equals(piece.getCouleur(), "Noir") && piece.getPosition_h()+1>8){
+                if(piece.getPosition_v()+1<8){
+                    if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1).getCouleur(), "Noir")){
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()+1);
+                        liste.add(piece.getPosition_v()+1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
+                if(piece.getPosition_v()-1>0){
+                    if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1).getCouleur(), "Noir")){
+                        ArrayList<Integer> liste= new ArrayList<Integer>();
+                        liste.add(piece.getPosition_h()+1);
+                        liste.add(piece.getPosition_v()-1);
+                        deplacement_theorique.add(liste);
+                    }
+                }
             }
-            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()+1).getCouleur(), "Noir")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()+1);
-                liste.add(piece.getPosition_v()+1);
-                deplacement_theorique.add(liste);
-            }
-            if(Objects.equals(piece.getCouleur(), "Noir") && plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1)!=null && !Objects.equals(plateau.get(piece.getPosition_h()+1).get(piece.getPosition_v()-1).getCouleur(), "Noir")){
-                ArrayList<Integer> liste= new ArrayList<Integer>();
-                liste.add(piece.getPosition_h()+1);
-                liste.add(piece.getPosition_v()-1);
-                deplacement_theorique.add(liste);
-            }
+
         }
         if (Objects.equals(piece.getNom(), "Tour")) {
                 boolean b = false;
@@ -422,6 +436,57 @@ public class Partie {
         return deplacement_theorique;
     }
 
+    public void estEchec(){
+        ArrayList<Integer> position_roi_b = new ArrayList<Integer>();
+        ArrayList<Integer> position_roi_n = new ArrayList<Integer>();
+        roiBEchec=false;
+        roiNEchec=false;
+        for (ArrayList<Piece> pieces : plateau) {
+            for (Piece value : pieces) {
+                if (value != null && Objects.equals(value.getNom(), "Roi") && Objects.equals(value.getCouleur(), "Blanc")) {
 
+                    position_roi_b.add(value.getPosition_h());
+                    position_roi_b.add(value.getPosition_v());
+
+                }
+                if(value != null && Objects.equals(value.getNom(), "Roi") && Objects.equals(value.getCouleur(), "Noir")){
+
+                    position_roi_n.add(value.getPosition_h());
+                    position_roi_n.add(value.getPosition_v());
+                }
+            }
+        }
+        if(position_roi_b.isEmpty()){
+            roiBEchec=true;
+        }
+        if(position_roi_n.isEmpty()){
+            roiNEchec=true;
+        }
+
+    }
+
+    public void endgame(String couleur){
+        roiBMat=false;
+        roiNMat=false;
+        if(Objects.equals(couleur, "Blanc")){
+            roiBMat=true;
+        }
+        if(Objects.equals(couleur, "Noir")){
+            roiNMat=true;
+        }
+        if(roiBMat){
+            System.out.println("Les noirs ont gagné");
+            joueur1.setNbJoues(joueur1.getNbJoues()+1);
+            joueur2.setNbJoues(joueur2.getNbJoues()+1);
+            joueur2.setNbVictoires(joueur2.getNbVictoires()+1);
+        }
+        if(roiNMat){
+            System.out.println("Les blancs ont gagné");
+            joueur1.setNbJoues(joueur1.getNbJoues()+1);
+            joueur2.setNbJoues(joueur2.getNbJoues()+1);
+            joueur1.setNbVictoires(joueur1.getNbVictoires()+1);
+        }
+
+    }
 
 }

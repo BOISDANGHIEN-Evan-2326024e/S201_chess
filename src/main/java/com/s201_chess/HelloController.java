@@ -268,29 +268,31 @@ public class HelloController {
     private void handleMouseClick(int row, int col) {
         if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
+        System.out.println(partie.isTourdeJeu());
             if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
-                    handleMouseClick_rect(row, col);
-
+                handleMouseClick_rect(row, col);
             }
 
             selectedPiece = partie.getPlateau().get(row).get(col);
             System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
-            if (selectedPiece != null) {
-                    if(selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()){
-                        mvt_possible = partie.mvt_possible(selectedPiece);
-                        System.out.println(mvt_possible);
-                    }
 
+            if (selectedPiece != null) {
+                if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
+                    mvt_possible = partie.mvt_possible(selectedPiece);
+                    System.out.println(mvt_possible);
+                }
 
 
             }
+
+
         }
 
 
 
 
+
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
-        System.out.println("deplacer_piece");
         for (int k = 0; k < mvt_possible.size(); k++) {
             if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
                 Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
@@ -324,8 +326,15 @@ public class HelloController {
                     timerBlanc.play();
                     partie.setTourdeJeu(true);
                 }
-                break;
+                partie.estEchec();
+                if(partie.isRoiBEchec()){
+                    partie.endgame("Blanc");
+                }
+                if(partie.isRoiNEchec()){
+                    partie.endgame("Noir");
+                }
             }
         }
     }
+
 }
