@@ -36,6 +36,10 @@ public class HelloController {
     @FXML
     private Label tpsRestantNoir;
     @FXML
+    private Label pseudoBlanc;
+    @FXML
+    private Label pseudoNoir;
+    @FXML
     private Button bouton1;
 
     @FXML
@@ -99,6 +103,8 @@ public class HelloController {
     private void promptPlayerSelection() {
         List<String> choices = new ArrayList<>();
         choices.add("Invité");
+        choices.add("caca");
+        choices.add("pipi");
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Invité", choices);
         dialog.setTitle("Sélection du joueur");
@@ -108,6 +114,7 @@ public class HelloController {
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(player -> {
             System.out.println("Vous allez jouer contre : " + player);
+            pseudoNoir.setText(player);
             startTimers();
         });
     }
@@ -148,6 +155,7 @@ public class HelloController {
 
         // Afficher le bouton "arrêter"
         boutonArreter.setVisible(true);
+        //tempsRestantNoir.setVisible(true);
         // Autoriser les déplacements
         isDeplacementAutorise = true;
     }
@@ -171,6 +179,9 @@ public class HelloController {
         boutonArreter.setVisible(false);
           // Interdire les déplacements
         isDeplacementAutorise = false;
+
+        //PartieManager.savePartie(partie);
+
         partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
         affichage_plateau(partie);
     }
