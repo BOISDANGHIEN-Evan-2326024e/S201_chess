@@ -1,25 +1,35 @@
 package com.s201_chess;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class FileManager {
 
     // méthode censée charger le fichier qui fichier
-    public static void loadFile(File file) throws IOException {
+    public static void loadFile(File file/*, User user*/) throws IOException {
         // si le fichier n'existe pas, on le crée
         if (!file.exists()) {
             file.createNewFile();
-        }else {
+        }//else {       //ou alors méthode alreadyExists(){}
+//            List<String> lines = Files.readAllLines(Paths.get(file.getName()));
+//            boolean found = false;
+//            for (int i = 0; i < lines.size(); i++) {
+//                if (lines.get(i).startsWith(user.getUsername())) {
+//                    lines.set(i, "User: username=" + user.getUsername() + ", firstName=" + user.getFirstName() + ", lastName=" + user.getLastName());
+//                    found = true;
+//                    break;
+//                }
+//            }
             /*
             Si une ligne du fichier existe déjà{
                 la remplace ou l'efface;            // au choix, l'un ou l'autre en fonction de ce qu'on préfère
             }
-            sinn{
-                il va se faire voir;
-            }
-             */
-        }
+            sinon{
+                il va se faire voir;*/
+//            }
+
         //on lit le fichier
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;

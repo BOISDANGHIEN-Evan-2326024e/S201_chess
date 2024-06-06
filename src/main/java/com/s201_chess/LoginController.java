@@ -28,7 +28,7 @@ public class LoginController extends GridPane {
 
     public void changeScene(Button button) {
         try {
-            File file = new File("users.txt"); //fichier contenant tous les joueurs
+            File file = new File("users.txt"); //fichier contenant TOUS les joueurs
 //            File file1 = new File(usernameField.getText());
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
             ArrayList<User> userArrayList = new ArrayList<>();
@@ -37,7 +37,7 @@ public class LoginController extends GridPane {
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
             try{
-                FileManager.loadFile(file);
+                FileManager.loadFile(file/*, user*/);
                 FileManager.addUser(userArrayList, user);
                 FileManager.saveUser(file, userArrayList);
             }catch (IOException e){
