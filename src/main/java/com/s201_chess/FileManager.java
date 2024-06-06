@@ -36,9 +36,7 @@ public class FileManager {
     public static void addUser(ArrayList<User> userArrayList, User user) {
         if (!userArrayList.contains(user)) {
             userArrayList.add(user);
-        } else {
-            System.out.println("This user already exists: " + user);
+            saveUser(userArrayList);
         }
     }
-
 }

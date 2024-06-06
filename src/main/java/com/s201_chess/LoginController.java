@@ -53,7 +53,6 @@ public class LoginController extends GridPane {
 
     @FXML
     public void loginClicked() {
-        // TODO : permettre l'enregistrement des utilisateurs dans la liste ET le fichier quand on appuie sur le bouton
         loginButton.setOnMouseClicked(actionEvent -> {
             changeScene(loginButton);
         });
