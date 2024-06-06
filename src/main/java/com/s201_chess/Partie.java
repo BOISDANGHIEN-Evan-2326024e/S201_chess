@@ -473,13 +473,13 @@ public class Partie {
             roiNMat=true;
         }
         if(roiBMat){
-            System.out.println("Les blancs ont gagné");
+            System.out.println("Les noirs ont gagné");
             joueur1.setNbJoues(joueur1.getNbJoues()+1);
             joueur2.setNbJoues(joueur2.getNbJoues()+1);
             joueur2.setNbVictoires(joueur2.getNbVictoires()+1);
         }
         if(roiNMat){
-            System.out.println("Les noirs ont gagné");
+            System.out.println("Les blancs ont gagné");
             joueur1.setNbJoues(joueur1.getNbJoues()+1);
             joueur2.setNbJoues(joueur2.getNbJoues()+1);
             joueur1.setNbVictoires(joueur1.getNbVictoires()+1);
