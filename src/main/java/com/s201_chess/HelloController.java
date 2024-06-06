@@ -1,25 +1,55 @@
 package com.s201_chess;
 
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
+    private Joueur joueur1 = new Joueur("Joueur1", "a", "a");
+    private Joueur joueur2 = new Joueur("Joueur2", "b", "b");
     @FXML
     private ImageView blackPP;
     @FXML
     private ImageView whitePP;
     @FXML
     private GridPane grid;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private Label tpsRestantBlanc;
+    @FXML
+    private Label tpsRestantNoir;
+    @FXML
+    private Button bouton1;
+
+    @FXML
+    private Button bouton2;
+    @FXML
+    private Button boutonArreter;
+    private Timeline timerNoir;
+    private Timeline timerBlanc;
+    private int tempsRestantNoir = 10 * 60; // 10 minutes en secondes
+    private int tempsRestantBlanc = 10 * 60; // 10 minutes en secondes
+    private boolean isDeplacementAutorise = false;
+
 
 
 
@@ -44,7 +74,142 @@ public class HelloController {
         }
         partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
         affichage_plateau(partie);
+        choiceBox.getItems().add("5 Minutes");
+        choiceBox.getItems().add("10 Minutes");
+        choiceBox.getItems().add("15 Minutes");
+
+        // Sélection par défaut
+        choiceBox.getSelectionModel().selectFirst();
+
+        // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+                    System.out.println("Selected item: " + newValue);
+            // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
+        });
+
+        // Initialisation des minuteurs pour les deux joueurs
+        timerNoir = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantNoir, true)));
+        timerNoir.setCycleCount(Timeline.INDEFINITE);
+
+        timerBlanc = new Timeline(new KeyFrame(Duration.seconds(1), event -> updateTimer(tpsRestantBlanc, false)));
+        timerBlanc.setCycleCount(Timeline.INDEFINITE);
+
+        bouton1.setOnAction(event -> promptPlayerSelection());
+        bouton2.setOnAction(event -> jouerContreOrdinateur());
+        boutonArreter.setOnAction(event -> stopTimers());
+
     }
+    private void jouerContreOrdinateur() {
+        joueur2.setHuman(false);
+        System.out.println("Jouer contre l'ordinateur");
+        startTimers();
+
+    }
+    private void promptPlayerSelection() {
+        List<String> choices = new ArrayList<>();
+        choices.add("Invité");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Invité", choices);
+        dialog.setTitle("Sélection du joueur");
+        //dialog.setHeaderText("Sélectionnez contre qui vous voulez jouer");
+        dialog.setContentText("Choisissez le joueur:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(player -> {
+            System.out.println("Vous allez jouer contre : " + player);
+            startTimers();
+        });
+    }
+    private void startTimers() {
+        // Lire la valeur sélectionnée dans la ChoiceBox
+        String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
+        int initialTimeInSeconds;
+
+        switch (selectedTime) {
+            case "5 Minutes":
+                initialTimeInSeconds = 5 * 60;
+                break;
+            case "10 Minutes":
+                initialTimeInSeconds = 10 * 60;
+                break;
+            case "15 Minutes":
+                initialTimeInSeconds = 15 * 60;
+                break;
+            default:
+                initialTimeInSeconds = 10 * 60; // Valeur par défaut
+        }
+
+        // Réinitialiser les temps restants en fonction de la valeur sélectionnée
+        tempsRestantNoir = initialTimeInSeconds;
+        tempsRestantBlanc = initialTimeInSeconds;
+
+        // Mettre à jour les labels pour afficher les temps initiaux
+        updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
+        updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
+
+        // Démarrer uniquement le timer du joueur blanc au début
+        timerBlanc.play();
+
+        // Faire disparaître les boutons et la choiceBox
+        bouton1.setVisible(false);
+        bouton2.setVisible(false);
+        choiceBox.setVisible(false);
+
+        // Afficher le bouton "arrêter"
+        boutonArreter.setVisible(true);
+        // Autoriser les déplacements
+        isDeplacementAutorise = true;
+    }
+    private void stopTimers() {
+        // Mettre en pause les minuteurs
+        timerNoir.stop();
+        timerBlanc.stop();
+
+        // Réinitialiser les temps restants
+        tempsRestantNoir = 10 * 60;
+        tempsRestantBlanc = 10 * 60;
+        updateTimerLabel(tpsRestantNoir, tempsRestantNoir);
+        updateTimerLabel(tpsRestantBlanc, tempsRestantBlanc);
+
+        // Faire réapparaître les boutons et la choiceBox
+        bouton1.setVisible(true);
+        bouton2.setVisible(true);
+        choiceBox.setVisible(true);
+
+        // Cacher le bouton "arrêter"
+        boutonArreter.setVisible(false);
+          // Interdire les déplacements
+        isDeplacementAutorise = false;
+        partie = new Partie(joueur1, joueur2);
+        affichage_plateau(partie);
+    }
+
+    private void updateTimer(Label label, boolean isBlackTimer) {
+        String[] parts = label.getText().split(":");
+        int minutes = Integer.parseInt(parts[0]);
+        int seconds = Integer.parseInt(parts[1]);
+        if (seconds == 0) {
+            if (minutes == 0) {
+                // Arrêtez le jeu car le temps est écoulé
+                stopTimers();
+                return;
+            } else {
+                minutes--;
+                seconds = 59;
+            }
+        } else {
+            seconds--;
+        }
+
+        label.setText(String.format("%02d:%02d", minutes, seconds));
+    }
+
+    private void updateTimerLabel(Label label, int tempsRestant) {
+        int minutes = tempsRestant / 60;
+        int secondes = tempsRestant % 60;
+        label.setText(String.format("%02d:%02d", minutes, secondes));
+    }
+
 
 
     public void affichage_plateau(Partie partietest) {
@@ -53,7 +218,7 @@ public class HelloController {
                 // Créer un rectangle pour représenter la case
                 Rectangle rect = new Rectangle(65, 65);
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
-                rect.setFill((i + j) % 2 == 0 ? Color.GREEN : Color.WHITE);
+                rect.setFill((i + j) % 2 == 0 ? Color.valueOf("739552") : Color.valueOf("ebecd0"));
                 grid.add(rect, j, i);
                 final int row=i;
                 final  int col=j;
@@ -75,6 +240,7 @@ public class HelloController {
     }
 
     private void handleMouseClick_rect(int row, int col) {
+        if (!isDeplacementAutorise) return;
             System.out.println("coucou");
             if (selectedPiece != null) {
                 System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
@@ -100,6 +266,7 @@ public class HelloController {
 
 
     private void handleMouseClick(int row, int col) {
+        if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
         System.out.println(partie.isTourdeJeu());
             if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
@@ -150,9 +317,13 @@ public class HelloController {
                 imageView.setFitWidth(65);
                 grid.add(imageView, position_v_arrive, position_h_arrive);
                 if(partie.isTourdeJeu()){
+                    timerBlanc.stop();
+                    timerNoir.play();
                     partie.setTourdeJeu(false);
                 }
                 else{
+                    timerNoir.stop();
+                    timerBlanc.play();
                     partie.setTourdeJeu(true);
                 }
                 partie.estEchec();

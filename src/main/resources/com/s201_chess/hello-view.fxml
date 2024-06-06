@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.s201_chess.HelloController">
    <children>
-      <SplitPane dividerPositions="0.6645161290322581" prefHeight="400.0" prefWidth="777.0">
+      <SplitPane dividerPositions="0.66" prefHeight="400.0" prefWidth="777.0">
          <items>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -34,9 +34,11 @@
             <VBox alignment="TOP_CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" />
-                  <ChoiceBox prefHeight="45.0" prefWidth="211.0" />
-                  <Button mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
-                  <Button layoutX="10.0" layoutY="134.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Button" />
+                  <ChoiceBox fx:id="choiceBox" prefHeight="48.0" prefWidth="211.0">
+                  </ChoiceBox>
+                  <Button fx:id="bouton1" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Jouer en local" />
+                  <Button fx:id="bouton2" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Jouer contre l'ordinateur" />
+                  <Button fx:id="boutonArreter" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Arrêter" visible="false"/>
                </children></VBox>
          </items>
       </SplitPane>
