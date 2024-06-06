@@ -10,3 +10,14 @@ com.s201_chess.User@d30c277d
 [User: username=toto, firstName=tata, lastName=tutu]
 [User: username=toto, firstName=tata, lastName=tutu]
 []
+[]
+[]
+[User: username=toto, firstName=tata, lastName=tutu]
+[User: username=toto, firstName=tata, lastName=tutu]
+[User: username=toto, firstName=tata, lastName=tutu]
+[User: username=toto, firstName=tata, lastName=tutu]
+[username=toto
+, firstName=tata
+, lastName=tutu]
+[username=toto, firstName=tata, lastName=tutu]
+[User [username=toto, firstName=tata, lastName=tutu]]
