@@ -34,17 +34,20 @@ public class LoginController extends GridPane {
     // pour passer de Hello à Login UNIQUEMENT quand on appuie sur le loginButton
     public void changeScene(Button button) {
         try {
-            File file = new File("users.txt");
+            File file = new File(usernameField.getText());
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
             ArrayList<User> userArrayList = new ArrayList<>();
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
-            {
+            try{
                 FileManager.loadFile(file);
-                FileManager.addUser(userArrayList, user);
                 FileManager.saveUser(userArrayList);
+                FileManager.addUser(userArrayList, user
+                );
+            }catch (IOException e){
+                e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,7 +56,6 @@ public class LoginController extends GridPane {
 
     @FXML
     public void loginClicked() {
-        // TODO : permettre l'enregistrement des utilisateurs dans la liste ET le fichier quand on appuie sur le bouton
         loginButton.setOnMouseClicked(actionEvent -> {
             changeScene(loginButton);
         });

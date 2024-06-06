@@ -31,4 +31,10 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hash(username, firstName, lastName);
     }
+
+    // redéfinition du toString pour User
+    @Override
+    public String toString() {
+        return "User: username=" + username + ", firstName=" + firstName + ", lastName=" + lastName;
+    }
 }
