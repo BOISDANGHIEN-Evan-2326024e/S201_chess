@@ -59,6 +59,6 @@ public class User implements Serializable {
     // redéfinition du toString pour User
     @Override
     public String toString() {
-        return "User: username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+        return "User: username=" + username + ", firstName=" + firstName + ", lastName=" + lastName;
     }
 }
