@@ -41,10 +41,12 @@ public class LoginController extends GridPane {
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
-            {
+            try{
                 FileManager.loadFile(file);
                 FileManager.addUser(userArrayList, user);
                 FileManager.saveUser(userArrayList);
+            }catch (IOException e){
+                e.printStackTrace();
             }
         } catch (IOException e) {
             e.printStackTrace();
