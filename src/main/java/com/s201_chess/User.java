@@ -3,18 +3,20 @@ package com.s201_chess;
 import java.io.Serializable;
 import java.util.Objects;
 
-class User implements Serializable {
+// classe spécifique aux utilisateurs
+public class User implements Serializable {
     private String username;
     private String firstName;
     private String lastName;
 
+    //un constructeur
     public User(String username, String firstNamem, String lastName) {
         this.username = username;
         this.firstName = firstNamem;
         this.lastName = lastName;
     }
 
-    // Redéfinition de equals et hashCode pour comparer les utilisateurs
+    // Redéfinition de equals et hashCode pour comparer les utilisateurs // d'accord Chat
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
