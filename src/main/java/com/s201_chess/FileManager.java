@@ -13,7 +13,7 @@ public class FileManager {
         }else {
             /*
             Si une ligne du fichier existe déjà{
-                la remplace;
+                la remplace ou l'efface;            // au choix, l'un ou l'autre en fonction de ce qu'on préfère
             }
             sinn{
                 il va se faire voir;
