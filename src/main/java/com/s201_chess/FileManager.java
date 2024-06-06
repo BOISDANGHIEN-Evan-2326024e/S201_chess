@@ -1,14 +1,18 @@
 package com.s201_chess;
 
+import javafx.beans.InvalidationListener;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class FileManager {
-    private static final ArrayList<User> userArrayList = new ArrayList<>();
     private static final File USERS_FILE = new File("users.txt");
 
     // méthode censée charger le fichier qui fichier
-    public static void loadFile(File file) throws IOException {
+    public static void loadFile(File USERS_FILE) throws IOException {
+        File file = new File(USERS_FILE.getAbsolutePath());
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;
         while ((line = reader.readLine()) != null) {
@@ -18,18 +22,18 @@ public class FileManager {
     }
 
     // méthode censée enregistrer des utilisateurs dans la liste
-    public static void saveUser(ArrayList<User> userArrayList) {
+    public static void saveUser(ObservableList<User> userObservableList) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(USERS_FILE))) {
-            oos.writeObject(userArrayList);
+            oos.writeObject(userObservableList);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // méthode censée ajouter des utilisateurs dans la liste
-    public static void addUser(ArrayList<User> userArrayList, User user) {
-        if (!userArrayList.contains(user)) {
-            userArrayList.add(user);
+    public static void addUser(ObservableList<User> userObservableList, User user) {
+        if (!userObservableList.contains(user)) {
+            userObservableList.add(user);
         } else {
             System.out.println("This user already exists: " + user);
         }
