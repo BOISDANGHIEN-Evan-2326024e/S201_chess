@@ -1,7 +1,5 @@
 package com.s201_chess;
 
-import javafx.scene.text.Text;
-
 import java.io.*;
 import java.util.*;
 
@@ -13,6 +11,14 @@ public class FileManager {
         if (!file.exists()) {
             file.createNewFile();
         }else {
+            /*
+            Si une ligne du fichier existe déjà{
+                la remplace;
+            }
+            sinn{
+                il va se faire voir;
+            }
+             */
         }
         //on lit le fichier
         BufferedReader reader = new BufferedReader(new FileReader(file));
