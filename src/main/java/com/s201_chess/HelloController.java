@@ -23,6 +23,8 @@ public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
+    private Joueur joueur1 = new Joueur("Joueur1", "a", "a");
+    private Joueur joueur2 = new Joueur("Joueur2", "b", "b");
     @FXML
     private ImageView blackPP;
     @FXML
@@ -93,7 +95,14 @@ public class HelloController {
         timerBlanc.setCycleCount(Timeline.INDEFINITE);
 
         bouton1.setOnAction(event -> promptPlayerSelection());
+        bouton2.setOnAction(event -> jouerContreOrdinateur());
         boutonArreter.setOnAction(event -> stopTimers());
+
+    }
+    private void jouerContreOrdinateur() {
+        joueur2.setHuman(false);
+        System.out.println("Jouer contre l'ordinateur");
+        startTimers();
 
     }
     private void promptPlayerSelection() {
@@ -171,7 +180,7 @@ public class HelloController {
         boutonArreter.setVisible(false);
           // Interdire les déplacements
         isDeplacementAutorise = false;
-        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
     }
 
@@ -259,29 +268,31 @@ public class HelloController {
     private void handleMouseClick(int row, int col) {
         if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
+        System.out.println(partie.isTourdeJeu());
             if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
-                    handleMouseClick_rect(row, col);
-
+                handleMouseClick_rect(row, col);
             }
 
             selectedPiece = partie.getPlateau().get(row).get(col);
             System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
-            if (selectedPiece != null) {
-                    if(selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()){
-                        mvt_possible = partie.mvt_possible(selectedPiece);
-                        System.out.println(mvt_possible);
-                    }
 
+            if (selectedPiece != null) {
+                if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
+                    mvt_possible = partie.mvt_possible(selectedPiece);
+                    System.out.println(mvt_possible);
+                }
 
 
             }
+
+
         }
 
 
 
 
+
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
-        System.out.println("deplacer_piece");
         for (int k = 0; k < mvt_possible.size(); k++) {
             if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
                 Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
@@ -315,8 +326,15 @@ public class HelloController {
                     timerBlanc.play();
                     partie.setTourdeJeu(true);
                 }
-                break;
+                partie.estEchec();
+                if(partie.isRoiBEchec()){
+                    partie.endgame("Blanc");
+                }
+                if(partie.isRoiNEchec()){
+                    partie.endgame("Noir");
+                }
             }
         }
     }
+
 }
