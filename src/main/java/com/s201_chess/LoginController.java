@@ -28,9 +28,8 @@ public class LoginController extends GridPane {
 
     public void changeScene(Button button) {
         try {
-            File file = new File("users.txt"); //fichier contenant TOUS les joueurs
-//            File file1 = new File(usernameField.getText());
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
+            File file = new File(usernameField.getText()+firstNameField.getText()+lastNameField.getText()); //fichier spécifique à  1 joueur
             ArrayList<User> userArrayList = new ArrayList<>();
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
@@ -40,6 +39,7 @@ public class LoginController extends GridPane {
                 FileManager.loadFile(file/*, user*/);
                 FileManager.addUser(userArrayList, user);
                 FileManager.saveUser(file, userArrayList);
+//                FileManager.lineAlreadyExists(file, user);
             }catch (IOException e){
                 e.printStackTrace();
             }

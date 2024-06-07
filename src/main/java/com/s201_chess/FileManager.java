@@ -13,15 +13,6 @@ public class FileManager {
         if (!file.exists()) {
             file.createNewFile();
         }//else {       //ou alors méthode alreadyExists(){}
-//            List<String> lines = Files.readAllLines(Paths.get(file.getName()));
-//            boolean found = false;
-//            for (int i = 0; i < lines.size(); i++) {
-//                if (lines.get(i).startsWith(user.getUsername())) {
-//                    lines.set(i, "User: username=" + user.getUsername() + ", firstName=" + user.getFirstName() + ", lastName=" + user.getLastName());
-//                    found = true;
-//                    break;
-//                }
-//            }
             /*
             Si une ligne du fichier existe déjà{
                 la remplace ou l'efface;            // au choix, l'un ou l'autre en fonction de ce qu'on préfère
@@ -32,7 +23,7 @@ public class FileManager {
 
         //on lit le fichier
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line = null;
+        String line;
         while ((line = reader.readLine()) != null) {
             String[] tokens = line.split(",");
         }
@@ -40,19 +31,35 @@ public class FileManager {
     }
 
     // méthode censée enregistrer des utilisateurs dans la liste
-    public static void saveUser(File file, ArrayList<User> userArrayList) throws IOException {
+    public static void saveUser(File file, ArrayList<User> userArrayList/*, User user*/) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(userArrayList.toString());
-            writer.newLine();
+//            if(lineAlreadyExists(file, user)){
+                writer.write(userArrayList.toString());
+                writer.newLine();
+//            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     // méthode censée ajouter des utilisateurs dans le fichier sélectionné
-    public static void addUser(ArrayList<User> userArrayList, User user) throws IOException {
-        if (!userArrayList.contains(user)) {
+    public static void addUser(/*File file, */ArrayList<User> userArrayList, User user) throws IOException {
+        if (/*lineAlreadyExists(file, user) && */!userArrayList.contains(user)) {
             userArrayList.add(user);
         }
     }
+
+    // méthode qui vérifie si une ligne du fichier existe déjà
+//    public static boolean lineAlreadyExists(File file, User user) throws IOException {
+//        List<String> lines = Files.readAllLines(Paths.get(file.getName()));
+//        boolean foundLine = false;
+//        for (int i = 0; i < lines.size(); i++) {
+//            if (lines.get(i).startsWith(user.getUsername())) {
+//                lines.set(i, user.toString());
+//                foundLine = true;
+//                break;
+//            }
+//        }
+//        return !foundLine;
+//    }
 }
