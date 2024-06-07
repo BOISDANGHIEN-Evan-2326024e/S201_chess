@@ -26,20 +26,22 @@ public class LoginController extends GridPane {
     @FXML
     Button loginButton;
 
+    ArrayList<User> userArrayList = new ArrayList<>();
+
     public void changeScene(Button button) {
         try {
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
-            File file = new File(usernameField.getText()+firstNameField.getText()+lastNameField.getText()); //fichier spécifique à  1 joueur
-            ArrayList<User> userArrayList = new ArrayList<>();
+//            File file = new File(usernameField.getText()+firstNameField.getText()+lastNameField.getText()); //fichier spécifique à  1 joueur
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
             try{
-                FileManager.loadFile(file/*, user*/);
-                FileManager.addUser(userArrayList, user);
-                FileManager.saveUser(file, userArrayList);
-//                FileManager.lineAlreadyExists(file, user);
+                if (!usernameField.getText().isEmpty() && !firstNameField.getText().isEmpty() && !lastNameField.getText().isEmpty()) {
+                    FileManager.saveUser(user);
+                } else {
+                    System.out.println("Veuillez remplir tous les champs.");
+                }
             }catch (IOException e){
                 e.printStackTrace();
             }
