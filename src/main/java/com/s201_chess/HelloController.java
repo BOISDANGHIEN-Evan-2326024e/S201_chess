@@ -11,18 +11,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
-    private Joueur joueur1 = new Joueur("Joueur1", "a", "a", "Blanc");
-    private Joueur joueur2 = new Joueur("Joueur2", "b", "b", "Noir");
+    private Joueur joueur1 = new Joueur("Joueur1", "a", "a","Blanc");
+    private Joueur joueur2 = new Joueur("Joueur2", "b", "b","Noir");
     @FXML
     private ImageView blackPP;
     @FXML
@@ -95,6 +93,9 @@ public class HelloController {
         bouton1.setOnAction(event -> promptPlayerSelection());
         bouton2.setOnAction(event -> jouerContreOrdinateur());
         boutonArreter.setOnAction(event -> stopTimers());
+        File monRepertoire=new File("images");
+        File[] f = monRepertoire.listFiles();
+        System.out.print(Arrays.toString(f));
 
     }
     private void jouerContreOrdinateur() {
@@ -106,6 +107,12 @@ public class HelloController {
     private void promptPlayerSelection() {
         List<String> choices = new ArrayList<>();
         choices.add("Invité");
+        File monRepertoire=new File("images");
+        File[] f = monRepertoire.listFiles();
+        System.out.print(Arrays.toString(f));
+
+// Ici, x vaut le nombre de fichiers contenus dans monRepertoire.
+
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Invité", choices);
         dialog.setTitle("Sélection du joueur");
@@ -287,7 +294,7 @@ public class HelloController {
             if (selectedPiece != null) {
                 if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
                     mvt_possible = partie.mvt_possible(selectedPiece);
-                    System.out.println(mvt_possible);
+
                 }
 
 

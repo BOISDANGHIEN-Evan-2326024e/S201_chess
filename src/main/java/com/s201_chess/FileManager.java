@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 public class FileManager {
 
     // méthode d'enregistrement des utilisateurs
-    public static void saveUser(User user) throws IOException {
-        String fileName = user.getUsername() + user.getFirstName() + user.getLastName() + ".txt"; // on définit quel nom devra avoir le fichier utilisateur
+    public static void saveUser(Joueur joueur) throws IOException {
+        String fileName = joueur.getPseudo() + ".txt"; // on définit quel nom devra avoir le fichier utilisateur
         File file = new File(fileName); // ensuite on crée le fichier avec le nom définit juste avant
 
         // ici, les infos de l'utilisateur sont enregistrées dans son propre fichier
@@ -19,11 +19,11 @@ public class FileManager {
             List<String> lines;
             if (file.exists()) {
                 lines = Files.readAllLines(Paths.get(fileName));
-                lines = lines.stream().filter(line -> !line.startsWith(user.toString())).collect(Collectors.toList());
+                lines = lines.stream().filter(line -> !line.startsWith(joueur.toString())).collect(Collectors.toList());
             }else{
                 lines = new ArrayList<>();
             }
-            lines.add(user.toString());
+            lines.add(joueur.toString());
             Files.write(Paths.get(fileName), lines);
         }catch (IOException e){
             e.printStackTrace();
