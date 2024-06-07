@@ -18,13 +18,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
-    private Joueur joueur1 = new Joueur("Joueur1", "a", "a");
-    private Joueur joueur2 = new Joueur("Joueur2", "b", "b");
+    private Joueur joueur1 = new Joueur("Joueur1", "a", "a", "Blanc");
+    private Joueur joueur2 = new Joueur("Joueur2", "b", "b", "Noir");
     @FXML
     private ImageView blackPP;
     @FXML
@@ -72,7 +73,7 @@ public class HelloController {
             System.err.println("Resource not found: aa images/whitePP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
-        partie = new Partie(new Joueur("Joueur1","a","a"), new Joueur("Joueur2","a","a"));
+        partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
         choiceBox.getItems().add("5 Minutes");
         choiceBox.getItems().add("10 Minutes");
@@ -218,7 +219,7 @@ public class HelloController {
                 // Créer un rectangle pour représenter la case
                 Rectangle rect = new Rectangle(65, 65);
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
-                rect.setFill((i + j) % 2 == 0 ? Color.valueOf("739552") : Color.valueOf("ebecd0"));
+                rect.setFill((i + j) % 2 == 0 ? Color.valueOf("ebecd0") : Color.valueOf("739552"));
                 grid.add(rect, j, i);
                 final int row=i;
                 final  int col=j;
@@ -241,6 +242,9 @@ public class HelloController {
 
     private void handleMouseClick_rect(int row, int col) {
         if (!isDeplacementAutorise) return;
+            if(selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()){
+                selectedPiece = getRandomBlackPiece();
+            }
             System.out.println("coucou");
             if (selectedPiece != null) {
                 System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
@@ -293,7 +297,8 @@ public class HelloController {
 
 
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
-        for (int k = 0; k < mvt_possible.size(); k++) {
+        if(piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()){
+            for (int k = 0; k < mvt_possible.size(); k++) {
             if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
                 Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
                 // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
@@ -335,6 +340,51 @@ public class HelloController {
                 }
             }
         }
+        }
+        else{
+            Random rand = new Random();
+            if (!mvt_possible.isEmpty()) {
+                int randomIndex = rand.nextInt(mvt_possible.size());
+                ArrayList<Integer> randomMove = mvt_possible.get(randomIndex);
+
+                // Déplacer la pièce vers la nouvelle position
+                int newPosition_h = randomMove.get(0);
+                int newPosition_v = randomMove.get(1);
+                partie.getPlateau().get(newPosition_h).set(newPosition_v, piece);
+                piece.setPosition_h(newPosition_h);
+                piece.setPosition_v(newPosition_v);
+                partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
+
+                // Mettre à jour l'affichage
+                grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
+                ImageView imageView = piece.getImage();
+                imageView.setFitHeight(65);
+                imageView.setFitWidth(65);
+                grid.add(imageView, newPosition_v, newPosition_h);
+                if(partie.isTourdeJeu()){
+                    timerBlanc.stop();
+                    timerNoir.play();
+                    partie.setTourdeJeu(false);
+                }
+                else{
+                    timerNoir.stop();
+                    timerBlanc.play();
+                    partie.setTourdeJeu(true);
+                }
+            }
+        }
+    }
+    public Piece getRandomBlackPiece() {
+        List<Piece> piecesNoires = new ArrayList<>();
+        for(int i=0; i<partie.getPlateau().size(); i++){
+            for(int j=0; j<partie.getPlateau().get(i).size(); j++){
+                if(partie.getPlateau().get(i).get(j) != null && partie.getPlateau().get(i).get(j).getCouleur().equals("Noir")){
+                    piecesNoires.add(partie.getPlateau().get(i).get(j));
+                }
+            }
+        }
+        Random rand = new Random();
+        return piecesNoires.get(rand.nextInt(piecesNoires.size()));
     }
 
 }
