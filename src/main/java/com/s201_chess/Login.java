@@ -17,7 +17,7 @@ public class Login extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));// pour accéder à la ressource fxml
+        FXMLLoader fxmlLoader = new FXMLLoader(Login.class.getResource("Login.fxml"));// pour accéder au code fxml de l'interface de connexion
         Scene scene = new Scene(fxmlLoader.load(), 534, 360); // pour utiliser la ressource
         stage.setScene(scene);
         stage.setResizable(false); // pour empêcher le redimensionnement de la page

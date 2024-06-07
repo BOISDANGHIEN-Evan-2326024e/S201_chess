@@ -1,5 +1,6 @@
 package com.s201_chess;
 
+// import des classes et bibliothèques nécessaires au fonctionnement de la classe
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

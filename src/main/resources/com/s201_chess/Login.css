@@ -6,14 +6,6 @@ root {
     -fx-background-image: url("background.png");
 }
 
-/*.button {*/
-/*    -fx-color: green;*/
-/*}*/
-
-/*.text-field {*/
-/*    -fx-color: grey;*/
-/*}*/
-
 .label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
@@ -38,17 +30,9 @@ root {
     -fx-text-fill: white;
     -fx-font-family: "Arial Narrow";
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-background-color: #4CAF50;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
-/*.button {*/
-/*    -fx-color: green;*/
-/*}*/
-
-/*.text-field {*/
-/*    -fx-color: grey;*/
-/*}*/
-
 
 #root1 {
     -fx-background-color: #312e2b;
