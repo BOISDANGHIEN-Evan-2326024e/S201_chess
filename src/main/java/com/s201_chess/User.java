@@ -16,7 +16,7 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    // Redéfinition de equals et hashCode pour comparer les utilisateurs // d'accord Chat
+    // Redéfinition de equals et hashCode pour comparer les utilisateurs
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -32,6 +32,7 @@ public class User implements Serializable {
         return Objects.hash(username, firstName, lastName);
     }
 
+    // getters et setters
     public String getLastName() {
         return lastName;
     }

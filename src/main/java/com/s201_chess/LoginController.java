@@ -26,20 +26,20 @@ public class LoginController extends GridPane {
     @FXML
     Button loginButton;
 
-    ArrayList<User> userArrayList = new ArrayList<>();
+//    ArrayList<User> userArrayList = new ArrayList<>();
 
     public void changeScene(Button button) {
         try {
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
-//            File file = new File(usernameField.getText()+firstNameField.getText()+lastNameField.getText()); //fichier spécifique à  1 joueur
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
             try{
+                // si les champs TextField ne sont pas vides alors on enregistre l'utilisateur
                 if (!usernameField.getText().isEmpty() && !firstNameField.getText().isEmpty() && !lastNameField.getText().isEmpty()) {
                     FileManager.saveUser(user);
-                } else {
+                } else { // sinon on envoit qu'il faut remplir tous les champs pour s'enregistrer
                     System.out.println("Veuillez remplir tous les champs.");
                 }
             }catch (IOException e){
@@ -50,6 +50,7 @@ public class LoginController extends GridPane {
         }
     }
 
+    // méthode liée au FXML et qui fait appel à changeScene lorsqu'on appuie sur le bouton "Login"
     @FXML
     public void loginClicked() {
         loginButton.setOnMouseClicked(actionEvent -> {
