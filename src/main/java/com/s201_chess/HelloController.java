@@ -180,6 +180,7 @@ public class HelloController {
         boutonArreter.setVisible(false);
           // Interdire les déplacements
         isDeplacementAutorise = false;
+
         partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
     }
