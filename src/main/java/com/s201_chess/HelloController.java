@@ -242,6 +242,9 @@ public class HelloController {
 
     private void handleMouseClick_rect(int row, int col) {
         if (!isDeplacementAutorise) return;
+            if(selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()){
+                selectedPiece = getRandomBlackPiece();
+            }
             System.out.println("coucou");
             if (selectedPiece != null) {
                 System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
@@ -370,6 +373,18 @@ public class HelloController {
                 }
             }
         }
+    }
+    public Piece getRandomBlackPiece() {
+        List<Piece> piecesNoires = new ArrayList<>();
+        for(int i=0; i<partie.getPlateau().size(); i++){
+            for(int j=0; j<partie.getPlateau().get(i).size(); j++){
+                if(partie.getPlateau().get(i).get(j) != null && partie.getPlateau().get(i).get(j).getCouleur().equals("Noir")){
+                    piecesNoires.add(partie.getPlateau().get(i).get(j));
+                }
+            }
+        }
+        Random rand = new Random();
+        return piecesNoires.get(rand.nextInt(piecesNoires.size()));
     }
 
 }
