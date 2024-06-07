@@ -1,10 +1,6 @@
 package com.s201_chess;
 
-import javafx.beans.InvalidationListener;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableList.*;
+// import des classes et bibliothèques nécessaires au fonctionnement de la classe
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -31,21 +27,22 @@ public class LoginController extends GridPane {
     @FXML
     Button loginButton;
 
-    // pour passer de Hello à Login UNIQUEMENT quand on appuie sur le loginButton
+//    ArrayList<User> userArrayList = new ArrayList<>();
+
     public void changeScene(Button button) {
         try {
-            File file = new File(usernameField.getText());
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
-            ArrayList<User> userArrayList = new ArrayList<>();
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloController.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
             try{
-                FileManager.loadFile(file);
-                FileManager.saveUser(userArrayList);
-                FileManager.addUser(userArrayList, user
-                );
+                // si les champs TextField ne sont pas vides alors on enregistre l'utilisateur
+                if (!usernameField.getText().isEmpty() && !firstNameField.getText().isEmpty() && !lastNameField.getText().isEmpty()) {
+                    FileManager.saveUser(user);
+                } else { // sinon on envoit qu'il faut remplir tous les champs pour s'enregistrer
+                    System.out.println("Veuillez remplir tous les champs.");
+                }
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -54,6 +51,7 @@ public class LoginController extends GridPane {
         }
     }
 
+    // méthode liée au FXML et qui fait appel à changeScene lorsqu'on appuie sur le bouton "Login"
     @FXML
     public void loginClicked() {
         loginButton.setOnMouseClicked(actionEvent -> {

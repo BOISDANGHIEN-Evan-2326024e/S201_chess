@@ -49,7 +49,7 @@ public class GestionJoueurs {
             while ((ligne = reader.readLine()) != null) {
                 String[] parts = ligne.split(",");
                 if (parts.length == 6) {
-                    Joueur joueur = new Joueur(parts[1], parts[2], parts[3]);
+                    Joueur joueur = new Joueur(parts[1], parts[2], parts[3], parts[4]);
                     joueur.setId(Integer.parseInt(parts[0]));
                     joueur.setNbVictoires(Integer.parseInt(parts[4]));
                     joueur.setNbJoues(Integer.parseInt(parts[5]));

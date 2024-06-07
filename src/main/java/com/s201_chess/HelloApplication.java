@@ -20,8 +20,8 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
-        Joueur joueur=new Joueur("Joueur1","Prenom1","Nom1");
-        Joueur joueur2=new Joueur("Joueur2","Prenom2","Nom2");
+        Joueur joueur=new Joueur("Joueur1","Prenom1","Nom1", "Blanc");
+        Joueur joueur2=new Joueur("Joueur2","Prenom2","Nom2", "Noir");
         Partie partietest=new Partie(joueur,joueur2);
         for(int i=0;i<partietest.getPlateau().size();i++){
             for(int j=0;j<partietest.getPlateau().get(i).size();j++){

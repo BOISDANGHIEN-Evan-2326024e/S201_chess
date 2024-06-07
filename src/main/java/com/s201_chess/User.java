@@ -3,7 +3,7 @@ package com.s201_chess;
 import java.io.Serializable;
 import java.util.Objects;
 
-// classe spécifique aux utilisateurs
+// classe spécifique aux utilisateurs qui implémente la sérialisation
 public class User implements Serializable {
     private String username;
     private String firstName;
@@ -16,7 +16,7 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    // Redéfinition de equals et hashCode pour comparer les utilisateurs // d'accord Chat
+    // Redéfinition de equals et hashCode pour comparer les utilisateurs
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,6 +30,31 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(username, firstName, lastName);
+    }
+
+    // getters et setters
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     // redéfinition du toString pour User

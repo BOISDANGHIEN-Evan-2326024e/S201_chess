@@ -100,6 +100,16 @@ public class Partie {
         TourdeJeu = tourdeJeu;
     }
 
+    public Joueur getJoueurObjetParCouleur(String couleur) {
+        if (joueur1.getCouleur().equals(couleur)) {
+            return joueur1;
+        } else if (joueur2.getCouleur().equals(couleur)) {
+            return joueur2;
+        } else {
+            return null; // ou lever une exception
+        }
+    }
+
     public Partie(Joueur joueur1, Joueur joueur2) {
         this.id=dernierId+1;
         dernierId++;
