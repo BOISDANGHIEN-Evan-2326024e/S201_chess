@@ -219,7 +219,7 @@ public class HelloController {
                 // Créer un rectangle pour représenter la case
                 Rectangle rect = new Rectangle(65, 65);
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
-                rect.setFill((i + j) % 2 == 0 ? Color.valueOf("739552") : Color.valueOf("ebecd0"));
+                rect.setFill((i + j) % 2 == 0 ? Color.valueOf("ebecd0") : Color.valueOf("739552"));
                 grid.add(rect, j, i);
                 final int row=i;
                 final  int col=j;
