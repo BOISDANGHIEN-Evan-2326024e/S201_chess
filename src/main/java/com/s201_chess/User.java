@@ -3,7 +3,7 @@ package com.s201_chess;
 import java.io.Serializable;
 import java.util.Objects;
 
-// classe spécifique aux utilisateurs
+// classe spécifique aux utilisateurs qui implémente la sérialisation
 public class User implements Serializable {
     private String username;
     private String firstName;
