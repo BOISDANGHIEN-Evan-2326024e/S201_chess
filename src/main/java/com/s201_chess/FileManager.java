@@ -8,21 +8,6 @@ import java.util.stream.Collectors;
 
 public class FileManager {
 
-    // méthode censée charger le fichier qui fichier > méthode inutilisée
-//    public static void loadFile(File file) throws IOException {
-//        // si le fichier n'existe pas, on le crée
-//        if (!file.exists()) {
-//            file.createNewFile();
-//        }
-//        // on lit le fichier
-//        BufferedReader reader = new BufferedReader(new FileReader(file));
-//        String line;
-//        while ((line = reader.readLine()) != null) {
-//            line.split(",");
-//        }
-//        reader.close();
-//    }
-
     // méthode d'enregistrement des utilisateurs
     public static void saveUser(User user) throws IOException {
         String fileName = user.getUsername() + user.getFirstName() + user.getLastName() + ".txt"; // on définit quel nom devra avoir le fichier utilisateur
@@ -45,14 +30,32 @@ public class FileManager {
         }
     }
 
-    // méthode censée ajouter des utilisateurs dans le fichier sélectionné > méthode inutilisée
+    // méthodes inutilisées :
+
+    // méthode censée charger le fichier qui fichier
+//    public static void loadFile(File file) throws IOException {
+//        // si le fichier n'existe pas, on le crée
+//        if (!file.exists()) {
+//            file.createNewFile();
+//        }
+//        // on lit le fichier
+//        BufferedReader reader = new BufferedReader(new FileReader(file));
+//        String line;
+//        while ((line = reader.readLine()) != null) {
+//            line.split(",");
+//        }
+//        reader.close();
+//    }
+
+
+    // méthode censée ajouter des utilisateurs dans le fichier sélectionné
 //    public static void addUser(ArrayList<User> userArrayList, User user) throws IOException {
 //        if (!userArrayList.contains(user)) {
 //            userArrayList.add(user);
 //        }
 //    }
 
-    // méthode qui vérifie si une ligne du fichier existe déjà > méthode inutilisée
+    // méthode qui vérifie si une ligne du fichier existe déjà
 //    public static boolean lineAlreadyExists(File file, User user) throws IOException {
 //        List<String> lines = Files.readAllLines(Paths.get(file.getName()));
 //        boolean foundLine = false;

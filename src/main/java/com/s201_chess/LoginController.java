@@ -31,7 +31,7 @@ public class LoginController extends GridPane {
     public void changeScene(Button button) {
         try {
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloController.class.getResource("hello-view.fxml"));
             Stage stage = (Stage) button.getScene().getWindow();
             stage.setScene(new Scene(loader.load(), 777, 659));
             stage.show();
