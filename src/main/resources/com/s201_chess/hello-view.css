@@ -1,0 +1,131 @@
+
+/*.button {*/
+/*    -fx-color: green;*/
+/*}*/
+
+/*.text-field {*/
+/*    -fx-color: grey;*/
+/*}*/
+
+
+#root1 {
+    -fx-background-color: #312e2b;
+}
+
+#pseudoNoir {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+#tpsRestantNoir {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+#pseudoBlanc {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+
+#bouton1, #bouton2, #boutonTournois {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+}
+
+#statistiques {
+    -fx-text-fill: gray;
+    -fx-font-size: 12px;
+}
+
+#listeTournois {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+#tpsRestantBlanc{
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+    -fx-background-position: 10px;
+    -fx-background-radius: 5px;
+}
+
+#tpsRestantNoir {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-color: black;
+    -fx-background-position: 10px;
+    -fx-background-radius: 5px;
+}
+
+#vbox_b{
+    -fx-background-color: #312e2b;
+}
+
+#choiceBox {
+    -fx-background-color: #3a3a3a; /* Dark background color */
+    -fx-text-fill: white;
+    -fx-padding: 5px; /* Padding */
+    -fx-background-radius: 5px; /* Rounded corners */
+}
+
+#choiceBox #list-cell {
+    -fx-background-color: #3a3a3a; /* Dark background color for items */
+    -fx-text-fill: white; /* Text color for items */
+}
+
+#choiceBox #list-cell:hover {
+    -fx-background-color: #575757; /* Slightly lighter background on hover */
+}
+
+#choiceBox #arrow {
+    -fx-background-color: #575757; /* Arrow background color */
+    -fx-padding: 5px; /* Padding for arrow */
+    -fx-background-radius: 5px; /* Rounded corners for arrow */
+}
+
+/* Style for the "Jouer" button */
+#bouton1, #bouton2 {
+    -fx-background-color: #61b832; /* Green background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 18px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-padding: 10px 20px; /* Padding */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-border-color: transparent; /* No border */
+}
+
+#bouton1, #bouton2:hover {
+    -fx-background-color: #4a9e26; /* Darker green on hover */
+}
+
+/* Style for the "Tournois" button */
+#tournamentButton{
+    -fx-background-color: #000000; /* Black background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 18px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-padding: 10px 20px; /* Padding */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-border-color: transparent; /* No border */
+    -fx-graphic: url("tournament.png");
+
+
+}
+
+#boutonArreter{
+    -fx-background-color: #000000; /* Black background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-size: 18px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-padding: 10px 20px; /* Padding */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-border-color: transparent; /* No border */
+}
+
+#tournamentButton:hover {
+    -fx-background-color: #333333; /* Darker black on hover */
+}

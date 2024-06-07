@@ -2,10 +2,7 @@ package com.s201_chess;
 
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -210,7 +207,14 @@ public class HelloController {
         label.setText(String.format("%02d:%02d", minutes, secondes));
     }
 
+    public void showWinnerPopup(String winnerName) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Fin de la partie");
+        alert.setHeaderText(null);
+        alert.setContentText("Le joueur " + winnerName + " a gagné la partie!");
 
+        alert.showAndWait();
+    }
 
     public void affichage_plateau(Partie partietest) {
         for (int i = 0; i < 8; i++) {
@@ -329,9 +333,14 @@ public class HelloController {
                 partie.estEchec();
                 if(partie.isRoiBEchec()){
                     partie.endgame("Blanc");
+                    showWinnerPopup("Noir");
+                    stopTimers();
+
                 }
                 if(partie.isRoiNEchec()){
                     partie.endgame("Noir");
+                    showWinnerPopup("Blanc");
+                    stopTimers();
                 }
             }
         }

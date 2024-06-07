@@ -479,6 +479,7 @@ public class Partie {
             joueur1.setNbJoues(joueur1.getNbJoues()+1);
             joueur2.setNbJoues(joueur2.getNbJoues()+1);
             joueur2.setNbVictoires(joueur2.getNbVictoires()+1);
+
         }
         if(roiNMat){
             System.out.println("Les blancs ont gagné");

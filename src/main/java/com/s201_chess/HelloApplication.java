@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(fxmlLoader.load(), 777, 659);
         if (scene != null) {
-            scene.getStylesheets().add(getClass().getResource("Login.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("hello-view.css").toExternalForm());
         }
         stage.setTitle("Hello!");
         stage.setScene(scene);
