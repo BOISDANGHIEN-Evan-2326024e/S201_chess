@@ -100,11 +100,11 @@ public class Partie {
         TourdeJeu = tourdeJeu;
     }
 
-    public String getJoueurParCouleur(String couleur) {
+    public Joueur getJoueurObjetParCouleur(String couleur) {
         if (joueur1.getCouleur().equals(couleur)) {
-            return joueur1.getPseudo();
+            return joueur1;
         } else if (joueur2.getCouleur().equals(couleur)) {
-            return joueur2.getPseudo();
+            return joueur2;
         } else {
             return null; // ou lever une exception
         }

@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class HelloController {
     private Piece selectedPiece = null;
@@ -293,7 +294,8 @@ public class HelloController {
 
 
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
-        for (int k = 0; k < mvt_possible.size(); k++) {
+        if(piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()){
+            for (int k = 0; k < mvt_possible.size(); k++) {
             if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
                 Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
                 // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
@@ -308,7 +310,6 @@ public class HelloController {
                 piece.setPosition_h(position_h_arrive);
                 piece.setPosition_v(position_v_arrive);
                 partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
-                String HuMaiN = (partie.getJoueurParCouleur("Noir"));
 
                 // Mettre à jour l'affichage
                 grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
@@ -333,6 +334,39 @@ public class HelloController {
                 }
                 if(partie.isRoiNEchec()){
                     partie.endgame("Noir");
+                }
+            }
+        }
+        }
+        else{
+            Random rand = new Random();
+            if (!mvt_possible.isEmpty()) {
+                int randomIndex = rand.nextInt(mvt_possible.size());
+                ArrayList<Integer> randomMove = mvt_possible.get(randomIndex);
+
+                // Déplacer la pièce vers la nouvelle position
+                int newPosition_h = randomMove.get(0);
+                int newPosition_v = randomMove.get(1);
+                partie.getPlateau().get(newPosition_h).set(newPosition_v, piece);
+                piece.setPosition_h(newPosition_h);
+                piece.setPosition_v(newPosition_v);
+                partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
+
+                // Mettre à jour l'affichage
+                grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
+                ImageView imageView = piece.getImage();
+                imageView.setFitHeight(65);
+                imageView.setFitWidth(65);
+                grid.add(imageView, newPosition_v, newPosition_h);
+                if(partie.isTourdeJeu()){
+                    timerBlanc.stop();
+                    timerNoir.play();
+                    partie.setTourdeJeu(false);
+                }
+                else{
+                    timerNoir.stop();
+                    timerBlanc.play();
+                    partie.setTourdeJeu(true);
                 }
             }
         }

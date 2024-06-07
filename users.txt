@@ -10,3 +10,4 @@ com.s201_chess.User@d30c277d
 [User: username=toto, firstName=tata, lastName=tutu]
 [User: username=toto, firstName=tata, lastName=tutu]
 []
+[User: username=dfsdqfisqljv, firstName=vdcsw,vndks, lastName=dsjqvjkdscbhv]
