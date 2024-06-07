@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// classe chargée de l'interface de connexion
 public class Login extends Application {
     // lance l'application
     public static void main(String[] args) {
