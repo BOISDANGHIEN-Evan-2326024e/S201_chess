@@ -14,7 +14,16 @@ public class Joueur {
         private int dernierId=0;
         private boolean isHuman;
 
-
+    // constructeur créé pour éviter un conflit direct avec LoginController dû à l'ajout de couleur
+    public Joueur(String pseudo, String prenom, String nom){
+        this.pseudo = pseudo;
+        this.prenom = prenom;
+        this.nom = nom;
+        nbVictoires=0;
+        nbJoues=0;
+        id=dernierId+1;
+        dernierId++;
+    }
 
     public Joueur(String pseudo, String prenom, String nom, String couleur) {
         this.pseudo = pseudo;
@@ -26,6 +35,7 @@ public class Joueur {
         id+=dernierId+1;
         dernierId++;
     }
+
     public String getPseudo() {
             return pseudo;
         }

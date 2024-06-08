@@ -25,8 +25,6 @@ public class LoginController extends GridPane {
     @FXML
     Button loginButton;
 
-//    ArrayList<User> userArrayList = new ArrayList<>();
-
     public void changeScene(Button button) {
         try {
             Joueur joueur = new Joueur(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
