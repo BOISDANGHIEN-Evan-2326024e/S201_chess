@@ -1,6 +1,9 @@
 package com.s201_chess;
 
-public class Joueur {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Joueur implements Serializable {
 
         private String pseudo;
         private String prenom;
@@ -73,4 +76,26 @@ public class Joueur {
     public boolean isHuman() {return isHuman;}
 
     public void setHuman(boolean human) {isHuman = human;}
+
+    // Redéfinition de equals et hashCode pour comparer les joueurs
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur that = (Joueur) o;
+        return Objects.equals(pseudo, that.pseudo) &&
+                Objects.equals(prenom, that.prenom) &&
+                Objects.equals(nom, that.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pseudo, prenom, nom);
+    }
+
+    // redéfinition du toString pour Joueur
+    @Override
+    public String toString() {
+        return "Joueur: pseudo=" + pseudo + ", prenom=" + prenom + ", nom=" + nom;
+    }
 }

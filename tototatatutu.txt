@@ -1,1 +1,1 @@
-User: username=toto, firstName=tata, lastName=tutu
+Joueur: pseudo=toto, prenom=tata, nom=tutu
