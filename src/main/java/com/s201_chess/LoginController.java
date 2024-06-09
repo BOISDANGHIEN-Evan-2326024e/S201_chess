@@ -34,7 +34,11 @@ public class LoginController extends GridPane {
     Button loginButton;
 
 //    ArrayList<User> userArrayList = new ArrayList<>();
-
+    /**
+     * Initialsiation de la classe
+     * et de la méthode changeScene dans laquelle on récolte les informations de l'utilisateur et on les enregistre
+     * @param button
+     */
     public void changeScene(Button button) {
         try {
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
@@ -97,11 +101,15 @@ public class LoginController extends GridPane {
             changeScene(loginButton);
         });
     }
-
+    /**
+     * @return
+     */
     public static Joueur getJoueur_actuelle() {
         return joueur_actuelle;
     }
-
+    /**
+     * @param joueur_actuelle
+     */
     public void setJoueur_actuelle(Joueur joueur_actuelle) {
         this.joueur_actuelle = joueur_actuelle;
     }
