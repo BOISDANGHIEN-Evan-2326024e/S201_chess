@@ -30,6 +30,7 @@ public class Joueur {
         this.prenom = prenom;
         this.nom = nom;
         this.couleur = couleur;
+        this.isHuman = true;
         nbVictoires = 0;
         nbJoues = 0;
         id+=dernierId+1;

@@ -52,8 +52,6 @@ public class HelloController {
     private boolean isDeplacementAutorise = false;
 
 
-
-
     public void initialize() {
         System.out.println("Initialisation du controlleur..");
         //welcomeText.setText("Welcome to JavaFX Application!");
@@ -84,7 +82,7 @@ public class HelloController {
 
         // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-                    System.out.println("Selected item: " + newValue);
+            System.out.println("Selected item: " + newValue);
             // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
         });
 
@@ -100,12 +98,14 @@ public class HelloController {
         boutonArreter.setOnAction(event -> stopTimers());
 
     }
+
     private void jouerContreOrdinateur() {
         joueur2.setHuman(false);
         System.out.println("Jouer contre l'ordinateur");
         startTimers();
 
     }
+
     private void promptPlayerSelection() {
         List<String> choices = new ArrayList<>();
         choices.add("Invité");
@@ -121,6 +121,7 @@ public class HelloController {
             startTimers();
         });
     }
+
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
         String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
@@ -161,6 +162,7 @@ public class HelloController {
         // Autoriser les déplacements
         isDeplacementAutorise = true;
     }
+
     private void stopTimers() {
         // Mettre en pause les minuteurs
         timerNoir.stop();
@@ -179,7 +181,7 @@ public class HelloController {
 
         // Cacher le bouton "arrêter"
         boutonArreter.setVisible(false);
-          // Interdire les déplacements
+        // Interdire les déplacements
         isDeplacementAutorise = false;
         partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
@@ -212,7 +214,6 @@ public class HelloController {
     }
 
 
-
     public void affichage_plateau(Partie partietest) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -221,15 +222,15 @@ public class HelloController {
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
                 rect.setFill((i + j) % 2 == 0 ? Color.valueOf("ebecd0") : Color.valueOf("739552"));
                 grid.add(rect, j, i);
-                final int row=i;
-                final  int col=j;
-                rect.setOnMouseClicked(event -> handleMouseClick_rect(row,col));
+                final int row = i;
+                final int col = j;
+                rect.setOnMouseClicked(event -> handleMouseClick_rect(row, col));
                 // Si une pièce d'échecs est présente à ces coordonnées
                 Piece piece = partietest.getPlateau().get(i).get(j);
                 if (piece != null) {
 
-                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(row,col));
-                    ImageView imageView= piece.getImage();
+                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(row, col));
+                    ImageView imageView = piece.getImage();
                     imageView.setFitHeight(65);
                     imageView.setFitWidth(65);
                     grid.add(piece.getImage(), j, i);
@@ -242,106 +243,99 @@ public class HelloController {
 
     private void handleMouseClick_rect(int row, int col) {
         if (!isDeplacementAutorise) return;
-            if(selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()){
-                selectedPiece = getRandomBlackPiece();
-            }
-            System.out.println("coucou");
-            if (selectedPiece != null) {
-                System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
-                deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
+        if (selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()) {
+            selectedPiece = getRandomBlackPiece();
+        }
+        System.out.println("coucou");
+        if (selectedPiece != null) {
+            System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
+            deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
 
-                // Réinitialisez la pièce sélectionnée
-                selectedPiece = null;
-                for(int a=0;a<partie.getPlateau().size();a++){
-                    for(int b=0;b<partie.getPlateau().get(a).size();b++){
-                        if (partie.getPlateau().get(a).get(b)==null){
-                            System.out.print("null");
-                        }
-
-                        else{
-                            System.out.print(partie.getPlateau().get(a).get(b).getNom()+" ");
-                        }
-
+            // Réinitialisez la pièce sélectionnée
+            selectedPiece = null;
+            for (int a = 0; a < partie.getPlateau().size(); a++) {
+                for (int b = 0; b < partie.getPlateau().get(a).size(); b++) {
+                    if (partie.getPlateau().get(a).get(b) == null) {
+                        System.out.print("null");
+                    } else {
+                        System.out.print(partie.getPlateau().get(a).get(b).getNom() + " ");
                     }
-                    System.out.println("");
+
                 }
+                System.out.println("");
             }
         }
+    }
 
 
     private void handleMouseClick(int row, int col) {
         if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
         System.out.println(partie.isTourdeJeu());
-            if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
-                handleMouseClick_rect(row, col);
-            }
+        if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
+            handleMouseClick_rect(row, col);
+        }
 
-            selectedPiece = partie.getPlateau().get(row).get(col);
-            System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
+        selectedPiece = partie.getPlateau().get(row).get(col);
+        System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
 
-            if (selectedPiece != null) {
-                if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
-                    mvt_possible = partie.mvt_possible(selectedPiece);
-                    System.out.println(mvt_possible);
-                }
-
-
+        if (selectedPiece != null) {
+            if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
+                mvt_possible = partie.mvt_possible(selectedPiece);
+                System.out.println(mvt_possible);
             }
 
 
         }
 
 
-
+    }
 
 
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
-        if(piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()){
+        if (piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()) {
             for (int k = 0; k < mvt_possible.size(); k++) {
-            if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
-                Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
-                // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
-                if (pieceArrivee != null && !piece.getCouleur().equals(pieceArrivee.getCouleur())) {
-                    System.out.println("Capturing piece at: " + position_h_arrive + ", " + position_v_arrive);
-                    grid.getChildren().remove(pieceArrivee.getImage());  // Supprime l'image de la pièce capturée de la grille
-                    partie.getPlateau().get(position_h_arrive).set(position_v_arrive, null);  // Supprime la pièce du plateau
-                }
+                if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
+                    Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
+                    // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
+                    if (pieceArrivee != null && !piece.getCouleur().equals(pieceArrivee.getCouleur())) {
+                        System.out.println("Capturing piece at: " + position_h_arrive + ", " + position_v_arrive);
+                        grid.getChildren().remove(pieceArrivee.getImage());  // Supprime l'image de la pièce capturée de la grille
+                        partie.getPlateau().get(position_h_arrive).set(position_v_arrive, null);  // Supprime la pièce du plateau
+                    }
 
-                // Déplacer la pièce vers la nouvelle position
-                partie.getPlateau().get(position_h_arrive).set(position_v_arrive, piece);
-                piece.setPosition_h(position_h_arrive);
-                piece.setPosition_v(position_v_arrive);
-                partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
+                    // Déplacer la pièce vers la nouvelle position
+                    partie.getPlateau().get(position_h_arrive).set(position_v_arrive, piece);
+                    piece.setPosition_h(position_h_arrive);
+                    piece.setPosition_v(position_v_arrive);
+                    partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
 
-                // Mettre à jour l'affichage
-                grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
-                piece.getImage().setOnMouseClicked(event -> handleMouseClick(position_h_arrive, position_v_arrive));
-                ImageView imageView = piece.getImage();
-                imageView.setFitHeight(65);
-                imageView.setFitWidth(65);
-                grid.add(imageView, position_v_arrive, position_h_arrive);
-                if(partie.isTourdeJeu()){
-                    timerBlanc.stop();
-                    timerNoir.play();
-                    partie.setTourdeJeu(false);
-                }
-                else{
-                    timerNoir.stop();
-                    timerBlanc.play();
-                    partie.setTourdeJeu(true);
-                }
-                partie.estEchec();
-                if(partie.isRoiBEchec()){
-                    partie.endgame("Blanc");
-                }
-                if(partie.isRoiNEchec()){
-                    partie.endgame("Noir");
+                    // Mettre à jour l'affichage
+                    grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
+                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(position_h_arrive, position_v_arrive));
+                    ImageView imageView = piece.getImage();
+                    imageView.setFitHeight(65);
+                    imageView.setFitWidth(65);
+                    grid.add(imageView, position_v_arrive, position_h_arrive);
+                    if (partie.isTourdeJeu()) {
+                        timerBlanc.stop();
+                        timerNoir.play();
+                        partie.setTourdeJeu(false);
+                    } else {
+                        timerNoir.stop();
+                        timerBlanc.play();
+                        partie.setTourdeJeu(true);
+                    }
+                    partie.estEchec();
+                    if (partie.isRoiBEchec()) {
+                        partie.endgame("Blanc");
+                    }
+                    if (partie.isRoiNEchec()) {
+                        partie.endgame("Noir");
+                    }
                 }
             }
-        }
-        }
-        else{
+        } else {
             Random rand = new Random();
             if (!mvt_possible.isEmpty()) {
                 int randomIndex = rand.nextInt(mvt_possible.size());
@@ -361,12 +355,11 @@ public class HelloController {
                 imageView.setFitHeight(65);
                 imageView.setFitWidth(65);
                 grid.add(imageView, newPosition_v, newPosition_h);
-                if(partie.isTourdeJeu()){
+                if (partie.isTourdeJeu()) {
                     timerBlanc.stop();
                     timerNoir.play();
                     partie.setTourdeJeu(false);
-                }
-                else{
+                } else {
                     timerNoir.stop();
                     timerBlanc.play();
                     partie.setTourdeJeu(true);
@@ -374,16 +367,23 @@ public class HelloController {
             }
         }
     }
+
     public Piece getRandomBlackPiece() {
         List<Piece> piecesNoires = new ArrayList<>();
-        for(int i=0; i<partie.getPlateau().size(); i++){
-            for(int j=0; j<partie.getPlateau().get(i).size(); j++){
-                if(partie.getPlateau().get(i).get(j) != null && partie.getPlateau().get(i).get(j).getCouleur().equals("Noir")){
+        for (int i = 0; i < partie.getPlateau().size(); i++) {
+            for (int j = 0; j < partie.getPlateau().get(i).size(); j++) {
+                if (partie.getPlateau().get(i).get(j) != null && partie.getPlateau().get(i).get(j).getCouleur().equals("Noir")) {
                     piecesNoires.add(partie.getPlateau().get(i).get(j));
                 }
             }
         }
         Random rand = new Random();
+        for (int i = 0; i < piecesNoires.size(); i++) {
+            if (mvt_possible.isEmpty()) {
+                piecesNoires.remove(i);
+                i++;
+            }
+        }
         return piecesNoires.get(rand.nextInt(piecesNoires.size()));
     }
 
