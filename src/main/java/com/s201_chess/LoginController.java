@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class LoginController extends GridPane {
+    // initialisation des éléments de l'interface
+    static Joueur joueur_actuelle;
     @FXML
     VBox vb;
     @FXML
@@ -32,15 +34,20 @@ public class LoginController extends GridPane {
     public void changeScene(Button button) {
         try {
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
-            Joueur joueur = new Joueur(user.getUsername(), user.getFirstName(), user.getLastName(),"Blanc");
+            joueur_actuelle = new Joueur(user.getUsername(), user.getFirstName(), user.getLastName(),"Blanc");
             FXMLLoader loader = new FXMLLoader(HelloController.class.getResource("hello-view.fxml"));
+
             Stage stage = (Stage) button.getScene().getWindow();
-            stage.setScene(new Scene(loader.load(), 777, 659));
+            Scene scene2 = new Scene(loader.load(), 777, 659);
+            if (scene2 != null) {
+                scene2.getStylesheets().add(getClass().getResource("hello-view.css").toExternalForm());
+            }
+            stage.setScene(scene2);
             stage.show();
             try{
                 // si les champs TextField ne sont pas vides alors on enregistre l'utilisateur
                 if (!usernameField.getText().isEmpty() && !firstNameField.getText().isEmpty() && !lastNameField.getText().isEmpty()) {
-                    FileManager.saveUser(joueur);
+                    FileManager.saveUser(joueur_actuelle);
                 } else { // sinon on envoit qu'il faut remplir tous les champs pour s'enregistrer
                     System.out.println("Veuillez remplir tous les champs.");
                 }
@@ -58,5 +65,13 @@ public class LoginController extends GridPane {
         loginButton.setOnMouseClicked(actionEvent -> {
             changeScene(loginButton);
         });
+    }
+
+    public static Joueur getJoueur_actuelle() {
+        return joueur_actuelle;
+    }
+
+    public void setJoueur_actuelle(Joueur joueur_actuelle) {
+        this.joueur_actuelle = joueur_actuelle;
     }
 }

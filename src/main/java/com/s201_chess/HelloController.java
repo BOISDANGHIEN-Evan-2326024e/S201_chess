@@ -12,17 +12,26 @@ import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
-    private Joueur joueur1 = new Joueur("Joueur1", "a", "a","Blanc");
-    private Joueur joueur2 = new Joueur("Joueur2", "b", "b","Noir");
+    private Joueur joueur1;
+    private Joueur joueur2;
     @FXML
     private ImageView blackPP;
+    @FXML
+    private Label pseudoBlanc;
+    @FXML
+    private Label pseudoNoir;
     @FXML
     private ImageView whitePP;
     @FXML
@@ -50,6 +59,8 @@ public class HelloController {
 
 
     public void initialize() {
+        joueur1=LoginController.getJoueur_actuelle();
+        pseudoBlanc.setText(joueur1.getPseudo());
         System.out.println("Initialisation du controlleur..");
         //welcomeText.setText("Welcome to JavaFX Application!");
         URL blackPPUrl = getClass().getResource("/images/blackPP.png");
@@ -106,6 +117,20 @@ public class HelloController {
     }
     private void promptPlayerSelection() {
         List<String> choices = new ArrayList<>();
+        Path dir = Paths.get("players");
+        try (Stream<Path> paths = Files.walk(dir)) {
+            paths.filter(Files::isRegularFile)
+                    .forEach(path -> {
+                        try {
+                            String pseudo = Files.lines(path).findFirst().orElse("");
+                            choices.add(pseudo);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         choices.add("Invité");
         File monRepertoire=new File("images");
         File[] f = monRepertoire.listFiles();
@@ -119,12 +144,51 @@ public class HelloController {
         //dialog.setHeaderText("Sélectionnez contre qui vous voulez jouer");
         dialog.setContentText("Choisissez le joueur:");
 
+        String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+        joueur2= new Joueur("Joueur2", "Prenom2", "Nom2", "Noir");
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(player -> {
-            System.out.println("Vous allez jouer contre : " + player);
+        System.out.println("Résultat: " + result);
+        String nom=result.get();
+            String fileName = directoryName + "/" + nom + ".txt";
+            File playerFile = new File(fileName);
+            if (playerFile.exists()) {
+
+                try {
+                    List<String> lines = Files.readAllLines(playerFile.toPath());
+                    int compteur=0;
+                    for (String line : lines) {
+                        if(compteur==0){
+                            joueur2.setPseudo(line);
+                        }
+                        if(compteur==1){
+                            joueur2.setPrenom(line);
+                        }
+                        if(compteur==2){
+                            joueur2.setNom(line);
+                        }
+                        if(compteur==3){
+                            joueur2.setCouleur("Noir");
+                            joueur2.setNbJoues(Integer.parseInt(line));
+                        }
+                        if(compteur==4){
+                            joueur2.setNbVictoires(Integer.parseInt(line));
+                        }
+                        compteur++;
+                        System.out.println(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        // Si l'utilisateur a cliqué sur OK, alors on récupère le résultat
+            pseudoNoir.setText(joueur2.getPseudo());
             startTimers();
-        });
-    }
+        };
+
+
+
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
         String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
@@ -345,6 +409,28 @@ public class HelloController {
                 partie.estEchec();
                 if(partie.isRoiBEchec()){
                     partie.endgame("Blanc");
+                    String pseudo = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                    String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+                    String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
+
+                    File playerFile = new File(fileName);
+                    int lineNumber = 3;
+                    int lineNumber2 = 4;// Remplacez ceci par le numéro de ligne que vous voulez modifier
+                    String newLineContent = "Nouveau contenu"; // Remplacez ceci par le nouveau contenu de la ligne
+
+                    try {
+                        List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+                        // Vérifiez si le numéro de ligne est valide
+                        if (lineNumber >= 0 && lineNumber < lines.size()) {
+                            lines.set(lineNumber, newLineContent);
+                            Files.write(Paths.get(fileName), lines);
+                        } else {
+                            System.out.println("Numéro de ligne invalide.");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     showWinnerPopup("Noir");
                     stopTimers();
 

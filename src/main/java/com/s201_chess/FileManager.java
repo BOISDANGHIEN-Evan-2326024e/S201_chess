@@ -10,7 +10,14 @@ public class FileManager {
 
     // méthode d'enregistrement des utilisateurs
     public static void saveUser(Joueur joueur) throws IOException {
-        String fileName = joueur.getPseudo() + ".txt"; // on définit quel nom devra avoir le fichier utilisateur
+        String directoryName = "players"; // nom du répertoire pour stocker les fichiers des joueurs
+        File directory = new File(directoryName);
+        if (!directory.exists()) {
+            directory.mkdir(); // crée le répertoire s'il n'existe pas
+        }
+
+        String fileName = directoryName + "/" + joueur.getPseudo() + ".txt"; // chemin du fichier du joueur
+ // on définit quel nom devra avoir le fichier utilisateur
         File file = new File(fileName); // ensuite on crée le fichier avec le nom définit juste avant
 
         // ici, les infos de l'utilisateur sont enregistrées dans son propre fichier
@@ -19,17 +26,26 @@ public class FileManager {
             List<String> lines;
             if (file.exists()) {
                 lines = Files.readAllLines(Paths.get(fileName));
-                lines = lines.stream().filter(line -> !line.startsWith(joueur.toString())).collect(Collectors.toList());
+                lines = lines.stream().filter(line -> !line.startsWith(joueur.getPseudo())).collect(Collectors.toList());
             }else{
                 lines = new ArrayList<>();
+                lines.add(joueur.getPseudo());
+                lines.add(joueur.getPrenom());
+                lines.add(joueur.getNom());
+                lines.add(toString(joueur.getNbJoues()));
+                lines.add(toString(joueur.getNbVictoires()));
             }
-            lines.add(joueur.toString());
+
             Files.write(Paths.get(fileName), lines);
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
+
+    private static String toString(int nbJoues) {
+        return Integer.toString(nbJoues);
+    }
     // méthodes inutilisées :
 
     // méthode censée charger le fichier qui fichier
