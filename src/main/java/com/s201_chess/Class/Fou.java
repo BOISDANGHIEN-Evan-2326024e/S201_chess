@@ -9,7 +9,10 @@ public class Fou extends Piece {
         super(nom, position_h, position_v,image,couleur);
     }
 
-
+    /**
+     * Liste tout les déplacements possibles pour un fou depuis sa position actuelle
+     * @return deplacement_possible
+     */
     public ArrayList<ArrayList<Integer>> deplacement_possible() {
         ArrayList<ArrayList<Integer>> deplacement_possible = new ArrayList<ArrayList<Integer>>();
         for(int k=0;k<4;k++){

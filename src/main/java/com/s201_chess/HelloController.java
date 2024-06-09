@@ -71,8 +71,9 @@ public class HelloController {
     private boolean isDeplacementAutorise = false;
 
 
-
-
+    /**
+     * Initialisation du controlleur avec toutes les images et les labels
+     */
     public void initialize() {
         joueur2= new Joueur("Joueur2", "Prenom2", "Nom2", "Noir");
         joueur1= LoginController.getJoueur_actuelle();
@@ -143,12 +144,18 @@ public class HelloController {
         System.out.print(Arrays.toString(f));
 
     }
+    /**
+     * Méthode pour jouer contre l'ordinateur
+     */
     private void jouerContreOrdinateur() {
         joueur2.setHuman(false);
         System.out.println("Jouer contre l'ordinateur");
         startTimers();
 
     }
+    /**
+     * Méthode pour sélectionner un joueur
+     */
     private void promptPlayerSelection() {
         List<String> choices = new ArrayList<>();
         Path dir = Paths.get("players");
@@ -170,7 +177,7 @@ public class HelloController {
         File[] f = monRepertoire.listFiles();
         System.out.print(Arrays.toString(f));
 
-// Ici, x vaut le nombre de fichiers contenus dans monRepertoire.
+        // Ici, x vaut le nombre de fichiers contenus dans monRepertoire.
 
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Invité", choices);
@@ -222,6 +229,9 @@ public class HelloController {
             startTimers();
         }
 
+    /**
+     * Méthode pour démarrer les minuteurs
+     */
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
         String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
@@ -262,6 +272,10 @@ public class HelloController {
         // Autoriser les déplacements
         isDeplacementAutorise = true;
     }
+
+    /**
+     * Méthode pour arrêter les minuteurs
+     */
     private void stopTimers() {
         // Mettre en pause les minuteurs
         timerNoir.stop();
@@ -286,7 +300,9 @@ public class HelloController {
         affichage_plateau(partie);
     }
 
-
+    /**
+     * Méthode pour mettre à jour le minuteur
+     */
     private void updateTimer(Label label, boolean isBlackTimer) {
         String[] parts = label.getText().split(":");
         int minutes = Integer.parseInt(parts[0]);
@@ -306,13 +322,17 @@ public class HelloController {
 
         label.setText(String.format("%02d:%02d", minutes, seconds));
     }
-
+    /**
+     * Méthode pour mettre à jour le label du minuteur
+     */
     private void updateTimerLabel(Label label, int tempsRestant) {
         int minutes = tempsRestant / 60;
         int secondes = tempsRestant % 60;
         label.setText(String.format("%02d:%02d", minutes, secondes));
     }
-
+    /**
+     * Méthode pour afficher une popup indiquant le gagnant
+     */
     public void showWinnerPopup(String winnerName) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Fin de la partie");
@@ -321,7 +341,9 @@ public class HelloController {
 
         alert.showAndWait();
     }
-
+    /**
+     * Méthode pour afficher le plateau de jeu et géré les évenements sur les pieces et cases
+     */
     public void affichage_plateau(Partie partietest) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -348,7 +370,9 @@ public class HelloController {
             }
         }
     }
-
+    /**
+     * Méthode pour gérer les évenements de clic sur les cases
+     */
     private void handleMouseClick_rect(int row, int col) {
         if (!isDeplacementAutorise) return;
             if(selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()){
@@ -376,7 +400,11 @@ public class HelloController {
             }
         }
 
-
+    /**
+     * Méthode pour gérer les évenements de clic sur les pièces
+     * @param row
+     * @param col
+     */
     private void handleMouseClick(int row, int col) {
         if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
@@ -406,7 +434,14 @@ public class HelloController {
         }
     }
 
-
+    /**
+     * Méthode pour déplacer une pièce
+     * @param position_h_depart
+     * @param position_v_depart
+     * @param position_h_arrive
+     * @param position_v_arrive
+     * @param piece
+     */
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
         if (piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()) {
             for (int k = 0; k < mvt_possible.size(); k++) {
@@ -589,6 +624,10 @@ public class HelloController {
             }
         }
     }
+    /**
+     * Méthode pour obtenir une pièce noire aléatoire ( utilisée pour l'ordinateur)
+     * @return
+     */
     public Piece getRandomBlackPiece() {
         List<Piece> piecesNoires = new ArrayList<>();
         for(int i=0; i<partie.getPlateau().size(); i++){

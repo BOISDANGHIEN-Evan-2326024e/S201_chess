@@ -8,7 +8,10 @@ public class Roi extends Piece {
     public Roi(String nom, int position_h, int position_v, ImageView image,String couleur) {
         super(nom, position_h, position_v,image,couleur);
     }
-
+    /**
+     * Liste tout les déplacements possibles pour un roi depuis sa position actuelle
+     * @return deplacement_possible
+     */
     public ArrayList<ArrayList<Integer>> deplacement_possible() {
         ArrayList<ArrayList<Integer>> deplacement_possible = new ArrayList<ArrayList<Integer>>();
         int position_h=this.getPosition_h();

@@ -8,7 +8,13 @@ public class Tournoi {
     public Tournoi(List<Joueur> joueurs) {
         construireArbre(joueurs, 0, joueurs.size());
     }
-
+    /**
+     * Construit un arbre de tournoi à partir d'une liste de joueurs ( pas fini )
+     * @param joueurs
+     * @param debut
+     * @param fin
+     * @return
+     */
     private NoeudTournoi construireArbre(List<Joueur> joueurs, int debut, int fin) {
         if (fin - debut == 2) {
             return new NoeudTournoi(new Match(joueurs.get(debut), joueurs.get(debut + 1)));

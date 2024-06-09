@@ -58,7 +58,10 @@ public class Piece {
     public void setCouleur(String couleur) {
         this.couleur = couleur;
     }
-
+    /**
+     * Liste tout les déplacements possibles pour une pièce depuis sa position actuelle
+     * @return deplacement_possible
+     */
     public ArrayList<ArrayList<Integer>>  deplacement_possible() {
         ArrayList<ArrayList<Integer>> deplacement_possible = new ArrayList<ArrayList<Integer>>();
         return deplacement_possible;

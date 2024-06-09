@@ -109,7 +109,11 @@ public class Partie {
             return null; // ou lever une exception
         }
     }
-
+    /**
+     * Constructeur de la classe Partie
+     * @param joueur1
+     * @param joueur2
+     */
     public Partie(Joueur joueur1, Joueur joueur2) {
         this.id=dernierId+1;
         dernierId++;
@@ -216,7 +220,10 @@ public class Partie {
         }
     }
 
-
+    /**
+     * Méthode qui permet de renvoyer les déplacements possibles sur le plateau pour une pièce donnée
+     * @param piece
+     */
     public ArrayList<ArrayList<Integer>> mvt_possible(Piece piece) {
         ArrayList<ArrayList<Integer>> deplacement_theorique = piece.deplacement_possible();
         System.out.println(deplacement_theorique);
@@ -446,6 +453,9 @@ public class Partie {
         return deplacement_theorique;
     }
 
+    /**
+     * Méthode qui vérifié si un roi est en echec ( il s'est fait mangé )
+     */
     public void estEchec(){
         ArrayList<Integer> position_roi_b = new ArrayList<Integer>();
         ArrayList<Integer> position_roi_n = new ArrayList<Integer>();
@@ -474,7 +484,9 @@ public class Partie {
         }
 
     }
-
+    /**
+     * Méthode qui permet de relancer une partie et géré la fin de partie
+     */
     public void endgame(String couleur){
         roiBMat=false;
         roiNMat=false;
