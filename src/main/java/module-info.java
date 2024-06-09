@@ -6,4 +6,7 @@ module com.s201_chess {
 
     opens com.s201_chess to javafx.fxml;
     exports com.s201_chess;
+    exports com.s201_chess.Class;
+    opens com.s201_chess.Class to javafx.fxml;
+
 }

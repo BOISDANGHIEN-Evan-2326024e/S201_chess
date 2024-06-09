@@ -1,6 +1,4 @@
-package com.s201_chess;
-
-import java.util.List;
+package com.s201_chess.Class;
 
 public class NoeudTournoi {
     private Match match;

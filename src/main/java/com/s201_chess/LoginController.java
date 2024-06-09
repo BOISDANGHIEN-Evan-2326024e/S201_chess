@@ -1,6 +1,9 @@
 package com.s201_chess;
 
 // import des classes et bibliothèques nécessaires au fonctionnement de la classe
+import com.s201_chess.Class.Joueur;
+import com.s201_chess.Class.User;
+import com.s201_chess.Class.FileManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 public class LoginController extends GridPane {
@@ -35,8 +39,35 @@ public class LoginController extends GridPane {
         try {
             User user = new User(usernameField.getText(), firstNameField.getText(), lastNameField.getText());
             joueur_actuelle = new Joueur(user.getUsername(), user.getFirstName(), user.getLastName(),"Blanc");
-            FXMLLoader loader = new FXMLLoader(HelloController.class.getResource("hello-view.fxml"));
 
+            FXMLLoader loader = new FXMLLoader(HelloController.class.getResource("hello-view.fxml"));
+            String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+            String result = joueur_actuelle.getPseudo();
+
+            System.out.println("Résultat: " + result);
+            String fileName = directoryName + "/" + result + ".txt";
+            File playerFile = new File(fileName);
+            if (playerFile.exists()) {
+
+                try {
+                    List<String> lines = Files.readAllLines(playerFile.toPath());
+                    int compteur=0;
+                    for (String line : lines) {
+
+                        if(compteur==3){
+
+                            joueur_actuelle.setNbJoues(Integer.parseInt(line));
+                        }
+                        if(compteur==4){
+                            joueur_actuelle.setNbVictoires(Integer.parseInt(line));
+                        }
+                        compteur++;
+                        System.out.println(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             Stage stage = (Stage) button.getScene().getWindow();
             Scene scene2 = new Scene(loader.load(), 777, 659);
             if (scene2 != null) {

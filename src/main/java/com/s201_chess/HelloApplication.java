@@ -1,5 +1,7 @@
 package com.s201_chess;
 
+import com.s201_chess.Class.Joueur;
+import com.s201_chess.Class.Partie;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

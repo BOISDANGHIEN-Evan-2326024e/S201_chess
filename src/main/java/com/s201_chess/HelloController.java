@@ -1,5 +1,8 @@
 package com.s201_chess;
 
+import com.s201_chess.Class.Joueur;
+import com.s201_chess.Class.Partie;
+import com.s201_chess.Class.Piece;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -26,6 +29,18 @@ public class HelloController {
     private Partie partie;
     private Joueur joueur1;
     private Joueur joueur2;
+    @FXML
+    private Label prenomLabel2;
+    @FXML
+    private Label nomLabel2;
+    @FXML
+    private Label gamesPlayedLabel;
+    @FXML
+    private Label gamesWonLabel;
+    @FXML
+    private ImageView gamesPlayedImage;
+    @FXML
+    private ImageView gamesWonImage;
     @FXML
     private ImageView blackPP;
     @FXML
@@ -59,9 +74,28 @@ public class HelloController {
 
 
     public void initialize() {
-        joueur1=LoginController.getJoueur_actuelle();
+        joueur2= new Joueur("Joueur2", "Prenom2", "Nom2", "Noir");
+        joueur1= LoginController.getJoueur_actuelle();
+        prenomLabel2.setText(joueur1.getPrenom());
+        nomLabel2.setText(joueur1.getNom());
         pseudoBlanc.setText(joueur1.getPseudo());
+        gamesPlayedLabel.setText(String.valueOf(joueur1.getNbJoues()));
+        gamesWonLabel.setText(String.valueOf(joueur1.getNbVictoires()));
         System.out.println("Initialisation du controlleur..");
+        URL blackPPUrl2 = getClass().getResource("/images/2910799.png");
+        if (blackPPUrl2 != null) {
+            gamesPlayedImage.setImage(new Image(blackPPUrl2.toExternalForm()));
+        } else {
+            System.err.println("Resource not found: aa images/blackPP.png");
+            // Optionally, you can handle this case by setting a default image or taking other actions
+        }
+        URL blackPPUrl23 = getClass().getResource("/images/5021877.png");
+        if (blackPPUrl23 != null) {
+            gamesWonImage.setImage(new Image(blackPPUrl23.toExternalForm()));
+        } else {
+            System.err.println("Resource not found: aa images/blackPP.png");
+            // Optionally, you can handle this case by setting a default image or taking other actions
+        }
         //welcomeText.setText("Welcome to JavaFX Application!");
         URL blackPPUrl = getClass().getResource("/images/blackPP.png");
         if (blackPPUrl != null) {
@@ -70,8 +104,6 @@ public class HelloController {
             System.err.println("Resource not found: aa images/blackPP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
-        System.out.println("Initialisation du controlleur..");
-        //welcomeText.setText("Welcome to JavaFX Application!");
         URL whitePPUrl = getClass().getResource("/images/whitePP.png");
         if (whitePPUrl != null) {
             whitePP.setImage(new Image(whitePPUrl.toExternalForm()));
@@ -147,8 +179,9 @@ public class HelloController {
         String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
         joueur2= new Joueur("Joueur2", "Prenom2", "Nom2", "Noir");
         Optional<String> result = dialog.showAndWait();
-        System.out.println("Résultat: " + result);
+
         String nom=result.get();
+        System.out.println("Résultat: " + nom);
             String fileName = directoryName + "/" + nom + ".txt";
             File playerFile = new File(fileName);
             if (playerFile.exists()) {
@@ -320,7 +353,6 @@ public class HelloController {
             if(selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()){
                 selectedPiece = getRandomBlackPiece();
             }
-            System.out.println("coucou");
             if (selectedPiece != null) {
                 System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
                 deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
@@ -409,23 +441,50 @@ public class HelloController {
                 partie.estEchec();
                 if(partie.isRoiBEchec()){
                     partie.endgame("Blanc");
-                    String pseudo = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                    String pseudo = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
                     String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
                     String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
 
                     File playerFile = new File(fileName);
                     int lineNumber = 3;
                     int lineNumber2 = 4;// Remplacez ceci par le numéro de ligne que vous voulez modifier
-                    String newLineContent = "Nouveau contenu"; // Remplacez ceci par le nouveau contenu de la ligne
-
+                    String newLineContent2 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+                    String newLineContent = String.valueOf(joueur1.getNbVictoires()+1);
                     try {
                         List<String> lines = Files.readAllLines(Paths.get(fileName));
 
                         // Vérifiez si le numéro de ligne est valide
                         if (lineNumber >= 0 && lineNumber < lines.size()) {
-                            lines.set(lineNumber, newLineContent);
+                            lines.set(lineNumber, newLineContent2);
                             Files.write(Paths.get(fileName), lines);
-                        } else {
+                        }
+                        if(lineNumber2 >= 0 && lineNumber < lines.size()) {
+                            lines.set(lineNumber2, newLineContent);
+                            Files.write(Paths.get(fileName), lines);
+                        }
+                        else {
+                            System.out.println("Numéro de ligne invalide.");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String pseudo_j1 = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                    String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
+
+                    File playerFile_2 = new File(fileName2);
+                    int lineNumber_2 = 3;
+
+                    String newLineContent21 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+
+                    try {
+                        List<String> lines = Files.readAllLines(Paths.get(fileName2));
+
+                        // Vérifiez si le numéro de ligne est valide
+                        if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
+                            lines.set(lineNumber_2, newLineContent21);
+                            Files.write(Paths.get(fileName2), lines);
+                        }
+                        else {
                             System.out.println("Numéro de ligne invalide.");
                         }
                     } catch (IOException e) {
@@ -437,12 +496,65 @@ public class HelloController {
                 }
                 if(partie.isRoiNEchec()){
                     partie.endgame("Noir");
+
+                    String pseudo = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                    String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+                    String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
+
+                    File playerFile = new File(fileName);
+                    int lineNumber = 4;
+                    int lineNumber2 = 5;// Remplacez ceci par le numéro de ligne que vous voulez modifier
+                    String newLineContent2 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+                    String newLineContent = String.valueOf(joueur2.getNbVictoires()+1);
+                    try {
+                        List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+                        // Vérifiez si le numéro de ligne est valide
+                        if (lineNumber >= 0 && lineNumber < lines.size()) {
+                            lines.set(lineNumber, newLineContent2);
+                            Files.write(Paths.get(fileName), lines);
+                        }
+                        if(lineNumber2 >= 0 && lineNumber < lines.size()) {
+                            lines.set(lineNumber2, newLineContent);
+                            Files.write(Paths.get(fileName), lines);
+                        }
+                        else {
+                            System.out.println("Numéro de ligne invalide.");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String pseudo_j1 = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                    String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
+
+                    File playerFile_2 = new File(fileName2);
+                    int lineNumber_2 = 3;
+
+                    String newLineContent21 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+
+                    try {
+                        List<String> lines = Files.readAllLines(Paths.get(fileName2));
+
+                        // Vérifiez si le numéro de ligne est valide
+                        if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
+                            lines.set(lineNumber_2, newLineContent21);
+                            Files.write(Paths.get(fileName2), lines);
+                        }
+                        else {
+                            System.out.println("Numéro de ligne invalide.");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     showWinnerPopup("Blanc");
                     stopTimers();
+
+                }
+
                 }
             }
         }
-        }
+
         else{
             Random rand = new Random();
             if (!mvt_possible.isEmpty()) {

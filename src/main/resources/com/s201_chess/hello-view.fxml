@@ -45,7 +45,7 @@
                   </HBox>
                </children>
             </VBox>
-            <TabPane prefHeight="600.0" prefWidth="200.0">
+            <TabPane fx:id="tab" prefHeight="600.0" prefWidth="200.0">
             <tabs>
                <Tab text="Nouvelle partie">
             <VBox fx:id="vbox_b" alignment="TOP_CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
@@ -59,9 +59,25 @@
                   <Button fx:id="tournamentButton" text="Tournois" />
                </children></VBox>
             </Tab>
-            <Tab text="Historique">
+            <Tab text="Statistique">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                   <VBox fx:id="vbox_h" alignment="CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
+                      <children>
+                         <Label fx:id="prenomLabel" text="Prénom" textFill="white" />
+                         <Label fx:id="prenomLabel2" text="" textFill="white" />
+                         <Label fx:id="nomLabel" text="Nom" textFill="white" />
+                         <Label fx:id="nomLabel2" text="" textFill="white" />
+                         <ImageView fx:id="gamesPlayedImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+
+                         </ImageView>
+                         <Label fx:id="gamesPlayedLabel" text="Parties jouées" textFill="white" />
+
+                         <ImageView fx:id="gamesWonImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+
+                         </ImageView>
+                         <Label fx:id="gamesWonLabel" text="Parties gagnées" textFill="white" />
+                      </children>
+                   </VBox>
                 </content>
             </Tab>
             </tabs>
