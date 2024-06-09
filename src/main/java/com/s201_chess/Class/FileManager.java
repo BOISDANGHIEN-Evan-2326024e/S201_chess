@@ -1,4 +1,4 @@
-package com.s201_chess.Class;
+package com.s201_chess;
 
 import java.io.*;
 import java.nio.file.Files;

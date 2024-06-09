@@ -104,6 +104,8 @@ public class HelloController {
             System.err.println("Resource not found: aa images/blackPP.png");
             // Optionally, you can handle this case by setting a default image or taking other actions
         }
+        System.out.println("Initialisation du controlleur..");
+        //welcomeText.setText("Welcome to JavaFX Application!");
         URL whitePPUrl = getClass().getResource("/images/whitePP.png");
         if (whitePPUrl != null) {
             whitePP.setImage(new Image(whitePPUrl.toExternalForm()));
@@ -218,10 +220,8 @@ public class HelloController {
         // Si l'utilisateur a cliqué sur OK, alors on récupère le résultat
             pseudoNoir.setText(joueur2.getPseudo());
             startTimers();
-        };
-
-
-
+        });
+    }
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
         String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
@@ -380,182 +380,75 @@ public class HelloController {
         if (!isDeplacementAutorise) return;
         Piece piecedejeu = partie.getPlateau().get(row).get(col);
         System.out.println(partie.isTourdeJeu());
-            if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
-                handleMouseClick_rect(row, col);
-            }
+        if (selectedPiece != null && partie.getPlateau().get(row).get(col) != null && !partie.getPlateau().get(row).get(col).getCouleur().equals(selectedPiece.getCouleur())) {
+            handleMouseClick_rect(row, col);
+        }
 
-            selectedPiece = partie.getPlateau().get(row).get(col);
-            System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
+        selectedPiece = partie.getPlateau().get(row).get(col);
+        System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
 
             if (selectedPiece != null) {
                 if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
                     mvt_possible = partie.mvt_possible(selectedPiece);
 
                 }
+        if (selectedPiece != null) {
+            if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
+                mvt_possible = partie.mvt_possible(selectedPiece);
+                System.out.println(mvt_possible);
+            }
 
 
             }
 
 
         }
-
-
-
 
 
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
-        if(piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()){
+        if (piece.getCouleur().equals("Blanc") || partie.getJoueurObjetParCouleur("Noir").isHuman()) {
             for (int k = 0; k < mvt_possible.size(); k++) {
-            if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
-                Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
-                // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
-                if (pieceArrivee != null && !piece.getCouleur().equals(pieceArrivee.getCouleur())) {
-                    System.out.println("Capturing piece at: " + position_h_arrive + ", " + position_v_arrive);
-                    grid.getChildren().remove(pieceArrivee.getImage());  // Supprime l'image de la pièce capturée de la grille
-                    partie.getPlateau().get(position_h_arrive).set(position_v_arrive, null);  // Supprime la pièce du plateau
-                }
-
-                // Déplacer la pièce vers la nouvelle position
-                partie.getPlateau().get(position_h_arrive).set(position_v_arrive, piece);
-                piece.setPosition_h(position_h_arrive);
-                piece.setPosition_v(position_v_arrive);
-                partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
-
-                // Mettre à jour l'affichage
-                grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
-                piece.getImage().setOnMouseClicked(event -> handleMouseClick(position_h_arrive, position_v_arrive));
-                ImageView imageView = piece.getImage();
-                imageView.setFitHeight(65);
-                imageView.setFitWidth(65);
-                grid.add(imageView, position_v_arrive, position_h_arrive);
-                if(partie.isTourdeJeu()){
-                    timerBlanc.stop();
-                    timerNoir.play();
-                    partie.setTourdeJeu(false);
-                }
-                else{
-                    timerNoir.stop();
-                    timerBlanc.play();
-                    partie.setTourdeJeu(true);
-                }
-                partie.estEchec();
-                if(partie.isRoiBEchec()){
-                    partie.endgame("Blanc");
-                    String pseudo = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
-                    String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
-                    String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
-
-                    File playerFile = new File(fileName);
-                    int lineNumber = 3;
-                    int lineNumber2 = 4;// Remplacez ceci par le numéro de ligne que vous voulez modifier
-                    String newLineContent2 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
-                    String newLineContent = String.valueOf(joueur1.getNbVictoires()+1);
-                    try {
-                        List<String> lines = Files.readAllLines(Paths.get(fileName));
-
-                        // Vérifiez si le numéro de ligne est valide
-                        if (lineNumber >= 0 && lineNumber < lines.size()) {
-                            lines.set(lineNumber, newLineContent2);
-                            Files.write(Paths.get(fileName), lines);
-                        }
-                        if(lineNumber2 >= 0 && lineNumber < lines.size()) {
-                            lines.set(lineNumber2, newLineContent);
-                            Files.write(Paths.get(fileName), lines);
-                        }
-                        else {
-                            System.out.println("Numéro de ligne invalide.");
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (position_h_arrive == mvt_possible.get(k).get(0) && position_v_arrive == mvt_possible.get(k).get(1)) {
+                    Piece pieceArrivee = partie.getPlateau().get(position_h_arrive).get(position_v_arrive);
+                    // Si une pièce est présente à la destination et que c'est une pièce de l'adversaire
+                    if (pieceArrivee != null && !piece.getCouleur().equals(pieceArrivee.getCouleur())) {
+                        System.out.println("Capturing piece at: " + position_h_arrive + ", " + position_v_arrive);
+                        grid.getChildren().remove(pieceArrivee.getImage());  // Supprime l'image de la pièce capturée de la grille
+                        partie.getPlateau().get(position_h_arrive).set(position_v_arrive, null);  // Supprime la pièce du plateau
                     }
-                    String pseudo_j1 = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
-                    String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
 
-                    File playerFile_2 = new File(fileName2);
-                    int lineNumber_2 = 3;
+                    // Déplacer la pièce vers la nouvelle position
+                    partie.getPlateau().get(position_h_arrive).set(position_v_arrive, piece);
+                    piece.setPosition_h(position_h_arrive);
+                    piece.setPosition_v(position_v_arrive);
+                    partie.getPlateau().get(position_h_depart).set(position_v_depart, null);
 
-                    String newLineContent21 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
-
-                    try {
-                        List<String> lines = Files.readAllLines(Paths.get(fileName2));
-
-                        // Vérifiez si le numéro de ligne est valide
-                        if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
-                            lines.set(lineNumber_2, newLineContent21);
-                            Files.write(Paths.get(fileName2), lines);
-                        }
-                        else {
-                            System.out.println("Numéro de ligne invalide.");
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    // Mettre à jour l'affichage
+                    grid.getChildren().remove(piece.getImage());  // Supprime l'image de l'ancienne position
+                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(position_h_arrive, position_v_arrive));
+                    ImageView imageView = piece.getImage();
+                    imageView.setFitHeight(65);
+                    imageView.setFitWidth(65);
+                    grid.add(imageView, position_v_arrive, position_h_arrive);
+                    if (partie.isTourdeJeu()) {
+                        timerBlanc.stop();
+                        timerNoir.play();
+                        partie.setTourdeJeu(false);
+                    } else {
+                        timerNoir.stop();
+                        timerBlanc.play();
+                        partie.setTourdeJeu(true);
                     }
-                    showWinnerPopup("Noir");
-                    stopTimers();
-
-                }
-                if(partie.isRoiNEchec()){
-                    partie.endgame("Noir");
-
-                    String pseudo = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
-                    String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
-                    String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
-
-                    File playerFile = new File(fileName);
-                    int lineNumber = 4;
-                    int lineNumber2 = 5;// Remplacez ceci par le numéro de ligne que vous voulez modifier
-                    String newLineContent2 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
-                    String newLineContent = String.valueOf(joueur2.getNbVictoires()+1);
-                    try {
-                        List<String> lines = Files.readAllLines(Paths.get(fileName));
-
-                        // Vérifiez si le numéro de ligne est valide
-                        if (lineNumber >= 0 && lineNumber < lines.size()) {
-                            lines.set(lineNumber, newLineContent2);
-                            Files.write(Paths.get(fileName), lines);
-                        }
-                        if(lineNumber2 >= 0 && lineNumber < lines.size()) {
-                            lines.set(lineNumber2, newLineContent);
-                            Files.write(Paths.get(fileName), lines);
-                        }
-                        else {
-                            System.out.println("Numéro de ligne invalide.");
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    partie.estEchec();
+                    if (partie.isRoiBEchec()) {
+                        partie.endgame("Blanc");
                     }
-                    String pseudo_j1 = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
-                    String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
-
-                    File playerFile_2 = new File(fileName2);
-                    int lineNumber_2 = 3;
-
-                    String newLineContent21 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
-
-                    try {
-                        List<String> lines = Files.readAllLines(Paths.get(fileName2));
-
-                        // Vérifiez si le numéro de ligne est valide
-                        if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
-                            lines.set(lineNumber_2, newLineContent21);
-                            Files.write(Paths.get(fileName2), lines);
-                        }
-                        else {
-                            System.out.println("Numéro de ligne invalide.");
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (partie.isRoiNEchec()) {
+                        partie.endgame("Noir");
                     }
-                    showWinnerPopup("Blanc");
-                    stopTimers();
-
-                }
-
                 }
             }
-        }
-
-        else{
+        } else {
             Random rand = new Random();
             if (!mvt_possible.isEmpty()) {
                 int randomIndex = rand.nextInt(mvt_possible.size());

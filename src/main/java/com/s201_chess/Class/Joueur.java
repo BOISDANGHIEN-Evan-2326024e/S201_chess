@@ -1,5 +1,7 @@
 package com.s201_chess.Class;
 
+import java.util.Objects;
+
 public class Joueur {
 
         private String pseudo;
@@ -14,15 +16,16 @@ public class Joueur {
 
 
 
-    public Joueur(String pseudo, String prenom, String nom,String couleur) {
+    public Joueur(String pseudo, String prenom, String nom, String couleur) {
         this.pseudo = pseudo;
         this.prenom = prenom;
         this.nom = nom;
+        this.couleur = couleur;
         nbVictoires = 0;
         nbJoues = 0;
         id+=dernierId+1;
         dernierId++;
-        this.couleur=couleur;
+
         isHuman=true;
     }
     public String getPseudo() {
@@ -77,6 +80,29 @@ public class Joueur {
 
     public void setHuman(boolean human) {isHuman = human;}
 
+    // Redéfinition de equals et hashCode pour comparer les joueurs
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur that = (Joueur) o;
+        return Objects.equals(pseudo, that.pseudo) &&
+                Objects.equals(prenom, that.prenom) &&
+                Objects.equals(nom, that.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pseudo, prenom, nom);
+    }
+
+    // redéfinition du toString pour Joueur
+    @Override
+    public String toString() {
+        return "Joueur: pseudo=" + pseudo + ", prenom=" + prenom + ", nom=" + nom;
+    }
+
+    public String getCouleur() {return couleur;}
     public String getCouleur() {
         return couleur;
     }
