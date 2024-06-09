@@ -1,5 +1,7 @@
 package com.s201_chess;
 
+import com.s201_chess.Class.Joueur;
+import com.s201_chess.Class.Partie;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,13 +17,13 @@ public class HelloApplication extends Application {
 
         Scene scene = new Scene(fxmlLoader.load(), 777, 659);
         if (scene != null) {
-            scene.getStylesheets().add(getClass().getResource("Login.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("hello-view.css").toExternalForm());
         }
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
-        Joueur joueur=new Joueur("Joueur1","Prenom1","Nom1", "Blanc");
-        Joueur joueur2=new Joueur("Joueur2","Prenom2","Nom2", "Noir");
+        Joueur joueur=new Joueur("Joueur1","Prenom1","Nom1","Blanc");
+        Joueur joueur2=new Joueur("Joueur2","Prenom2","Nom2","Noir");
         Partie partietest=new Partie(joueur,joueur2);
         for(int i=0;i<partietest.getPlateau().size();i++){
             for(int j=0;j<partietest.getPlateau().get(i).size();j++){

@@ -1,10 +1,10 @@
-package com.s201_chess;
+package com.s201_chess.Class;
 
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
-public class Tour extends Piece{
+public class Tour extends Piece {
     public Tour(String nom, int position_h, int position_v, ImageView image,String couleur) {
         super(nom, position_h, position_v,image,couleur);
     }
@@ -15,7 +15,6 @@ public class Tour extends Piece{
             int position_x=this.getPosition_h();
             int position_y=this.getPosition_v();
             while(position_x<8 && position_x>=0 && position_y<8 && position_y>=0){
-                System.out.println("position_x: " + position_x);
                 if (position_x != this.getPosition_h() || position_y != this.getPosition_v()){
                     deplacement_possible.add(new ArrayList<Integer>());
                     deplacement_possible.get(deplacement_possible.size()-1).add(position_x);

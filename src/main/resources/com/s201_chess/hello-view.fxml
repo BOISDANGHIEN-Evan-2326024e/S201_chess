@@ -4,35 +4,51 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.geometry.Insets?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.s201_chess.HelloController">
    <children>
-      <SplitPane dividerPositions="0.66" prefHeight="400.0" prefWidth="777.0">
+      <SplitPane dividerPositions="0.01" prefHeight="400.0" prefWidth="777.0">
          <items>
             <VBox id="root1" prefHeight="200.0" prefWidth="100.0" >
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="416.0">
+                     <padding>
+                        <Insets right="40" />
+                     </padding>
                      <children>
                         <ImageView fx:id="blackPP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                         </ImageView>
 
-                        <Label fx:id="pseudoNoir" alignment="TOP_CENTER" prefHeight="54.0" prefWidth="96.0" text="BLACK NAME" />
-                        <Label fx:id="tpsRestantNoir" alignment="BOTTOM_RIGHT" prefHeight="49.0" prefWidth="352.0" text="BLACKTIME    " />
+                        <Label fx:id="pseudoNoir" alignment="TOP_CENTER" prefHeight="54.0" prefWidth="400.0" text="BLACK NAME" />
+                        <Label fx:id="b" alignment="CENTER" prefHeight="53.0" prefWidth="600.0" text="" />
+                        <Label fx:id="tpsRestantNoir" alignment="CENTER" prefHeight="49.0" prefWidth="352.0" text="BLACKTIME    " />
                      </children>
                   </HBox>
                   <GridPane fx:id="grid" prefHeight="270.0" prefWidth="416.0">
 
                   </GridPane>
 
-                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="64.0" prefWidth="416.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="416.0">
+                     <padding>
+                        <Insets right="40" />
+                     </padding>
                      <children>
                         <ImageView fx:id="whitePP" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" />
-                        <Label fx:id="pseudoBlanc" alignment="TOP_CENTER" prefHeight="53.0" prefWidth="96.0" text="WHITE NAME" />
-                        <Label fx:id="tpsRestantBlanc" alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="352.0" text="WHITETIME     " />
+
+                        <Label fx:id="pseudoBlanc" alignment="TOP_CENTER" prefHeight="53.0" prefWidth="400.0" text="WHITE NAME" />
+                        <Label fx:id="a" alignment="CENTER" prefHeight="53.0" prefWidth="600.0" text="" />
+                        <Label fx:id="tpsRestantBlanc"  prefHeight="50.0" prefWidth="352.0" text="WHITETIME" alignment="CENTER" />
+
+
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
+            <TabPane fx:id="tab" prefHeight="600.0" prefWidth="200.0">
+            <tabs>
+               <Tab text="Nouvelle partie">
+            <VBox fx:id="vbox_b" alignment="TOP_CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" />
                   <ChoiceBox fx:id="choiceBox" prefHeight="48.0" prefWidth="211.0">
@@ -40,7 +56,32 @@
                   <Button fx:id="bouton1" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Jouer en local" />
                   <Button fx:id="bouton2" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Jouer contre l'ordinateur" />
                   <Button fx:id="boutonArreter" mnemonicParsing="false" prefHeight="48.0" prefWidth="211.0" text="Arrêter" visible="false"/>
+                  <Button fx:id="tournamentButton" text="Tournois" />
                </children></VBox>
+            </Tab>
+            <Tab text="Statistique">
+                <content>
+                   <VBox fx:id="vbox_h" alignment="CENTER" prefHeight="398.0" prefWidth="174.0" spacing="10.0">
+                      <children>
+                         <Label fx:id="prenomLabel" text="Prénom" textFill="white" />
+                         <Label fx:id="prenomLabel2" text="" textFill="white" />
+                         <Label fx:id="nomLabel" text="Nom" textFill="white" />
+                         <Label fx:id="nomLabel2" text="" textFill="white" />
+                         <ImageView fx:id="gamesPlayedImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+
+                         </ImageView>
+                         <Label fx:id="gamesPlayedLabel" text="Parties jouées" textFill="white" />
+
+                         <ImageView fx:id="gamesWonImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+
+                         </ImageView>
+                         <Label fx:id="gamesWonLabel" text="Parties gagnées" textFill="white" />
+                      </children>
+                   </VBox>
+                </content>
+            </Tab>
+            </tabs>
+            </TabPane>
          </items>
       </SplitPane>
    </children>

@@ -1,11 +1,11 @@
 package com.s201_chess;
 
+import com.s201_chess.Class.Joueur;
+import com.s201_chess.Class.Partie;
+import com.s201_chess.Class.Piece;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -14,20 +14,39 @@ import javafx.scene.shape.Rectangle;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class HelloController {
     private Piece selectedPiece = null;
     private ArrayList<ArrayList<Integer>> mvt_possible;
     private Partie partie;
-    private Joueur joueur1 = new Joueur("Joueur1", "a", "a", "Blanc");
-    private Joueur joueur2 = new Joueur("Joueur2", "b", "b", "Noir");
+    private Joueur joueur1;
+    private Joueur joueur2;
+    @FXML
+    private Label prenomLabel2;
+    @FXML
+    private Label nomLabel2;
+    @FXML
+    private Label gamesPlayedLabel;
+    @FXML
+    private Label gamesWonLabel;
+    @FXML
+    private ImageView gamesPlayedImage;
+    @FXML
+    private ImageView gamesWonImage;
     @FXML
     private ImageView blackPP;
+    @FXML
+    private Label pseudoBlanc;
+    @FXML
+    private Label pseudoNoir;
     @FXML
     private ImageView whitePP;
     @FXML
@@ -52,8 +71,31 @@ public class HelloController {
     private boolean isDeplacementAutorise = false;
 
 
+
+
     public void initialize() {
+        joueur2= new Joueur("Joueur2", "Prenom2", "Nom2", "Noir");
+        joueur1= LoginController.getJoueur_actuelle();
+        prenomLabel2.setText(joueur1.getPrenom());
+        nomLabel2.setText(joueur1.getNom());
+        pseudoBlanc.setText(joueur1.getPseudo());
+        gamesPlayedLabel.setText(String.valueOf(joueur1.getNbJoues()));
+        gamesWonLabel.setText(String.valueOf(joueur1.getNbVictoires()));
         System.out.println("Initialisation du controlleur..");
+        URL blackPPUrl2 = getClass().getResource("/images/2910799.png");
+        if (blackPPUrl2 != null) {
+            gamesPlayedImage.setImage(new Image(blackPPUrl2.toExternalForm()));
+        } else {
+            System.err.println("Resource not found: aa images/blackPP.png");
+            // Optionally, you can handle this case by setting a default image or taking other actions
+        }
+        URL blackPPUrl23 = getClass().getResource("/images/5021877.png");
+        if (blackPPUrl23 != null) {
+            gamesWonImage.setImage(new Image(blackPPUrl23.toExternalForm()));
+        } else {
+            System.err.println("Resource not found: aa images/blackPP.png");
+            // Optionally, you can handle this case by setting a default image or taking other actions
+        }
         //welcomeText.setText("Welcome to JavaFX Application!");
         URL blackPPUrl = getClass().getResource("/images/blackPP.png");
         if (blackPPUrl != null) {
@@ -82,7 +124,7 @@ public class HelloController {
 
         // Ajoutez un écouteur pour gérer les événements de sélection d'éléments
         choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            System.out.println("Selected item: " + newValue);
+                    System.out.println("Selected item: " + newValue);
             // Ajoutez ici le code pour gérer la sélection d'un nouvel élément
         });
 
@@ -96,31 +138,89 @@ public class HelloController {
         bouton1.setOnAction(event -> promptPlayerSelection());
         bouton2.setOnAction(event -> jouerContreOrdinateur());
         boutonArreter.setOnAction(event -> stopTimers());
+        File monRepertoire=new File("images");
+        File[] f = monRepertoire.listFiles();
+        System.out.print(Arrays.toString(f));
 
     }
-
     private void jouerContreOrdinateur() {
         joueur2.setHuman(false);
         System.out.println("Jouer contre l'ordinateur");
         startTimers();
 
     }
-
     private void promptPlayerSelection() {
         List<String> choices = new ArrayList<>();
+        Path dir = Paths.get("players");
+        try (Stream<Path> paths = Files.walk(dir)) {
+            paths.filter(Files::isRegularFile)
+                    .forEach(path -> {
+                        try {
+                            String pseudo = Files.lines(path).findFirst().orElse("");
+                            choices.add(pseudo);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         choices.add("Invité");
+        File monRepertoire=new File("images");
+        File[] f = monRepertoire.listFiles();
+        System.out.print(Arrays.toString(f));
+
+// Ici, x vaut le nombre de fichiers contenus dans monRepertoire.
+
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Invité", choices);
         dialog.setTitle("Sélection du joueur");
         //dialog.setHeaderText("Sélectionnez contre qui vous voulez jouer");
         dialog.setContentText("Choisissez le joueur:");
 
+        String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+        joueur2= new Joueur("Joueur2", "Prenom2", "Nom2", "Noir");
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(player -> {
-            System.out.println("Vous allez jouer contre : " + player);
+
+        String nom=result.get();
+        System.out.println("Résultat: " + nom);
+            String fileName = directoryName + "/" + nom + ".txt";
+            File playerFile = new File(fileName);
+            if (playerFile.exists()) {
+
+                try {
+                    List<String> lines = Files.readAllLines(playerFile.toPath());
+                    int compteur=0;
+                    for (String line : lines) {
+                        if(compteur==0){
+                            joueur2.setPseudo(line);
+                        }
+                        if(compteur==1){
+                            joueur2.setPrenom(line);
+                        }
+                        if(compteur==2){
+                            joueur2.setNom(line);
+                        }
+                        if(compteur==3){
+                            joueur2.setCouleur("Noir");
+                            joueur2.setNbJoues(Integer.parseInt(line));
+                        }
+                        if(compteur==4){
+                            joueur2.setNbVictoires(Integer.parseInt(line));
+                        }
+                        compteur++;
+                        System.out.println(line);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        // Si l'utilisateur a cliqué sur OK, alors on récupère le résultat
+            pseudoNoir.setText(joueur2.getPseudo());
             startTimers();
-        });
-    }
+        }
 
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
@@ -162,7 +262,6 @@ public class HelloController {
         // Autoriser les déplacements
         isDeplacementAutorise = true;
     }
-
     private void stopTimers() {
         // Mettre en pause les minuteurs
         timerNoir.stop();
@@ -181,11 +280,12 @@ public class HelloController {
 
         // Cacher le bouton "arrêter"
         boutonArreter.setVisible(false);
-        // Interdire les déplacements
+          // Interdire les déplacements
         isDeplacementAutorise = false;
         partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
     }
+
 
     private void updateTimer(Label label, boolean isBlackTimer) {
         String[] parts = label.getText().split(":");
@@ -213,6 +313,14 @@ public class HelloController {
         label.setText(String.format("%02d:%02d", minutes, secondes));
     }
 
+    public void showWinnerPopup(String winnerName) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Fin de la partie");
+        alert.setHeaderText(null);
+        alert.setContentText("Le joueur " + winnerName + " a gagné la partie!");
+
+        alert.showAndWait();
+    }
 
     public void affichage_plateau(Partie partietest) {
         for (int i = 0; i < 8; i++) {
@@ -222,15 +330,15 @@ public class HelloController {
                 // Alternativement, définir la couleur du rectangle en noir ou blanc
                 rect.setFill((i + j) % 2 == 0 ? Color.valueOf("ebecd0") : Color.valueOf("739552"));
                 grid.add(rect, j, i);
-                final int row = i;
-                final int col = j;
-                rect.setOnMouseClicked(event -> handleMouseClick_rect(row, col));
+                final int row=i;
+                final  int col=j;
+                rect.setOnMouseClicked(event -> handleMouseClick_rect(row,col));
                 // Si une pièce d'échecs est présente à ces coordonnées
                 Piece piece = partietest.getPlateau().get(i).get(j);
                 if (piece != null) {
 
-                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(row, col));
-                    ImageView imageView = piece.getImage();
+                    piece.getImage().setOnMouseClicked(event -> handleMouseClick(row,col));
+                    ImageView imageView= piece.getImage();
                     imageView.setFitHeight(65);
                     imageView.setFitWidth(65);
                     grid.add(piece.getImage(), j, i);
@@ -243,29 +351,30 @@ public class HelloController {
 
     private void handleMouseClick_rect(int row, int col) {
         if (!isDeplacementAutorise) return;
-        if (selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()) {
-            selectedPiece = getRandomBlackPiece();
-        }
-        System.out.println("coucou");
-        if (selectedPiece != null) {
-            System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
-            deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
+            if(selectedPiece.getCouleur().equals("Noir") && !partie.getJoueurObjetParCouleur("Noir").isHuman()){
+                selectedPiece = getRandomBlackPiece();
+            }
+            if (selectedPiece != null) {
+                System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
+                deplacer_piece(selectedPiece.getPosition_h(), selectedPiece.getPosition_v(), row, col, selectedPiece);
 
-            // Réinitialisez la pièce sélectionnée
-            selectedPiece = null;
-            for (int a = 0; a < partie.getPlateau().size(); a++) {
-                for (int b = 0; b < partie.getPlateau().get(a).size(); b++) {
-                    if (partie.getPlateau().get(a).get(b) == null) {
-                        System.out.print("null");
-                    } else {
-                        System.out.print(partie.getPlateau().get(a).get(b).getNom() + " ");
+                // Réinitialisez la pièce sélectionnée
+                selectedPiece = null;
+                for(int a=0;a<partie.getPlateau().size();a++){
+                    for(int b=0;b<partie.getPlateau().get(a).size();b++){
+                        if (partie.getPlateau().get(a).get(b)==null){
+                            System.out.print("null");
+                        }
+
+                        else{
+                            System.out.print(partie.getPlateau().get(a).get(b).getNom()+" ");
+                        }
+
                     }
-
+                    System.out.println("");
                 }
-                System.out.println("");
             }
         }
-    }
 
 
     private void handleMouseClick(int row, int col) {
@@ -282,13 +391,19 @@ public class HelloController {
         if (selectedPiece != null) {
             if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
                 mvt_possible = partie.mvt_possible(selectedPiece);
-                System.out.println(mvt_possible);
+
+            }
+            if (selectedPiece != null) {
+                if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
+                    mvt_possible = partie.mvt_possible(selectedPiece);
+                    System.out.println(mvt_possible);
+                }
+
+
             }
 
 
         }
-
-
     }
 
 
@@ -327,12 +442,118 @@ public class HelloController {
                         partie.setTourdeJeu(true);
                     }
                     partie.estEchec();
-                    if (partie.isRoiBEchec()) {
+                    if(partie.isRoiBEchec()){
                         partie.endgame("Blanc");
+                        String pseudo = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+                        String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile = new File(fileName);
+                        int lineNumber = 3;
+                        int lineNumber2 = 4;// Remplacez ceci par le numéro de ligne que vous voulez modifier
+                        String newLineContent2 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+                        String newLineContent = String.valueOf(joueur1.getNbVictoires()+1);
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber, newLineContent2);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            if(lineNumber2 >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber2, newLineContent);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String pseudo_j1 = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile_2 = new File(fileName2);
+                        int lineNumber_2 = 3;
+
+                        String newLineContent21 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName2));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
+                                lines.set(lineNumber_2, newLineContent21);
+                                Files.write(Paths.get(fileName2), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        showWinnerPopup("Noir");
+                        stopTimers();
+
                     }
-                    if (partie.isRoiNEchec()) {
+                    if(partie.isRoiNEchec()){
                         partie.endgame("Noir");
+
+                        String pseudo = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+                        String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile = new File(fileName);
+                        int lineNumber = 4;
+                        int lineNumber2 = 5;// Remplacez ceci par le numéro de ligne que vous voulez modifier
+                        String newLineContent2 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+                        String newLineContent = String.valueOf(joueur2.getNbVictoires()+1);
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber, newLineContent2);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            if(lineNumber2 >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber2, newLineContent);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String pseudo_j1 = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile_2 = new File(fileName2);
+                        int lineNumber_2 = 3;
+
+                        String newLineContent21 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName2));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
+                                lines.set(lineNumber_2, newLineContent21);
+                                Files.write(Paths.get(fileName2), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        showWinnerPopup("Blanc");
+                        stopTimers();
+
                     }
+
                 }
             }
         } else {
@@ -355,11 +576,12 @@ public class HelloController {
                 imageView.setFitHeight(65);
                 imageView.setFitWidth(65);
                 grid.add(imageView, newPosition_v, newPosition_h);
-                if (partie.isTourdeJeu()) {
+                if(partie.isTourdeJeu()){
                     timerBlanc.stop();
                     timerNoir.play();
                     partie.setTourdeJeu(false);
-                } else {
+                }
+                else{
                     timerNoir.stop();
                     timerBlanc.play();
                     partie.setTourdeJeu(true);
@@ -367,23 +589,16 @@ public class HelloController {
             }
         }
     }
-
     public Piece getRandomBlackPiece() {
         List<Piece> piecesNoires = new ArrayList<>();
-        for (int i = 0; i < partie.getPlateau().size(); i++) {
-            for (int j = 0; j < partie.getPlateau().get(i).size(); j++) {
-                if (partie.getPlateau().get(i).get(j) != null && partie.getPlateau().get(i).get(j).getCouleur().equals("Noir")) {
+        for(int i=0; i<partie.getPlateau().size(); i++){
+            for(int j=0; j<partie.getPlateau().get(i).size(); j++){
+                if(partie.getPlateau().get(i).get(j) != null && partie.getPlateau().get(i).get(j).getCouleur().equals("Noir")){
                     piecesNoires.add(partie.getPlateau().get(i).get(j));
                 }
             }
         }
         Random rand = new Random();
-        for (int i = 0; i < piecesNoires.size(); i++) {
-            if (mvt_possible.isEmpty()) {
-                piecesNoires.remove(i);
-                i++;
-            }
-        }
         return piecesNoires.get(rand.nextInt(piecesNoires.size()));
     }
 

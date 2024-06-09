@@ -1,4 +1,4 @@
-package com.s201_chess;
+package com.s201_chess.Class;
 
 import javafx.scene.image.ImageView;
 

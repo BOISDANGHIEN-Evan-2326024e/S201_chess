@@ -1,11 +1,11 @@
-package com.s201_chess;
+package com.s201_chess.Class;
 
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Pion extends Piece{
+public class Pion extends Piece {
 
     public Pion(String nom, int position_h, int position_v, ImageView image,String couleur) {
         super(nom, position_h, position_v,image,couleur);

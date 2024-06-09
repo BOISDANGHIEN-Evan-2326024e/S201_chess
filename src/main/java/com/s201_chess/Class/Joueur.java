@@ -1,4 +1,4 @@
-package com.s201_chess;
+package com.s201_chess.Class;
 
 import java.util.Objects;
 
@@ -7,36 +7,27 @@ public class Joueur {
         private String pseudo;
         private String prenom;
         private String nom;
-        private String couleur;
         private int id;
+        private String couleur;
         private int nbVictoires;
         private int nbJoues;
         private int dernierId=0;
         private boolean isHuman;
 
-    // constructeur créé pour éviter un conflit direct avec LoginController dû à l'ajout de couleur
-    public Joueur(String pseudo, String prenom, String nom){
-        this.pseudo = pseudo;
-        this.prenom = prenom;
-        this.nom = nom;
-        nbVictoires=0;
-        nbJoues=0;
-        id=dernierId+1;
-        dernierId++;
-    }
+
 
     public Joueur(String pseudo, String prenom, String nom, String couleur) {
         this.pseudo = pseudo;
         this.prenom = prenom;
         this.nom = nom;
         this.couleur = couleur;
-        this.isHuman = true;
         nbVictoires = 0;
         nbJoues = 0;
         id+=dernierId+1;
         dernierId++;
-    }
 
+        isHuman=true;
+    }
     public String getPseudo() {
             return pseudo;
         }
@@ -111,5 +102,12 @@ public class Joueur {
         return "Joueur: pseudo=" + pseudo + ", prenom=" + prenom + ", nom=" + nom;
     }
 
-    public String getCouleur() {return couleur;}
+
+    public String getCouleur() {
+        return couleur;
+    }
+
+    public void setCouleur(String couleur) {
+        this.couleur = couleur;
+    }
 }

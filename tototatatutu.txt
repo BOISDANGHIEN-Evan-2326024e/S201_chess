@@ -1,1 +1,0 @@
-Joueur: pseudo=toto, prenom=tata, nom=tutu
