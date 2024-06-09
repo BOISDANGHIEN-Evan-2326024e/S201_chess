@@ -102,7 +102,7 @@ public class Joueur {
         return "Joueur: pseudo=" + pseudo + ", prenom=" + prenom + ", nom=" + nom;
     }
 
-    public String getCouleur() {return couleur;}
+
     public String getCouleur() {
         return couleur;
     }

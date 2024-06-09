@@ -220,8 +220,8 @@ public class HelloController {
         // Si l'utilisateur a cliqué sur OK, alors on récupère le résultat
             pseudoNoir.setText(joueur2.getPseudo());
             startTimers();
-        });
-    }
+        }
+
     private void startTimers() {
         // Lire la valeur sélectionnée dans la ChoiceBox
         String selectedTime = choiceBox.getSelectionModel().getSelectedItem();
@@ -285,6 +285,7 @@ public class HelloController {
         partie = new Partie(joueur1, joueur2);
         affichage_plateau(partie);
     }
+
 
     private void updateTimer(Label label, boolean isBlackTimer) {
         String[] parts = label.getText().split(":");
@@ -387,22 +388,23 @@ public class HelloController {
         selectedPiece = partie.getPlateau().get(row).get(col);
         System.out.println("Ligne cliquée : " + row + ", Colonne : " + col);
 
-            if (selectedPiece != null) {
-                if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
-                    mvt_possible = partie.mvt_possible(selectedPiece);
-
-                }
         if (selectedPiece != null) {
             if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
                 mvt_possible = partie.mvt_possible(selectedPiece);
-                System.out.println(mvt_possible);
+
             }
+            if (selectedPiece != null) {
+                if (selectedPiece.getCouleur().equals("Blanc") && partie.isTourdeJeu() || selectedPiece.getCouleur().equals("Noir") && !partie.isTourdeJeu()) {
+                    mvt_possible = partie.mvt_possible(selectedPiece);
+                    System.out.println(mvt_possible);
+                }
 
 
             }
 
 
         }
+    }
 
 
     public void deplacer_piece(int position_h_depart, int position_v_depart, int position_h_arrive, int position_v_arrive, Piece piece) {
@@ -440,12 +442,118 @@ public class HelloController {
                         partie.setTourdeJeu(true);
                     }
                     partie.estEchec();
-                    if (partie.isRoiBEchec()) {
+                    if(partie.isRoiBEchec()){
                         partie.endgame("Blanc");
+                        String pseudo = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+                        String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile = new File(fileName);
+                        int lineNumber = 3;
+                        int lineNumber2 = 4;// Remplacez ceci par le numéro de ligne que vous voulez modifier
+                        String newLineContent2 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+                        String newLineContent = String.valueOf(joueur1.getNbVictoires()+1);
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber, newLineContent2);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            if(lineNumber2 >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber2, newLineContent);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String pseudo_j1 = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile_2 = new File(fileName2);
+                        int lineNumber_2 = 3;
+
+                        String newLineContent21 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName2));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
+                                lines.set(lineNumber_2, newLineContent21);
+                                Files.write(Paths.get(fileName2), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        showWinnerPopup("Noir");
+                        stopTimers();
+
                     }
-                    if (partie.isRoiNEchec()) {
+                    if(partie.isRoiNEchec()){
                         partie.endgame("Noir");
+
+                        String pseudo = joueur2.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String directoryName = "players"; // Le répertoire où se trouvent les fichiers des joueurs
+                        String fileName = directoryName + "/" + pseudo + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile = new File(fileName);
+                        int lineNumber = 4;
+                        int lineNumber2 = 5;// Remplacez ceci par le numéro de ligne que vous voulez modifier
+                        String newLineContent2 = String.valueOf(joueur2.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+                        String newLineContent = String.valueOf(joueur2.getNbVictoires()+1);
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber, newLineContent2);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            if(lineNumber2 >= 0 && lineNumber < lines.size()) {
+                                lines.set(lineNumber2, newLineContent);
+                                Files.write(Paths.get(fileName), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String pseudo_j1 = joueur1.getPseudo(); // Remplacez ceci par le pseudo du joueur
+                        String fileName2 = directoryName + "/" + pseudo_j1 + ".txt"; // Le chemin du fichier du joueur
+
+                        File playerFile_2 = new File(fileName2);
+                        int lineNumber_2 = 3;
+
+                        String newLineContent21 = String.valueOf(joueur1.getNbJoues()+1); // Remplacez ceci par le nouveau contenu de la ligne
+
+                        try {
+                            List<String> lines = Files.readAllLines(Paths.get(fileName2));
+
+                            // Vérifiez si le numéro de ligne est valide
+                            if (lineNumber_2 >= 0 && lineNumber_2 < lines.size()) {
+                                lines.set(lineNumber_2, newLineContent21);
+                                Files.write(Paths.get(fileName2), lines);
+                            }
+                            else {
+                                System.out.println("Numéro de ligne invalide.");
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        showWinnerPopup("Blanc");
+                        stopTimers();
+
                     }
+
                 }
             }
         } else {
